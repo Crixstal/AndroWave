@@ -4,18 +4,61 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
-    private Rigidbody body;
-    public float speed = 20f;
-    public float jump = 10f;
+    private Rigidbody rb;
+    public float speed = 10f;
+    public float jump = 3f;
 
     public bool isGrounded;
+    public bool isPaused = false;
 
-    private float maxAirSpeed = 5f;
+    //private float maxAirSpeed = 5f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        body = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        Pause();
+    }
+    void FixedUpdate()
+    {
+        Move();
+        Jump();
+    }
+
+    private void Move()
+    {
+        float horizontalInput = Input.GetAxis("HorizontalMovement");
+        //float verticalInput = Input.GetAxis("Vertical");
+
+        //transform.LookAt(transform.position + new Vector3(horizontalInput, 0, 0));
+
+        Vector3 pos = transform.position;
+        Vector3 newPos = pos + new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
+        transform.position = Vector3.Lerp(pos, newPos, 0.5f);
+    }
+
+    private void Jump()
+    {
+        if (Input.GetButton("Jump") && isGrounded)
+            rb.AddForce(new Vector3(0.0f, 1.0f, 0.0f) * jump, ForceMode.Impulse);
+    }
+
+    private void Pause()
+    {
+        if (Input.GetButtonDown("Pause") && !isPaused)
+        {
+            Time.timeScale = 0;
+            isPaused = true;
+        }
+
+        else if (Input.GetButtonDown("Pause") && isPaused)
+        {
+            Time.timeScale = 1;
+            isPaused = false;
+        }
     }
 
     private void OnCollisionStay(Collision collision)
@@ -26,41 +69,5 @@ public class MovePlayer : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (Input.GetKey(KeyCode.Space) && isGrounded && body.velocity.y < maxAirSpeed)
-        {
-            var jumpSpeed = transform.TransformDirection(0, 1, 0) * jump;
-            body.AddForce(jumpSpeed, ForceMode.Impulse);
-            isGrounded = false;
-        }
-
-        if (Input.GetKey(KeyCode.DownArrow) && !isGrounded && body.velocity.y > -maxAirSpeed)
-        {
-            var jumpSpeed = Physics.gravity * 2;
-            body.AddForce(jumpSpeed, ForceMode.Impulse);
-            isGrounded = false;
-        }
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            if (!isGrounded && -body.velocity.x > maxAirSpeed)
-                return;
-
-            var velocity = transform.TransformDirection(-1, 0, 0) * speed;
-            body.AddForce(velocity, ForceMode.Acceleration);
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            if (!isGrounded && body.velocity.x > maxAirSpeed)
-                return;
-
-            var velocity = transform.TransformDirection(1, 0, 0) * speed;
-            body.AddForce(velocity, ForceMode.Acceleration);
-        }
     }
 }
