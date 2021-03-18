@@ -15,10 +15,13 @@ Action2.5D/[Aa]ssets/Animations/
 Action2.5D/[Aa]ssets/Images/
 Action2.5D/[Aa]ssets/Materials/
 Action2.5D/[Aa]ssets/Models/
-Action2.5D/[Aa]ssets/Physic Material/
+Action2.5D/[Aa]ssets/Physic Materials/
 Action2.5D/[Aa]ssets/Prefabs/
 Action2.5D/[Aa]ssets/Sounds/
 Action2.5D/[Aa]ssets/TextMesh Pro/
+Action2.5D/[Aa]ssets/Textures/
+Action2.5D/[Aa]ssets/Shaders/
+Action2.5D/[Aa]ssets/Meshes/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !Action2.5D/[Aa]ssets/**/*.meta
