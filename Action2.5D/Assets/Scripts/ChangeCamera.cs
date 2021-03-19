@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ChangeCamera : MonoBehaviour
 {
-    public CameraFollowPlayer Camera;
+    [SerializeField]
+    private CameraFollowPlayer Camera = null;
     private Camera cam;
 
     private void Start()

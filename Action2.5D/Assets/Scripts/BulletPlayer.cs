@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BulletPlayer : MonoBehaviour
 {
-    public float speed = 5f;
+    [SerializeField]
+    private float speed = 5f;
     [HideInInspector]
     public Vector3 direction;
 

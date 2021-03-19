@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
-    private Rigidbody rb;
-    public float speed = 20f;
-    public float jump = 5f;
-    public float posForeground = 10.54f;
-    public float posBackground = 32.54f;
-    public float teleportationHeight = 6f;
-    public GameObject bullet = null;
+    [SerializeField]
+    private float speed = 20f;
+    [SerializeField]
+    private float jump = 10f;
+    [SerializeField]
+    private float posForeground = 10.54f;
+    [SerializeField]
+    private float posBackground = 32.54f;
+    [SerializeField]
+    private float teleportationHeight = 6f;
+    [SerializeField]
+    private float teleportationDelay = 6f;
+    [SerializeField]
+    private GameObject bullet = null;
 
+    private Rigidbody rb;
     private bool isGrounded;
-    private bool jumpAxisIsInUse = false;
-    private bool shootAxisIsInUse = false;
+    private bool verticalAxisIsInUse = false;
 
     void Start()
     {
@@ -24,7 +31,6 @@ public class MovePlayer : MonoBehaviour
     void FixedUpdate()
     {
         Move();
-        Rotate();
         Teleport();
         Jump();
         Shoot();
@@ -33,7 +39,10 @@ public class MovePlayer : MonoBehaviour
     private void Move()
     {
         float horizontalInput = Input.GetAxis("HorizontalMovement");
-        float verticalInput = Input.GetAxis("Rotate");
+        float verticalInput = Input.GetAxis("Teleport");
+
+        Vector2 inputs = new Vector2(horizontalInput, verticalInput);
+        Debug.Log(inputs);
 
         if (verticalInput == Mathf.Clamp(verticalInput, -0.5f, 0.5f))
         {
@@ -43,42 +52,40 @@ public class MovePlayer : MonoBehaviour
         }
     }
 
-    private void Rotate()
+    private void Teleport()
     {
-        float verticalInput = Input.GetAxisRaw("Rotate");
+        float verticalInput = Input.GetAxisRaw("Teleport");
 
         if (verticalInput == 1f)
         {
-            if (jumpAxisIsInUse == false)
+            if (verticalAxisIsInUse == false)
             {
-                transform.Rotate(0f, -90f, 0f);
-                jumpAxisIsInUse = true;
+                if (transform.position.z == posForeground)
+                    transform.position = new Vector3(transform.position.x, teleportationHeight, posBackground);
+
+                else 
+                    return;
+
+                verticalAxisIsInUse = true;
             }
         }
 
         else if (verticalInput == -1f)
         {
-            if (jumpAxisIsInUse == false)
+            if (verticalAxisIsInUse == false)
             {
-                transform.Rotate(0f, 90f, 0f);
-                jumpAxisIsInUse = true;
+                if (transform.position.z == posBackground)
+                    transform.position = new Vector3(transform.position.x, teleportationHeight, posForeground);
+
+                else
+                    return;
+
+                verticalAxisIsInUse = true;
             }
         }
 
         else
-            jumpAxisIsInUse = false;
-    }
-
-    private void Teleport()
-    {
-        if (Input.GetButtonDown("Teleport"))
-        {
-            if (transform.position.z == posForeground)
-                transform.position = new Vector3(transform.position.x, teleportationHeight, posBackground);
-
-            else
-                transform.position = new Vector3(transform.position.x, teleportationHeight, posForeground);
-        }
+            verticalAxisIsInUse = false;
     }
 
     private void Jump()
@@ -96,8 +103,7 @@ public class MovePlayer : MonoBehaviour
 
         if (shootInput == 1f)
         {
-            if (shootAxisIsInUse == false)
-            {
+
                 if (rotation == Mathf.Clamp(rotation, 179f, 181f)) // shoot left
                     bullet.transform.position = new Vector3(transform.position.x - transform.localScale.x, transform.position.y, transform.position.z);
 
@@ -111,8 +117,7 @@ public class MovePlayer : MonoBehaviour
                     bullet.transform.position = new Vector3(transform.position.x + transform.localScale.x, transform.position.y, transform.position.z);
 
                 Instantiate(bullet);
-                shootAxisIsInUse = true;
-            }
+
 
             if (rotation == Mathf.Clamp(rotation, 179f, 181f)) // shoot left
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(-transform.position.x, verticalInput * 10f, 0f));
@@ -124,8 +129,6 @@ public class MovePlayer : MonoBehaviour
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(transform.position.x, verticalInput * 10f, 0f));
         }
 
-        else
-            shootAxisIsInUse = false;
     }
 
     private void OnCollisionStay(Collision collision)

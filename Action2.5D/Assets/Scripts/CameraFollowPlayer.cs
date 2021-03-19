@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class CameraFollowPlayer : MonoBehaviour
 {
-    public GameObject player;
-    public float smoothTime = 0.1f;
-    public float rotate = 5f;
-    public float rotateSpeed = 0.1f;
-    public Vector3 offset = new Vector3(0, 4, -15);
+    [SerializeField]
+    private GameObject player = null;
+    [SerializeField]
+    private float smoothTime = 0.1f;
+    [SerializeField]
+    private float rotate = 5f;
+    [SerializeField]
+    private float rotateSpeed = 0.1f;
 
+    public Vector3 offset = new Vector3(0, 4, -15);
     [HideInInspector]
     public bool Yaxis = false;
     private Vector3 velocity = Vector3.zero;
@@ -20,7 +24,6 @@ public class CameraFollowPlayer : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
 
-    // Update is called once per frame
     void Update()
     {
         Quaternion leftQuaternion = Quaternion.AngleAxis(-rotate, Vector3.up);
@@ -44,7 +47,7 @@ public class CameraFollowPlayer : MonoBehaviour
         //transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
 
         float horizontalInput = Input.GetAxis("HorizontalMovement");
-        float verticalInput = Input.GetAxis("Rotate");
+        float verticalInput = Input.GetAxis("Teleport");
 
         if (horizontalInput < 0 && verticalInput == Mathf.Clamp(verticalInput, -0.4f, 0.4f))
             transform.rotation = Quaternion.Lerp(transform.rotation, leftQuaternion, rotateSpeed);
