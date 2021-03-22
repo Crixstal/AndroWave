@@ -244,7 +244,12 @@ public class MovePlayer : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
+        int Platform = 10; // see Input Manager
+
         isGrounded = true;
+
+        if (collision.gameObject.layer == Platform)
+            isGrounded = false;
     }
 
     private void OnCollisionExit(Collision collision)
