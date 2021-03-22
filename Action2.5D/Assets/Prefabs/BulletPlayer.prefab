@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4697830761631066771}
   - component: {fileID: -2203162751374783346}
   m_Layer: 9
-  m_Name: Bullet
+  m_Name: BulletPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1470632544593311726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.56187, y: 9.435564, z: 32.54}
+  m_LocalPosition: {x: 11.181978, y: 6.8657403, z: 32.54}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -107,9 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97292b6a18710343be8355f3be0a5dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 40
+  speed: 20
   destructionDelay: 1
-  direction: {x: -0.51898026, y: -0.8547862, z: 0}
+  direction: {x: 1, y: 0, z: 0}
 --- !u!54 &-2203162751374783346
 Rigidbody:
   m_ObjectHideFlags: 0

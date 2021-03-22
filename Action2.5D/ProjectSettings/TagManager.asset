@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Machine Gun
+  - Shotgun
+  - Missile Launcher
+  - Ricochet MG
+  - Grenade Launcher
+  - Railgun
   layers:
   - Default
   - TransparentFX

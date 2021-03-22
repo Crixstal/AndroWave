@@ -4,25 +4,15 @@ using UnityEngine;
 
 public class BulletPlayer : MonoBehaviour
 {
-    [SerializeField]
-    private float speed = 5f;
-    [SerializeField]
-    private float destructionDelay = 3f;
-    [HideInInspector]
-    public Vector3 direction;
-
-    private float startTimer = 0f;
+    [HideInInspector]   public float speed;
+    [HideInInspector]   public float destructionDelay;
+    [HideInInspector]   public Vector3 direction;
 
     void FixedUpdate()
     {
         transform.Translate(direction * Time.deltaTime * speed, Space.World);
 
-        startTimer += Time.deltaTime;
-        if (startTimer >= destructionDelay)
-        {
-            Destroy(gameObject);
-            startTimer = 0f;
-        }
+        Destroy(gameObject, destructionDelay);
     }
 
     private void OnCollisionEnter(Collision collision)
