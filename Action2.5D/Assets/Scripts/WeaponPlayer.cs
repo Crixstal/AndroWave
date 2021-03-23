@@ -8,18 +8,27 @@ public class WeaponPlayer : MonoBehaviour
     [SerializeField]    protected float m_speed;
     [SerializeField]    protected float m_damage;
     [SerializeField]    protected float m_destructionDelay;
-    [SerializeField]    protected float angleShoot2D;
     [SerializeField]    protected float angleShoot3D;
     [SerializeField]    protected float horizontalInputSensitivity;
     [SerializeField]    protected float verticalInputSensitivity;
     [SerializeField]    protected float perShotDelay;
     
-    protected Player player;
     protected float timestamp = 0f;
-    protected bool changeShootPlanIsInUse;
+
+    protected Player player;
+    protected float playerRot;
     protected float posForeground;
     protected float posBackground;
     protected bool canShoot;
+
+    protected Quaternion bulletRot;
+    protected Vector3 inputs;
+    protected float shootAngle;
+    protected float shootInput;
+    protected float horizontalInput;
+    protected float verticalInput;
+    protected float sensitivityRange;
+    protected bool rightTriggerIsInUse;
 
     void Start()
     {
@@ -32,11 +41,18 @@ public class WeaponPlayer : MonoBehaviour
 
     public virtual void FixedUpdate()
     {
-        canShoot = player.GetComponent<Player>().canShoot;
+        playerRot = player.transform.rotation.eulerAngles.y;
         posForeground = player.GetComponent<Player>().posForeground;
         posBackground = player.GetComponent<Player>().posBackground;
+        canShoot = player.GetComponent<Player>().canShoot;
 
-        bullet.transform.position = new Vector3(player.transform.position.x + player.transform.localScale.x, player.transform.position.y, player.transform.position.z); // bullet same plane as player
+        shootInput = Input.GetAxisRaw("Shoot");
+
+        horizontalInput = Input.GetAxis("HorizontalVisor");
+        verticalInput = Input.GetAxis("VerticalVisor");
+        inputs = new Vector3(horizontalInput, verticalInput, 0f);
+
+        sensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
 
         Visor2D();
         Visor3D();

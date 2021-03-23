@@ -12,7 +12,7 @@ public class BulletPlayer : MonoBehaviour
     void FixedUpdate()
     {
         transform.Translate(direction * Time.deltaTime * speed, Space.World);
-
+        
         Destroy(gameObject, destructionDelay);
     }
 

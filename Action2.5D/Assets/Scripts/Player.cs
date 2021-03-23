@@ -7,17 +7,17 @@ public class Player : MonoBehaviour
     [SerializeField]    private float speed = 20f;
     [SerializeField]    private float jump = 10f;
     [SerializeField]    private float teleportationHeight = 6f;
-    [SerializeField]    private float teleportationDelay = 4f;
+    [SerializeField]    private float teleportationDelay = 0.5f;
 
+    [HideInInspector]   public bool isGrounded;
+    [HideInInspector]   public bool canShoot;
     public float posForeground = 10.54f;
     public float posBackground = 32.54f;
-    public bool isGrounded;
-    public bool canShoot;
 
     private Rigidbody rb;
     private bool verticalAxisIsInUse;
     private float startTimer = 0f;
-    private int Platform = 10; // see Input Manager
+    readonly private int Platform = 10; // see Input Manager
 
 
     void Start()

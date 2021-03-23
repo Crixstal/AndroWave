@@ -6,117 +6,124 @@ public class MachineGun : WeaponPlayer
 {
     public override void Visor2D()
     {
-        float horizontalInput = Input.GetAxis("HorizontalVisor");
-        float verticalInput = Input.GetAxis("VerticalVisor");
-        float rotation = player.transform.rotation.eulerAngles.y;
-        float sensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
+        inputs = new Vector3(horizontalInput, verticalInput, 0f);
 
-        if (rotation == Mathf.Clamp(rotation, 89f, 91f) || rotation == Mathf.Clamp(rotation, 269f, 271f)) // don't rotate when in 3D shooting
+        if (playerRot == Mathf.Clamp(playerRot, 89f, 91f) || playerRot == Mathf.Clamp(playerRot, 269f, 271f)) // don't rotate if in 3D shooting
             return;
 
-        // ----- SHOOT UP -----
+      // ---------- SHOOT UP ----------
         if (verticalInput > verticalInputSensitivity)
-            bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + player.transform.localScale.y, player.transform.position.z);
+            shootAngle = 90f;
 
-        // ----- SHOOT DOWN -----
+      // ---------- SHOOT DOWN ----------
         if (verticalInput < -verticalInputSensitivity)
-            bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - player.transform.localScale.y, player.transform.position.z);
+            shootAngle = -90f;
 
-        // ----- SHOOT RIGHT -----
-        if (rotation != Mathf.Clamp(rotation, -1f, 1f) && verticalInput == sensitivityRange && horizontalInput > horizontalInputSensitivity) // if not already turned
+      // ---------- SHOOT RIGHT ----------
+        if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // if not already turned
             player.transform.Rotate(0f, 180f, 0f);
-        if (rotation == Mathf.Clamp(rotation, -1f, 1f))
-            bullet.transform.position = new Vector3(player.transform.position.x + player.transform.localScale.x, player.transform.position.y, player.transform.position.z);
 
-        // ----- SHOOT LEFT -----
-        if (rotation != Mathf.Clamp(rotation, 179f, 181f) && verticalInput == sensitivityRange && horizontalInput < -horizontalInputSensitivity) // if not already turned
+        if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == sensitivityRange)
+        {
+            shootAngle = Vector3.Angle(Vector3.right, inputs) * 2f;
+
+            if (verticalInput < 0)
+                shootAngle = Vector3.Angle(Vector3.right, -inputs) * 2f;
+        }
+
+      // ---------- SHOOT LEFT ----------
+        if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // if not already turned
             player.transform.Rotate(0f, 180f, 0f);
-        if (rotation == Mathf.Clamp(rotation, 179f, 181f))
-            bullet.transform.position = new Vector3(player.transform.position.x - player.transform.localScale.x, player.transform.position.y, player.transform.position.z);
+
+        if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == sensitivityRange)
+        {
+            shootAngle = Vector3.Angle(Vector3.left, -inputs) * 2f;
+
+            if (verticalInput < 0)
+                shootAngle = Vector3.Angle(Vector3.left, inputs) * 2f;
+        }
+
+        bulletRot = Quaternion.Euler(0f, 0f, shootAngle);
     }
 
     public override void Visor3D()
     {
         float shootInput = Input.GetAxisRaw("Shoot");
-        float rotation = player.transform.rotation.eulerAngles.y;
 
         if (shootInput == -1f)
         {
-            if (changeShootPlanIsInUse == false)
+            if (rightTriggerIsInUse == false)
             {
-                // ----- SHOOT BACKGROUND -----
+                // ---------- SHOOT BACKGROUND ----------
                 if (player.transform.position.z == posForeground)
                 {
-                    if (rotation == Mathf.Clamp(rotation, -1f, 1f))
-                        player.transform.Rotate(0f, -90f, 0f);
+                    if (playerRot == Mathf.Clamp(playerRot, -1f, 1f)) // if look right
+                        player.transform.Rotate(0f, -90f, 0f);      // rotate toward back
 
-                    else if (rotation == Mathf.Clamp(rotation, 179f, 181f))
+                    else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f)) // if look left
                         player.transform.Rotate(0f, 90f, 0f);
 
-                    else if (rotation == Mathf.Clamp(rotation, 269f, 271f))
+                    else if (playerRot == Mathf.Clamp(playerRot, 269f, 271f)) // if look back
                         player.transform.Rotate(0f, 90f, 0f);
 
-                    bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z + player.transform.localScale.z);
+                    shootAngle = Vector3.Angle(Vector3.right, inputs) * 2f;
+                    Debug.Log(shootAngle);
 
-                    changeShootPlanIsInUse = true;
+                    rightTriggerIsInUse = true;
                 }
 
-                // ----- SHOOT FOREGROUND -----
+                // ---------- SHOOT FOREGROUND ----------
                 if (player.transform.position.z == posBackground)
                 {
-                    if (rotation == Mathf.Clamp(rotation, -1f, 1f))
-                        player.transform.Rotate(0f, 90f, 0f);
+                    if (playerRot == Mathf.Clamp(playerRot, -1f, 1f)) // if look right
+                        player.transform.Rotate(0f, 90f, 0f);       // rotate toward front
 
-                    else if (rotation == Mathf.Clamp(rotation, 179f, 181f))
+                    else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f)) // if look left
                         player.transform.Rotate(0f, -90f, 0f);
 
-                    else if (rotation == Mathf.Clamp(rotation, 89f, 91f))
+                    else if (playerRot == Mathf.Clamp(playerRot, 89f, 91f)) // if look front
                         player.transform.Rotate(0f, -90f, 0f);
 
-                    bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - player.transform.localScale.z);
+                    shootAngle = Vector3.Angle(Vector3.left, inputs) * 2f;
 
-                    changeShootPlanIsInUse = true;
+                    rightTriggerIsInUse = true;
                 }
             }
+
+            bulletRot = Quaternion.Euler(0f, 90f, shootAngle);
         }
 
         else
-            changeShootPlanIsInUse = false;
+            rightTriggerIsInUse = false;
     }
 
     public override void Shoot()
     {
-        float shootInput = Input.GetAxisRaw("Shoot");
-        float horizontalInput = Input.GetAxis("HorizontalVisor");
-        float verticalInput = Input.GetAxis("VerticalVisor");
-        float rotation = player.transform.rotation.eulerAngles.y;
-        float sensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
-
         if (shootInput == 1f && Time.time > timestamp)
         {
             timestamp = Time.time + perShotDelay;
 
-            Instantiate(bullet);
+            Instantiate(bullet, player.transform.position, bulletRot);
 
-            if (rotation != Mathf.Clamp(rotation, 89f, 91f) || rotation != Mathf.Clamp(rotation, 269f, 271f))
+            if (playerRot != Mathf.Clamp(playerRot, 89f, 91f) || playerRot != Mathf.Clamp(playerRot, 269f, 271f))
             {
                 if (verticalInput > verticalInputSensitivity) // shoot up
-                    bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, player.transform.position.y, 0f));
+                    bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, shootAngle, 0f));
 
                 else if (verticalInput < -verticalInputSensitivity && canShoot) // shoot down
-                    bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, -player.transform.position.y, 0f));
+                    bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, shootAngle, 0f));
             }
 
-            if (rotation == Mathf.Clamp(rotation, -1f, 1f) && verticalInput == sensitivityRange) // shoot right
-                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(player.transform.position.x, verticalInput * angleShoot2D, 0f));
+            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == sensitivityRange) // shoot right
+                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(player.transform.position.x, verticalInput * shootAngle, 0f));
 
-            else if (rotation == Mathf.Clamp(rotation, 179f, 181f) && verticalInput == sensitivityRange) // shoot left
-                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(-player.transform.position.x, verticalInput * angleShoot2D, 0f));
+            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == sensitivityRange) // shoot left
+                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(-player.transform.position.x, verticalInput * shootAngle, 0f));
 
-            if (rotation == Mathf.Clamp(rotation, 89f, 91f)) // shoot foreground
+            if (playerRot == Mathf.Clamp(playerRot, 89f, 91f)) // shoot foreground
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(horizontalInput * angleShoot3D, verticalInput * angleShoot3D, -player.transform.position.z));
 
-            else if (rotation == Mathf.Clamp(rotation, 269f, 271f)) // shoot background
+            else if (playerRot == Mathf.Clamp(playerRot, 269f, 271f)) // shoot background
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(horizontalInput * angleShoot3D, verticalInput * angleShoot3D, player.transform.position.z));
         }
     }
