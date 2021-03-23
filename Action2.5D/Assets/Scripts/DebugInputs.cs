@@ -44,10 +44,10 @@ public class DebugInputs : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            //if (Player.timer != 0)
-            //Player.timer = 0;
+            //if (Player.GetComponent<MovePlayer>().teleportationDelay != 0)
+            //Player.GetComponent<MovePlayer>().teleportationDelay = 0;
             //else
-            //Player.timer = timer;
+            //Player.GetComponent<MovePlayer>().teleportationDelay = timer;
         }
 
         if (Input.GetKeyDown(KeyCode.K))
