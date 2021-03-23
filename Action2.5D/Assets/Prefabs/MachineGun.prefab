@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6308052746796823497}
   - component: {fileID: 6308052746796823496}
   - component: {fileID: 9153016972283122408}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: MachineGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,9 +108,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 1470632544593311726, guid: 23f53ea988bb21549a6e498ddb4dfbf6, type: 3}
-  player: {fileID: 0}
-  speed: 40
+  m_speed: 10
+  m_damage: 0
+  m_destructionDelay: 3
   angleShoot2D: 50
   angleShoot3D: 5
   horizontalInputSensitivity: 0.5
   verticalInputSensitivity: 0.5
+  perShotDelay: 0.2

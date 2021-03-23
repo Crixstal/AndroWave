@@ -101,7 +101,7 @@ public class Shotgun : WeaponPlayer
                 if (verticalInput > verticalInputSensitivity) // shoot up
                     bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, transform.position.y, 0f));
 
-                else if (verticalInput < -verticalInputSensitivity && !isGrounded) // shoot down
+                else if (verticalInput < -verticalInputSensitivity && canShoot) // shoot down
                     bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, -transform.position.y, 0f));
             }
 

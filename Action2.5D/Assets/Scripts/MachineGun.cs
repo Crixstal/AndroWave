@@ -89,33 +89,35 @@ public class MachineGun : WeaponPlayer
         float shootInput = Input.GetAxisRaw("Shoot");
         float horizontalInput = Input.GetAxis("HorizontalVisor");
         float verticalInput = Input.GetAxis("VerticalVisor");
-        float rotation = transform.rotation.eulerAngles.y;
+        float rotation = player.transform.rotation.eulerAngles.y;
         float sensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
 
-        if (shootInput == 1f)
+        if (shootInput == 1f && Time.time > timestamp)
         {
+            timestamp = Time.time + perShotDelay;
+
             Instantiate(bullet);
 
             if (rotation != Mathf.Clamp(rotation, 89f, 91f) || rotation != Mathf.Clamp(rotation, 269f, 271f))
             {
                 if (verticalInput > verticalInputSensitivity) // shoot up
-                    bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, transform.position.y, 0f));
+                    bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, player.transform.position.y, 0f));
 
-                else if (verticalInput < -verticalInputSensitivity && !isGrounded) // shoot down
-                    bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, -transform.position.y, 0f));
+                else if (verticalInput < -verticalInputSensitivity && canShoot) // shoot down
+                    bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(0f, -player.transform.position.y, 0f));
             }
 
             if (rotation == Mathf.Clamp(rotation, -1f, 1f) && verticalInput == sensitivityRange) // shoot right
-                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(transform.position.x, verticalInput * angleShoot2D, 0f));
+                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(player.transform.position.x, verticalInput * angleShoot2D, 0f));
 
             else if (rotation == Mathf.Clamp(rotation, 179f, 181f) && verticalInput == sensitivityRange) // shoot left
-                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(-transform.position.x, verticalInput * angleShoot2D, 0f));
+                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(-player.transform.position.x, verticalInput * angleShoot2D, 0f));
 
             if (rotation == Mathf.Clamp(rotation, 89f, 91f)) // shoot foreground
-                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(horizontalInput * angleShoot3D, verticalInput * angleShoot3D, -transform.position.z));
+                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(horizontalInput * angleShoot3D, verticalInput * angleShoot3D, -player.transform.position.z));
 
             else if (rotation == Mathf.Clamp(rotation, 269f, 271f)) // shoot background
-                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(horizontalInput * angleShoot3D, verticalInput * angleShoot3D, transform.position.z));
+                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(horizontalInput * angleShoot3D, verticalInput * angleShoot3D, player.transform.position.z));
         }
     }
 }

@@ -12,10 +12,13 @@ public class Player : MonoBehaviour
     public float posForeground = 10.54f;
     public float posBackground = 32.54f;
     public bool isGrounded;
+    public bool canShoot;
 
     private Rigidbody rb;
     private bool verticalAxisIsInUse;
     private float startTimer = 0f;
+    private int Platform = 10; // see Input Manager
+
 
     void Start()
     {
@@ -91,7 +94,6 @@ public class Player : MonoBehaviour
 
             else
                 verticalAxisIsInUse = false;
-
         }
     }
 
@@ -106,16 +108,28 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        int Platform = 10; // see Input Manager
-
         isGrounded = true;
+        canShoot = false;
 
         if (collision.gameObject.layer == Platform)
-            isGrounded = false;
+            canShoot = true;
     }
 
     private void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
+        canShoot = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == Platform)
+            Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == Platform)
+            Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), false);
     }
 }

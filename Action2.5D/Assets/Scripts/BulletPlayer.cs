@@ -6,6 +6,7 @@ public class BulletPlayer : MonoBehaviour
 {
     [HideInInspector]   public float speed;
     [HideInInspector]   public float destructionDelay;
+    [HideInInspector]   public float damage;
     [HideInInspector]   public Vector3 direction;
 
     void FixedUpdate()
@@ -20,7 +21,7 @@ public class BulletPlayer : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnBecameInvisible()
+    private void OnBecameInvisible()
     {
         Destroy(gameObject);
     }
