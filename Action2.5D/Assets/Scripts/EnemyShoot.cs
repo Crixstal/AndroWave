@@ -5,20 +5,21 @@ using UnityEngine;
 public class EnemyShoot : MonoBehaviour
 {
     [SerializeField]
-    private GameObject player = null;
+    protected GameObject player = null;
 
     [SerializeField]
-    private Rigidbody projectile = null;
+    protected Rigidbody projectile = null;
 
     [SerializeField]
-    private float detectionZone = 50, bulletSpeed = 30, shootDelay = 1.0f;
+    protected float detectionZone = 30f, bulletSpeed = 30f, shootDelay = 1.0f, gap = 1.0f;
 
-    private float timer = 0.0f;
-    private float gap = 1f;
-    private Quaternion leftQuaternion = Quaternion.AngleAxis(-90, Vector3.up);
-    private Quaternion rightQuaternion = Quaternion.AngleAxis(90, Vector3.up);
-    private Quaternion frontQuaternion = Quaternion.AngleAxis(180, Vector3.up);
-    private Quaternion backQuaternion = Quaternion.AngleAxis(0, Vector3.up);
+    protected float timer = 0.0f;
+
+    protected Quaternion leftQuaternion = Quaternion.AngleAxis(-90, Vector3.up);
+    protected Quaternion rightQuaternion = Quaternion.AngleAxis(90, Vector3.up);
+    protected Quaternion frontQuaternion = Quaternion.AngleAxis(180, Vector3.up);
+    protected Quaternion backQuaternion = Quaternion.AngleAxis(0, Vector3.up);
+    protected Quaternion projectileQuaternion = Quaternion.identity;
 
     void FixedUpdate()
     {
@@ -27,24 +28,36 @@ public class EnemyShoot : MonoBehaviour
             timer += Time.deltaTime;
 
             if (player.transform.position.z < transform.position.z - gap)
+            {
                 transform.rotation = Quaternion.Lerp(transform.rotation, frontQuaternion, 0.1f);
+                projectileQuaternion = Quaternion.AngleAxis(90, Vector3.right);
+            }
 
             else if (player.transform.position.z > transform.position.z + gap)
+            {
                 transform.rotation = Quaternion.Lerp(transform.rotation, backQuaternion, 0.1f);
+                projectileQuaternion = Quaternion.AngleAxis(-90, Vector3.right);
+            }
 
             else
             {
                 if (player.transform.position.x < transform.position.x)
+                {
                     transform.rotation = Quaternion.Lerp(transform.rotation, leftQuaternion, 0.1f);
+                    projectileQuaternion = Quaternion.AngleAxis(90, Vector3.forward);
+                }
 
                 if (player.transform.position.x > transform.position.x)
+                {
                     transform.rotation = Quaternion.Lerp(transform.rotation, rightQuaternion, 0.1f);
+                    projectileQuaternion = Quaternion.AngleAxis(-90, Vector3.forward);
+                }
             }
 
             if (timer > shootDelay)
             {
                 timer = timer - shootDelay;
-                Rigidbody bullet = (Rigidbody)Instantiate(projectile, transform.position, transform.rotation);
+                Rigidbody bullet = (Rigidbody)Instantiate(projectile, transform.position, projectileQuaternion);
 
                 bullet.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
 
