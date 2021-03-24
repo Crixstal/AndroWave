@@ -320,8 +320,8 @@ GameObject:
   - component: {fileID: 442742487}
   - component: {fileID: 442742486}
   - component: {fileID: 442742485}
-  - component: {fileID: 442742484}
   - component: {fileID: 442742490}
+  - component: {fileID: 442742484}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -342,16 +342,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
-  jump: 17
+  jump: 10
+  teleportationHeight: 6
+  teleportationDelay: 0.5
+  isGrounded: 0
+  canShoot: 0
   posForeground: 10.54
   posBackground: 32.54
-  teleportationHeight: 7
-  teleportationDelay: 0
-  bullet: {fileID: 1470632544593311726, guid: 23f53ea988bb21549a6e498ddb4dfbf6, type: 3}
-  angleShoot2D: 50
-  angleShoot3D: 5
-  horizontalInputSensitivity: 0.5
-  verticalInputSensitivity: 0.8
 --- !u!54 &442742485
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1417,7 +1414,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14048
+  m_Name: pb_Mesh14222
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1892,7 +1889,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh13988
+  m_Name: pb_Mesh14162
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2154,6 +2151,7 @@ GameObject:
   - component: {fileID: 2011313572}
   - component: {fileID: 2011313571}
   - component: {fileID: 2011313570}
+  - component: {fileID: 2011313573}
   m_Layer: 8
   m_Name: gun
   m_TagString: Untagged
@@ -2236,6 +2234,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2011313568}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2011313573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011313568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7ab4d93fc82464f8a22390a723a28c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
+  m_speed: 30
+  m_damage: 1
+  m_destructionDelay: 2
+  horizontalInputSensitivity: 0.5
+  verticalInputSensitivity: 0.8
+  perShotDelay: 0
 --- !u!1001 &4525173861530184237
 PrefabInstance:
   m_ObjectHideFlags: 0

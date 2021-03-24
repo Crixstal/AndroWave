@@ -8,8 +8,8 @@ public class MachineGun : WeaponPlayer
     {
         inputs = new Vector3(horizontalInput, verticalInput, 0f);
 
-        if (playerRot == Mathf.Clamp(playerRot, 89f, 91f) || playerRot == Mathf.Clamp(playerRot, 269f, 271f)) // don't rotate if in 3D shooting
-            return;
+        /*if (playerRot == Mathf.Clamp(playerRot, 89f, 91f) || playerRot == Mathf.Clamp(playerRot, 269f, 271f)) // don't rotate if in 3D shooting
+            return;*/
 
       // ---------- SHOOT UP ----------
         if (verticalInput > verticalInputSensitivity)
@@ -25,10 +25,10 @@ public class MachineGun : WeaponPlayer
 
         if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == sensitivityRange)
         {
-            shootAngle = Vector3.Angle(Vector3.right, inputs) * 2f;
+            shootAngle = Vector3.Angle(Vector3.right, inputs);
 
             if (verticalInput < 0)
-                shootAngle = Vector3.Angle(Vector3.right, -inputs) * 2f;
+                shootAngle = Vector3.Angle(Vector3.right, -inputs);
         }
 
       // ---------- SHOOT LEFT ----------
@@ -37,16 +37,16 @@ public class MachineGun : WeaponPlayer
 
         if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == sensitivityRange)
         {
-            shootAngle = Vector3.Angle(Vector3.left, -inputs) * 2f;
+            shootAngle = Vector3.Angle(Vector3.left, -inputs);
 
             if (verticalInput < 0)
-                shootAngle = Vector3.Angle(Vector3.left, inputs) * 2f;
+                shootAngle = Vector3.Angle(Vector3.left, inputs);
         }
 
         bulletRot = Quaternion.Euler(0f, 0f, shootAngle);
     }
 
-    public override void Visor3D()
+ /*   public override void Visor3D()
     {
         float shootInput = Input.GetAxisRaw("Shoot");
 
@@ -67,7 +67,6 @@ public class MachineGun : WeaponPlayer
                         player.transform.Rotate(0f, 90f, 0f);
 
                     shootAngle = Vector3.Angle(Vector3.right, inputs) * 2f;
-                    Debug.Log(shootAngle);
 
                     rightTriggerIsInUse = true;
                 }
@@ -96,7 +95,7 @@ public class MachineGun : WeaponPlayer
         else
             rightTriggerIsInUse = false;
     }
-
+ */
     public override void Shoot()
     {
         if (shootInput == 1f && Time.time > timestamp)
@@ -120,11 +119,11 @@ public class MachineGun : WeaponPlayer
             else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == sensitivityRange) // shoot left
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(-player.transform.position.x, verticalInput * shootAngle, 0f));
 
-            if (playerRot == Mathf.Clamp(playerRot, 89f, 91f)) // shoot foreground
+           /* if (playerRot == Mathf.Clamp(playerRot, 89f, 91f)) // shoot foreground
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(horizontalInput * angleShoot3D, verticalInput * angleShoot3D, -player.transform.position.z));
 
             else if (playerRot == Mathf.Clamp(playerRot, 269f, 271f)) // shoot background
-                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(horizontalInput * angleShoot3D, verticalInput * angleShoot3D, player.transform.position.z));
+                bullet.GetComponent<BulletPlayer>().direction = Vector3.Normalize(new Vector3(horizontalInput * angleShoot3D, verticalInput * angleShoot3D, player.transform.position.z));*/
         }
     }
 }
