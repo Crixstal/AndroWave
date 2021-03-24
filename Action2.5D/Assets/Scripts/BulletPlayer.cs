@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class BulletPlayer : MonoBehaviour
 {
-    public float speed = 5f;
-    [HideInInspector]
-    public Vector3 direction;
+    [HideInInspector]   public float speed;
+    [HideInInspector]   public float destructionDelay;
+    [HideInInspector]   public float damage;
+    [HideInInspector]   public Vector3 direction;
 
-    void Update()
+    void FixedUpdate()
     {
         transform.Translate(direction * Time.deltaTime * speed, Space.World);
+        
+        Destroy(gameObject, destructionDelay);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -18,7 +21,7 @@ public class BulletPlayer : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnBecameInvisible()
+    private void OnBecameInvisible()
     {
         Destroy(gameObject);
     }

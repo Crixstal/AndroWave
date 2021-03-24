@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Test.unity
+    path: Assets/Scenes/Manon.unity
     guid: f38165474edb4e34e8a92d9102d8a22e
   m_configObjects: {}
