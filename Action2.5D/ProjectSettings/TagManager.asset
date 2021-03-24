@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Machine Gun
+  - Shotgun
+  - Missile Launcher
+  - Ricochet MG
+  - Grenade Launcher
+  - Railgun
+  - Up
+  - Back
+  - Side
+  - Front
   layers:
   - Default
   - TransparentFX
@@ -14,9 +24,9 @@ TagManager:
   - 
   - 
   - Player
-  - Bullet
+  - BulletPlayer
   - Platform
-  - 
+  - Weapon
   - 
   - 
   - 

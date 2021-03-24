@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 1470632544593311722}
   - component: {fileID: 1470632544593311723}
   - component: {fileID: 1470632544593311720}
-  - component: {fileID: 1470632544593311721}
   - component: {fileID: 4697830761631066771}
   - component: {fileID: -2203162751374783346}
+  - component: {fileID: 355892697134538347}
   m_Layer: 9
-  m_Name: Bullet
+  m_Name: BulletPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1470632544593311726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.56187, y: 9.435564, z: 32.54}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.6705361, y: 0.22210494, z: 0.079961725}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -82,19 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &1470632544593311721
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470632544593311726}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4697830761631066771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,9 +94,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97292b6a18710343be8355f3be0a5dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 40
+  speed: 10
   destructionDelay: 1
-  direction: {x: -0.51898026, y: -0.8547862, z: 0}
+  damage: 0
+  direction: {x: 0, y: 0, z: 1}
 --- !u!54 &-2203162751374783346
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -126,3 +114,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!136 &355892697134538347
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470632544593311726}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5782977
+  m_Height: 1.0057856
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
