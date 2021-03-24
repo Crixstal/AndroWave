@@ -809,10 +809,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 442742483}
   smoothTime: 0.001
-  rotate: 2
-  rotateSpeed: 0.1
+  cameraShift: 2
   Yaxis: 0
-  offset: {x: 0, y: 4, z: -20}
+  offset: {x: 0, y: 1, z: -8}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
