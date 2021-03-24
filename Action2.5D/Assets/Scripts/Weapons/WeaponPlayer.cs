@@ -51,8 +51,8 @@ public class WeaponPlayer : MonoBehaviour
         horizontalInput = Input.GetAxis("HorizontalVisor");
         verticalInput = Input.GetAxis("VerticalVisor");
         inputs = new Vector3(horizontalInput, verticalInput, 0f);
-
         sensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
+        Debug.Log(inputs);
 
         Visor2D();
         //Visor3D();
