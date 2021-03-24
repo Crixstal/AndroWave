@@ -7,44 +7,40 @@ public class CameraFollowPlayer : MonoBehaviour
     [SerializeField]
     private GameObject player = null;
     [SerializeField]
-    private float smoothTime = 0.1f;
-    [SerializeField]
-    private float rotate = 5f;
-    [SerializeField]
-    private float rotateSpeed = 0.1f;
+    private float smoothTime = 0.1f, rotate = 5f, rotateSpeed = 0.1f;
 
-    public Vector3 offset = new Vector3(0, 4, -15);
     [HideInInspector]
     public bool Yaxis = false;
+
+    public Vector3 offset = new Vector3(0, 4, -15);
     private Vector3 velocity = Vector3.zero;
+    private float foregroundZ;
 
     private void Start()
     {
-        Vector3 targetPosition = player.transform.position + offset;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        foregroundZ = player.GetComponent<Player>().posForeground;
     }
 
     void Update()
     {
-        Quaternion leftQuaternion = Quaternion.AngleAxis(-rotate, Vector3.up);
-        Quaternion rightQuaternion = Quaternion.AngleAxis(rotate, Vector3.up);
+        Quaternion startQuaternion = new Quaternion(transform.rotation.x, 0, 0, transform.rotation.w);
+        Quaternion leftQuaternion = Quaternion.AngleAxis(-rotate, Vector3.up) * startQuaternion;
+        Quaternion rightQuaternion = Quaternion.AngleAxis(rotate, Vector3.up) * startQuaternion;
         Vector3 targetPosition;
 
         if (!Yaxis)
         {
-            float y = transform.position.y;
             targetPosition = player.transform.position + offset;
             transform.position = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
         }
 
         else
         {
-            //float x = transform.position.x;
             targetPosition = player.transform.position + offset;
             transform.position = new Vector3(transform.position.x, targetPosition.y, transform.position.z);
         }
 
-        //transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        transform.position = Vector3.SmoothDamp(transform.position, new Vector3(targetPosition.x, targetPosition.y, foregroundZ + offset.z), ref velocity, smoothTime);
 
         float horizontalInput = Input.GetAxis("HorizontalMovement");
         float verticalInput = Input.GetAxis("Teleport");
@@ -56,6 +52,6 @@ public class CameraFollowPlayer : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, rightQuaternion, rotateSpeed);
 
         else
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, rotateSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, startQuaternion, rotateSpeed);
     }
 }

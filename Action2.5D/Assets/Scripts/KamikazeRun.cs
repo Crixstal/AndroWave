@@ -5,9 +5,11 @@ using UnityEngine;
 public class KamikazeRun : MonoBehaviour
 {
     [SerializeField]
+    protected GameObject player = null;
+    [SerializeField]
     private int damage = 5;
     [SerializeField]
-    private float moveSpeed = 40, maxSpeed = 100;
+    private float moveSpeed = 40, maxSpeed = 100, detectionZone = 30f;
 
     private Rigidbody body;
 
@@ -20,8 +22,11 @@ public class KamikazeRun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (body.velocity.x <= maxSpeed)
-            body.AddForce(-Vector3.right * moveSpeed); //move to the left
+        if (Vector3.Distance(transform.position, player.transform.position) < detectionZone)
+        {
+            if (body.velocity.x <= maxSpeed)
+                body.AddForce(-Vector3.right * moveSpeed); //move to the left
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
