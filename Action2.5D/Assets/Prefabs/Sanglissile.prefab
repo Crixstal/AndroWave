@@ -130,7 +130,8 @@ MonoBehaviour:
     type: 3}
   detectionZone: 20
   bulletSpeed: 10
-  shootDelay: 0.2
+  shootDelay: 1
+  gap: 1
 --- !u!114 &7709357383534524191
 MonoBehaviour:
   m_ObjectHideFlags: 0
