@@ -5,22 +5,22 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]    private float horizontalInputSensitivity = 0.5f;
-    [SerializeField]    private float verticalInputSensitivity = 0.5f;
-    [SerializeField]    private float speed = 20f;
+    [SerializeField]    private float verticalInputSensitivity = 0.8f;
+    [SerializeField]    private float speed = 0f;
     [SerializeField]    private float drag = 6f;
-    [SerializeField]    private float jump = 10f;
-    [SerializeField]    private float gravityUp = 10f;
-    [SerializeField]    private float gravityDown = 10f;
-    [SerializeField]    private float teleportationHeight = 6f;
-    [SerializeField]    private float teleportationDelay = 0.5f;
-    public float posForeground = 10.54f;
-    public float posBackground = 32.54f;
+    [SerializeField]    private float jump = 0f;
+    [SerializeField]    private float gravityUp = 0f;
+    [SerializeField]    private float gravityDown = 0f;
+    [SerializeField]    private float teleportationHeight = 0f;
+    [SerializeField]    private float teleportationDelay = 0f;
+    public float posForeground = 0f;
+    public float posBackground = 0f;
 
     [HideInInspector]   public bool isGrounded;
     [HideInInspector]   public bool canShoot;
 
     private Rigidbody rb;
-    private float startTimer = 0f;
+    private float startTimer;
     readonly private int Platform = 10; // see Input Manager
 
     void Start()

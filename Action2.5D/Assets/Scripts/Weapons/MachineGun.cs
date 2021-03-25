@@ -4,74 +4,39 @@ using UnityEngine;
 
 public class MachineGun : WeaponPlayer
 {
-    public override void Visor2D()
-    {
-        inputs = new Vector3(horizontalInput, verticalInput, 0f);
-
-      // ---------- SHOOT UP ----------
-        if (verticalInput > verticalInputSensitivity)
-            shootAngle = 90f;
-
-      // ---------- SHOOT DOWN ----------
-        if (verticalInput < -verticalInputSensitivity)
-            shootAngle = -90f;
-
-      // ---------- SHOOT RIGHT ----------
-        if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // if not already turned
-            player.transform.Rotate(0f, 180f, 0f);
-
-        if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == sensitivityRange)
-        {
-            shootAngle = Vector3.Angle(Vector3.right, inputs);
-
-            if (verticalInput < 0)
-                shootAngle = Vector3.Angle(Vector3.right, -inputs);
-        }
-
-      // ---------- SHOOT LEFT ----------
-        if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // if not already turned
-            player.transform.Rotate(0f, 180f, 0f);
-
-        if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == sensitivityRange)
-        {
-            shootAngle = Vector3.Angle(Vector3.left, -inputs);
-
-            if (verticalInput < 0)
-                shootAngle = Vector3.Angle(Vector3.left, inputs);
-        }
-
-        bulletRot = Quaternion.Euler(0f, 0f, shootAngle);
-    }
+    [SerializeField] private float spawnRange = 0f;
 
     public override void Shoot()
     {
-        if (shootInput == 1f && Time.time > timestamp)
+        if (shootInput == 1f && Time.time > shotTimer)
         {
-            timestamp = Time.time + perShotDelay;
-
-            //Instantiate(bullet, player.transform.position, bulletRot);
-
-            if (verticalInput > verticalInputSensitivity) // shoot up
+            shotTimer = Time.time + delayPerShot;
+            
+            // ---------- SHOOT UP ----------
+            if (verticalInput > verticalInputSensitivity)
             {
-                Instantiate(bullet, new Vector3 (0f, player.transform.position.y + player.transform.localScale.y, 0f), bulletRot);
+                Instantiate(bullet, new Vector3(Random.Range(playerPos.x - spawnRange, playerPos.x + spawnRange), weaponPos.y + weaponLength, weaponPos.z), Quaternion.Euler(0f, 0f, 90f));
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.up;
             }
-
-            else if (verticalInput < -verticalInputSensitivity && canShoot) // shoot down
+            
+            // ---------- SHOOT DOWN ----------
+            else if (verticalInput < -verticalInputSensitivity && canShoot)
             {
-                Instantiate(bullet, player.transform.position, bulletRot);
+                Instantiate(bullet, new Vector3(Random.Range(playerPos.x - spawnRange, playerPos.x + spawnRange), weaponPos.y - weaponLength, weaponPos.z), Quaternion.Euler(0f, 0f, -90f));
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.down;
             }
-
-            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == sensitivityRange) // shoot right
+            
+            // ---------- SHOOT RIGHT ----------
+            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == isInSensitivityRange)
             {
-                Instantiate(bullet, player.transform.position, bulletRot);
+                Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), weaponPos.z), Quaternion.Euler(0f, playerRot, 0f));
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.right;
             }
-
-            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == sensitivityRange) // shoot left
+            
+            // ---------- SHOOT LEFT ----------
+            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInSensitivityRange)
             {
-                Instantiate(bullet, player.transform.position, bulletRot);
+                Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), weaponPos.z), Quaternion.Euler(0f, playerRot, 0f));
                 bullet.GetComponent<BulletPlayer>().direction = Vector3.left;
             }
         }

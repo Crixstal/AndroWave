@@ -94,10 +94,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97292b6a18710343be8355f3be0a5dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  destructionDelay: 1
+  speed: 30
+  destructionDelay: 2
   damage: 0
-  direction: {x: 0, y: 0, z: 1}
+  direction: {x: 1, y: 0, z: 0}
 --- !u!54 &-2203162751374783346
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -112,7 +112,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 30
   m_CollisionDetection: 1
 --- !u!136 &355892697134538347
 CapsuleCollider:

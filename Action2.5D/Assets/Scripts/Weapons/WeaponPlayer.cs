@@ -10,24 +10,24 @@ public class WeaponPlayer : MonoBehaviour
     [SerializeField]    protected float m_destructionDelay;
     [SerializeField]    protected float horizontalInputSensitivity;
     [SerializeField]    protected float verticalInputSensitivity;
-    [SerializeField]    protected float perShotDelay;
-    
-    protected float timestamp = 0f;
+    [SerializeField]    protected float delayPerShot;
+
+    protected float shotTimer = 0f;
 
     protected Player player;
     protected float playerRot;
+    protected Vector3 playerPos;
     protected float posForeground;
     protected float posBackground;
     protected bool canShoot;
 
-    protected Quaternion bulletRot;
-    protected Vector3 inputs;
-    protected float shootAngle;
     protected float shootInput;
     protected float horizontalInput;
     protected float verticalInput;
-    protected float sensitivityRange;
-    protected bool rightTriggerIsInUse;
+    protected float isInSensitivityRange;
+    protected bool rotating = false;
+    protected Vector3 weaponPos;
+    protected float weaponLength;
 
     void Start()
     {
@@ -36,27 +36,61 @@ public class WeaponPlayer : MonoBehaviour
         bullet.GetComponent<BulletPlayer>().speed = m_speed;
         bullet.GetComponent<BulletPlayer>().damage = m_damage;
         bullet.GetComponent<BulletPlayer>().destructionDelay = m_destructionDelay;
+
+        weaponLength = transform.localScale.x;
     }
 
     public virtual void FixedUpdate()
     {
         playerRot = player.transform.rotation.eulerAngles.y;
+        playerPos = player.transform.position;
         posForeground = player.GetComponent<Player>().posForeground;
         posBackground = player.GetComponent<Player>().posBackground;
+
+        weaponPos = transform.position;
         canShoot = player.GetComponent<Player>().canShoot;
 
         shootInput = Input.GetAxisRaw("Shoot");
-
         horizontalInput = Input.GetAxis("HorizontalInput");
         verticalInput = Input.GetAxis("VerticalInput");
-        inputs = new Vector3(horizontalInput, verticalInput, 0f);
-        sensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
+        isInSensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
 
-        //Visor2D();
+        RotateWeapon();
         Shoot();
     }
 
-    public virtual void Visor2D() {}
+    public void RotateWeapon()
+    {
+        if (verticalInput > verticalInputSensitivity) // rotate up
+        {
+            if (!rotating)
+            {
+                transform.Rotate(0f, 0f, 90f);
+                rotating = true;
+            }
+        }
 
-    public virtual void Shoot() {}
+        else if (verticalInput < -verticalInputSensitivity) // rotate down
+        {
+            if (!rotating)
+            {
+                transform.Rotate(0f, 0f, -90f);
+                rotating = true;
+            }
+        }
+
+        else if (verticalInput == Mathf.Clamp(verticalInput, -0.5f, 0.5f)) // go back to initial rotation
+        {
+            if (transform.rotation.eulerAngles.z == Mathf.Clamp(transform.rotation.eulerAngles.z, 89f, 91f)) // if oriented up
+                transform.Rotate(0f, 0f, -90f);
+
+            else if (transform.rotation.eulerAngles.z == Mathf.Clamp(transform.rotation.eulerAngles.z, 269f, 271f)) // if oriented down
+                transform.Rotate(0f, 0f, 90f);
+        }
+
+        else
+            rotating = false;
+    }
+
+    public virtual void Shoot() { }
 }
