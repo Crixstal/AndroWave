@@ -322,6 +322,7 @@ GameObject:
   - component: {fileID: 442742485}
   - component: {fileID: 442742490}
   - component: {fileID: 442742484}
+  - component: {fileID: 442742491}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -454,6 +455,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 963194229}
+--- !u!114 &442742491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442742483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b4cb0c76feba046a57f6bce1e57f4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 20
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +566,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-130838
+  m_Name: pb_Mesh13984
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1933,7 +1947,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14020
+  m_Name: pb_Mesh14038
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2408,7 +2422,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh13960
+  m_Name: pb_Mesh13962
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3081,6 +3095,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 442742483}
+    - target: {fileID: 7709357383534524184, guid: 4c7157c037e28d64bbe53f46f58cc404,
+        type: 3}
+      propertyPath: shootDelay
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7709357383534524190, guid: 4c7157c037e28d64bbe53f46f58cc404,
         type: 3}
       propertyPath: m_Name
