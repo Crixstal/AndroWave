@@ -46,8 +46,8 @@ public class CameraFollowPlayer : MonoBehaviour
 
         //transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
 
-        float horizontalInput = Input.GetAxis("HorizontalMovement");
-        float verticalInput = Input.GetAxis("Teleport");
+        float horizontalInput = Input.GetAxis("HorizontalInput");
+        float verticalInput = Input.GetAxis("VerticalInput");
 
         if (horizontalInput < 0 && verticalInput == Mathf.Clamp(verticalInput, -0.4f, 0.4f))
             transform.rotation = Quaternion.Lerp(transform.rotation, leftQuaternion, rotateSpeed);

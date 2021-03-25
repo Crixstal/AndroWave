@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]    private float horizontalInputSensitivity = 0.5f;
+    [SerializeField]    private float verticalInputSensitivity = 0.5f;
     [SerializeField]    private float speed = 20f;
+    [SerializeField]    private float drag = 6f;
     [SerializeField]    private float jump = 10f;
+    [SerializeField]    private float gravityUp = 10f;
+    [SerializeField]    private float gravityDown = 10f;
     [SerializeField]    private float teleportationHeight = 6f;
     [SerializeField]    private float teleportationDelay = 0.5f;
-
-    [HideInInspector]   public bool isGrounded;
-    [HideInInspector]   public bool canShoot;
     public float posForeground = 10.54f;
     public float posBackground = 32.54f;
 
+    [HideInInspector]   public bool isGrounded;
+    [HideInInspector]   public bool canShoot;
+
     private Rigidbody rb;
-    private bool verticalAxisIsInUse;
     private float startTimer = 0f;
     readonly private int Platform = 10; // see Input Manager
-
 
     void Start()
     {
@@ -27,83 +30,71 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        rb.drag = drag;
+
         Move();
         Teleport();
         Jump();
+        Gravity();
     }
 
     private void Move()
     {
-        float horizontalInput = Input.GetAxis("HorizontalMovement");
-        float verticalInput = Input.GetAxis("Teleport");
+        float horizontalInput = Input.GetAxis("HorizontalInput");
+        float verticalInput = Input.GetAxis("VerticalInput");
+        float playerRot = transform.rotation.eulerAngles.y;
 
-        if (verticalInput == Mathf.Clamp(verticalInput, -0.5f, 0.5f))
+        if (verticalInput == Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity))
         {
-            Vector3 pos = transform.position;
-            Vector3 newPos = pos + new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
-            transform.position = Vector3.Lerp(pos, newPos, 0.5f);
+            if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // rotate right
+                transform.Rotate(0f, 180f, 0f);
+            else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
+                rb.AddForce(Vector3.right * speed, ForceMode.Acceleration);
+
+
+            if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // rotate left
+                transform.Rotate(0f, 180f, 0f);
+            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
+                rb.AddForce(Vector3.left * speed, ForceMode.Acceleration);
         }
     }
 
     private void Teleport()
     {
-        float verticalInput = Input.GetAxisRaw("Teleport");
-        float rotation = transform.rotation.eulerAngles.y;
-
         startTimer += Time.deltaTime;
 
-        if (startTimer >= teleportationDelay)
+        if (Input.GetButton("Teleport") && isGrounded)
         {
-            if (verticalInput == 1f)
+            if (transform.position.z == posForeground && startTimer >= teleportationDelay)
             {
-                // ----- TELEPORT BACKGROUND -----
-                if (verticalAxisIsInUse == false && startTimer >= teleportationDelay)
-                {
-                    if (transform.position.z == posForeground)
-                        transform.position = new Vector3(transform.position.x, teleportationHeight, posBackground);
-                    else
-                        return;
-
-                    if (rotation == Mathf.Clamp(rotation, 269f, 271f)) // return in 2D shooting
-                        transform.Rotate(0f, 90f, 0f);
-
-                    verticalAxisIsInUse = true;
-
-                    startTimer = 0f;
-                }
+                transform.position = new Vector3(transform.position.x, teleportationHeight, posBackground);
+                startTimer = 0f;
             }
 
-            else if (verticalInput == -1f)
+            if (transform.position.z == posBackground && startTimer >= teleportationDelay)
             {
-                // ----- TELEPORT FOREGROUND -----
-                if (verticalAxisIsInUse == false && startTimer >= teleportationDelay)
-                {
-                    if (transform.position.z == posBackground)
-                        transform.position = new Vector3(transform.position.x, teleportationHeight, posForeground);
-                    else
-                        return;
-
-                    if (rotation == Mathf.Clamp(rotation, 89f, 91f)) // return in 2D shooting
-                        transform.Rotate(0f, -90f, 0f);
-
-                    verticalAxisIsInUse = true;
-
-                    startTimer = 0f;
-                }
+                transform.position = new Vector3(transform.position.x, teleportationHeight, posForeground);
+                startTimer = 0f;
             }
-
-            else
-                verticalAxisIsInUse = false;
         }
     }
 
     private void Jump()
     {
         if (Input.GetButton("Jump") && isGrounded)
-        {
-            rb.velocity = Vector3.zero;
-            rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
-        }
+            rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
+    }
+
+    private void Gravity()
+    {
+        if (isGrounded)
+            return;
+
+        if (rb.velocity.y < 0)
+            rb.AddForce(gravityDown * Physics.gravity, ForceMode.Acceleration);
+
+        if (rb.velocity.y > 0)
+            rb.AddForce(gravityUp * Physics.gravity, ForceMode.Acceleration);
     }
 
     private void OnCollisionStay(Collision collision)

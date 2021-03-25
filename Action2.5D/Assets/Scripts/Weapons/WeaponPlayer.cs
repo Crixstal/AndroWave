@@ -8,7 +8,6 @@ public class WeaponPlayer : MonoBehaviour
     [SerializeField]    protected float m_speed;
     [SerializeField]    protected float m_damage;
     [SerializeField]    protected float m_destructionDelay;
-    //[SerializeField]    protected float angleShoot3D;
     [SerializeField]    protected float horizontalInputSensitivity;
     [SerializeField]    protected float verticalInputSensitivity;
     [SerializeField]    protected float perShotDelay;
@@ -48,20 +47,16 @@ public class WeaponPlayer : MonoBehaviour
 
         shootInput = Input.GetAxisRaw("Shoot");
 
-        horizontalInput = Input.GetAxis("HorizontalVisor");
-        verticalInput = Input.GetAxis("VerticalVisor");
+        horizontalInput = Input.GetAxis("HorizontalInput");
+        verticalInput = Input.GetAxis("VerticalInput");
         inputs = new Vector3(horizontalInput, verticalInput, 0f);
         sensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
-        Debug.Log(inputs);
 
-        Visor2D();
-        //Visor3D();
+        //Visor2D();
         Shoot();
     }
 
     public virtual void Visor2D() {}
-
-    //public virtual void Visor3D() {}
 
     public virtual void Shoot() {}
 }
