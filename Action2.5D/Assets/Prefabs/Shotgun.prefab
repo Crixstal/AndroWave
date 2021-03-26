@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 8981508823303331444}
   - component: {fileID: 1567585813859283900}
   - component: {fileID: 6894581080985511625}
-  - component: {fileID: 6048148490218046739}
-  - component: {fileID: -2334325072737368431}
+  - component: {fileID: 2092716602157225640}
   m_Layer: 11
   m_Name: Shotgun
   m_TagString: Untagged
@@ -27,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3421994910000956209}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.21201517, y: 0.37350112, z: 0.2115059}
+  m_LocalScale: {x: 1.239404, y: 0.06773644, z: 0.22621042}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1567585813859283900
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -81,21 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &6048148490218046739
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3421994910000956209}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2334325072737368431
+--- !u!114 &2092716602157225640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,15 +89,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3421994910000956209}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a7ab4d93fc82464f8a22390a723a28c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f4f41e5555d9bb43852c3e1ad8f13d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
-  m_speed: 10
+  m_speed: 20
   m_damage: 0
-  m_destructionDelay: 2
-  angleShoot2D: 0
-  angleShoot3D: 0
+  m_destructionDelay: 0.5
   horizontalInputSensitivity: 0.5
-  verticalInputSensitivity: 0.8
-  perShotDelay: 1
+  verticalInputSensitivity: 0.7
+  delayPerShot: 1
+  coneAngle: 11.25
