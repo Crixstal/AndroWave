@@ -8,6 +8,7 @@ public class DropGrenade : EnemyShoot
     private float moveSpeed = 10f;
 
     private Rigidbody body = null;
+    private Vector3 dropPosition;
 
     private void Start()
     {
@@ -23,27 +24,33 @@ public class DropGrenade : EnemyShoot
 
             if (player.transform.position.z < transform.position.z - gap)
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, frontQuaternion, 0.1f);
-                body.AddForce(transform.forward * moveSpeed);
+                body.AddForce(transform.right * -moveSpeed);
             }
 
             else if (player.transform.position.z > transform.position.z + gap)
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, backQuaternion, 0.1f);
-                body.AddForce(transform.forward * moveSpeed);
+                body.AddForce(transform.right * moveSpeed);
             }
 
             else
                 body.velocity = Vector3.zero;
 
+            if (player.transform.position.x < transform.position.x)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, leftQuaternion, 1f);
+                dropPosition = new Vector3(1 * transform.localScale.x, 0, 0);
+            }
+
+            if (player.transform.position.x > transform.position.x)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, rightQuaternion, 1f);
+                dropPosition = new Vector3(-1 * transform.localScale.x, 0, 0);
+            }
+
             if (timer > shootDelay)
             {
                 timer = timer - shootDelay;
-                Rigidbody bullet = (Rigidbody)Instantiate(projectile, transform.position, projectileQuaternion);
-
-                bullet.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
-
-                Destroy(bullet.gameObject, 1);
+                Rigidbody bullet = (Rigidbody)Instantiate(projectile, transform.position + dropPosition, projectileQuaternion);
             }
         }
     }
