@@ -9,6 +9,9 @@ public class CameraFollowPlayer : MonoBehaviour
     [SerializeField]
     private float smoothTime = 0.1f, cameraShift = 2f;
 
+    [SerializeField] private float horizontalInputSensitivity = 0.5f;
+    [SerializeField] private float verticalInputSensitivity = 0.8f;
+
     [HideInInspector]
     public bool Yaxis = false;
 
@@ -44,13 +47,13 @@ public class CameraFollowPlayer : MonoBehaviour
         Vector3 leftShift = transform.position + new Vector3(cameraShift, 0, 0);
         Vector3 rightShift = transform.position + new Vector3(-cameraShift, 0, 0);
         Vector3 baseCamera = transform.position;
-        float horizontalInput = Input.GetAxis("HorizontalMovement");
-        float verticalInput = Input.GetAxis("Teleport");
+        float horizontalInput = Input.GetAxis("HorizontalInput");
+        float verticalInput = Input.GetAxis("VerticalInput");
 
-        if (horizontalInput < 0 && verticalInput == Mathf.Clamp(verticalInput, -0.4f, 0.4f))
+        if (horizontalInput < horizontalInputSensitivity && verticalInput == Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity))
             targetPosition = rightShift;
 
-        else if (horizontalInput > 0 && verticalInput == Mathf.Clamp(verticalInput, -0.4f, 0.4f))
+        else if (horizontalInput > horizontalInputSensitivity && verticalInput == Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity))
             targetPosition = leftShift;
 
         else
