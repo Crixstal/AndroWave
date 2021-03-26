@@ -95,8 +95,8 @@ MonoBehaviour:
   bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
   m_speed: 20
   m_damage: 0
-  m_destructionDelay: 1
+  m_destructionDelay: 0.5
   horizontalInputSensitivity: 0.5
   verticalInputSensitivity: 0.7
-  delayPerShot: 0.5
-  coneAngle: 22.5
+  delayPerShot: 1
+  coneAngle: 11.25

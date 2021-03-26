@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField]    private float gravityUp = 0f;
     [SerializeField]    private float gravityDown = 0f;
     [SerializeField]    private float teleportationHeight = 0f;
-    [SerializeField]    private float teleportationDelay = 0f;
+    public float teleportationDelay = 0f;
     public float posForeground = 0f;
     public float posBackground = 0f;
 
