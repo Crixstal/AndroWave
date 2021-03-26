@@ -36,11 +36,12 @@ public class WeaponPlayer : MonoBehaviour
         bullet.GetComponent<BulletPlayer>().speed = m_speed;
         bullet.GetComponent<BulletPlayer>().damage = m_damage;
         bullet.GetComponent<BulletPlayer>().destructionDelay = m_destructionDelay;
+        bullet.GetComponent<SphereCollider>().enabled = false;
 
         weaponLength = transform.localScale.x;
     }
 
-    public virtual void FixedUpdate()
+    public void FixedUpdate()
     {
         playerRot = player.transform.rotation.eulerAngles.y;
         playerPos = player.transform.position;
