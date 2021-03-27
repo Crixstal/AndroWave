@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f0f42cf5878ee43bbcd9d358a3856c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AOE: 1
+  AOE: 5
   damage: 5
-  timer: 2
+  explosion: {fileID: 0}
+  timer: 1

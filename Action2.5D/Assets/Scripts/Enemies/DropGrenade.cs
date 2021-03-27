@@ -51,10 +51,6 @@ public class DropGrenade : EnemyShoot
             {
                 timer = timer - shootDelay;
                 Rigidbody bullet = (Rigidbody)Instantiate(projectile, transform.position + dropPosition, projectileQuaternion);
-
-                //bullet.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
-
-                Destroy(bullet.gameObject, 1);
             }
         }
     }
