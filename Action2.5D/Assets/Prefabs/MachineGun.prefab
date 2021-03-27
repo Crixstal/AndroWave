@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6308052746796823502}
   - component: {fileID: 6308052746796823497}
   - component: {fileID: 6308052746796823496}
-  - component: {fileID: 5234360196059486317}
-  m_Layer: 11
+  - component: {fileID: 8070703320582803233}
+  m_Layer: 0
   m_Name: MachineGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &5234360196059486317
+--- !u!114 &8070703320582803233
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,14 +104,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6308052746796823498}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d0763f6bafaf5c45a44a97c13ee3c6d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a7ab4d93fc82464f8a22390a723a28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
-  m_speed: 20
+  m_speed: 30
   m_damage: 0
-  m_destructionDelay: 3
-  angleShoot3D: 5
+  m_destructionDelay: 2
   horizontalInputSensitivity: 0.5
   verticalInputSensitivity: 0.8
-  perShotDelay: 0.2
+  perShotDelay: 0.3
