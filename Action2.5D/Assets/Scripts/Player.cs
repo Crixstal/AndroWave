@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     [SerializeField]    private float jump = 0f;
     [SerializeField]    private float gravityUp = 0f;
     [SerializeField]    private float gravityDown = 0f;
-    [SerializeField]    private float teleportationHeight = 0f;
     public float teleportationDelay = 0f;
     public float posForeground = 0f;
     public float posBackground = 0f;
@@ -22,10 +21,13 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private float startTimer;
     readonly private int Platform = 10; // see Input Manager
+    private Ray groundCheck;
+    private RaycastHit hit;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
     }
 
     void FixedUpdate()
@@ -63,17 +65,22 @@ public class Player : MonoBehaviour
     {
         startTimer += Time.deltaTime;
 
-        if (Input.GetButton("Teleport") && isGrounded)
+        if (transform.position.z == posForeground)
+            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
+
+        if (transform.position.z == posBackground)
+            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posForeground), Vector3.down);
+        if (Input.GetButton("Teleport") && isGrounded && Physics.Raycast(groundCheck, out hit))
         {
             if (transform.position.z == posForeground && startTimer >= teleportationDelay)
             {
-                transform.position = new Vector3(transform.position.x, teleportationHeight, posBackground);
+                transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posBackground);
                 startTimer = 0f;
             }
 
             if (transform.position.z == posBackground && startTimer >= teleportationDelay)
             {
-                transform.position = new Vector3(transform.position.x, teleportationHeight, posForeground);
+                transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posForeground);
                 startTimer = 0f;
             }
         }
@@ -104,6 +111,9 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.layer == Platform)
             canShoot = true;
+
+        if (collision.GetContact(0).normal.x == -1f || collision.GetContact(0).normal.x == 1f)
+            isGrounded = false;
     }
 
     private void OnCollisionExit(Collision collision)
