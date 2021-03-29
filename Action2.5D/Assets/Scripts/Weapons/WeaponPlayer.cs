@@ -5,42 +5,43 @@ using UnityEngine;
 public class WeaponPlayer : MonoBehaviour
 {
     [SerializeField]    protected GameObject bullet = null;
-    [SerializeField]    protected float m_speed;
-    [SerializeField]    protected float m_damage;
-    [SerializeField]    protected float m_destructionDelay;
-    [SerializeField]    protected float horizontalInputSensitivity;
-    [SerializeField]    protected float verticalInputSensitivity;
-    [SerializeField]    protected float delayPerShot;
+    [SerializeField]    protected float m_speed = 0f;
+    [SerializeField]    protected int m_damage = 0;
+    [SerializeField]    protected float m_destructionDelay = 0f;
+    [SerializeField]    protected float horizontalInputSensitivity = 0f;
+    [SerializeField]    protected float verticalInputSensitivity = 0f;
+    [SerializeField]    protected float delayPerShot = 0f;
 
+    protected GameObject currentBullet;
     protected float shotTimer = 0f;
 
-    protected Player player;
-    protected float playerRot;
-    protected Vector3 playerPos;
-    protected float posForeground;
-    protected float posBackground;
-    protected bool canShoot;
+    protected Player player = null;
+    protected float playerRot = 0f;
+    protected Vector3 playerPos = Vector3.zero;
+    protected float posForeground = 0f;
+    protected float posBackground = 0f;
+    protected bool canShoot = true;
 
-    protected float shootInput;
-    protected float horizontalInput;
-    protected float verticalInput;
-    protected float isInSensitivityRange;
+    protected float shootInput = 0f;
+    protected float horizontalInput = 0f;
+    protected float verticalInput = 0f;
+    protected float isInSensitivityRange = 0f;
     protected bool rotating = false;
-    protected Vector3 weaponPos;
-    protected float weaponLength;
+    protected Vector3 weaponPos = Vector3.zero;
+    protected float weaponLength = 0f;
 
     void Start()
     {
-        player = gameObject.GetComponentInParent<Player>();
-
         bullet.GetComponent<BulletPlayer>().speed = m_speed;
         bullet.GetComponent<BulletPlayer>().damage = m_damage;
         bullet.GetComponent<BulletPlayer>().destructionDelay = m_destructionDelay;
 
+        player = gameObject.GetComponentInParent<Player>();
+
         weaponLength = transform.localScale.x;
     }
 
-    public virtual void FixedUpdate()
+    public void FixedUpdate()
     {
         playerRot = player.transform.rotation.eulerAngles.y;
         playerPos = player.transform.position;

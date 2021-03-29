@@ -19,7 +19,7 @@ public class Shotgun : WeaponPlayer
             {
                 for (int i = 0; i < 5; ++i)
                 {
-                    GameObject currentBullet = Instantiate(bullet, new Vector3(playerPos.x, weaponPos.y + weaponLength, weaponPos.z), Quaternion.Euler(0f, 0f, coneAngle + 90f));
+                    currentBullet = Instantiate(bullet, new Vector3(playerPos.x, weaponPos.y + weaponLength, playerPos.z), Quaternion.Euler(0f, 0f, coneAngle + 90f));
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle, Vector3.forward) * Vector3.up;
                     coneAngle -= constConeAngle / 2;
                 }
@@ -30,7 +30,7 @@ public class Shotgun : WeaponPlayer
             {
                 for (int i = 0; i < 5; ++i)
                 {
-                    GameObject currentBullet = Instantiate(bullet, new Vector3(playerPos.x, weaponPos.y - weaponLength, weaponPos.z), Quaternion.Euler(0f, 0f, coneAngle - 90f));
+                    currentBullet = Instantiate(bullet, new Vector3(playerPos.x, weaponPos.y - weaponLength, playerPos.z), Quaternion.Euler(0f, 0f, coneAngle - 90f));
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle, Vector3.forward) * Vector3.down;
                     coneAngle -= constConeAngle / 2;
                 }
@@ -41,7 +41,7 @@ public class Shotgun : WeaponPlayer
             {
                 for (int i = 0; i < 5; ++i)
                 {
-                    GameObject currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, weaponPos.y, weaponPos.z), Quaternion.Euler(0f, playerRot, coneAngle));
+                    currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, coneAngle));
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle, Vector3.forward) * Vector3.right;
                     coneAngle -= constConeAngle / 2;
                 }
@@ -52,7 +52,7 @@ public class Shotgun : WeaponPlayer
             {
                 for (int i = 0; i < 5; ++i)
                 {
-                    GameObject currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, weaponPos.y, weaponPos.z), Quaternion.Euler(0f, playerRot, -coneAngle));
+                    currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, -coneAngle));
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle, Vector3.forward) * Vector3.left;
                     coneAngle -= constConeAngle / 2;
                 }
