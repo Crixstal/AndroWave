@@ -5,12 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class DebugInputs : MonoBehaviour
 {
-    private Player player = null;
+    [SerializeField] private Player player = null;
     private float initialDelay;
 
     void Start()
     {
-        player = GetComponent<Player>();
         initialDelay = player.GetComponent<Player>().teleportationDelay;
     }
 

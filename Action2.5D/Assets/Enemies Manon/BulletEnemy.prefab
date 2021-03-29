@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1470632544593311726
+--- !u!1 &1161490554157841905
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,26 +8,26 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1470632544593311722}
-  - component: {fileID: 1470632544593311723}
-  - component: {fileID: 1470632544593311720}
-  - component: {fileID: -2203162751374783346}
-  - component: {fileID: 355892697134538347}
-  - component: {fileID: 4697830761631066771}
-  m_Layer: 9
-  m_Name: BulletPlayer
+  - component: {fileID: 3249981260535082004}
+  - component: {fileID: 2571379427065400646}
+  - component: {fileID: 7717956750318510014}
+  - component: {fileID: 7750625438152635648}
+  - component: {fileID: 8913764237100522202}
+  - component: {fileID: -5740479639415409918}
+  m_Layer: 12
+  m_Name: BulletEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1470632544593311722
+--- !u!4 &3249981260535082004
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470632544593311726}
+  m_GameObject: {fileID: 1161490554157841905}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6705361, y: 0.22210494, z: 0.079961725}
@@ -35,21 +35,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1470632544593311723
+--- !u!33 &2571379427065400646
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470632544593311726}
+  m_GameObject: {fileID: 1161490554157841905}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1470632544593311720
+--- !u!23 &7717956750318510014
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470632544593311726}
+  m_GameObject: {fileID: 1161490554157841905}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -82,13 +82,13 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &-2203162751374783346
+--- !u!54 &7750625438152635648
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470632544593311726}
+  m_GameObject: {fileID: 1161490554157841905}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -96,15 +96,15 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 30
+  m_Constraints: 16
   m_CollisionDetection: 0
---- !u!136 &355892697134538347
+--- !u!136 &8913764237100522202
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470632544593311726}
+  m_GameObject: {fileID: 1161490554157841905}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -112,19 +112,19 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4697830761631066771
+--- !u!114 &-5740479639415409918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470632544593311726}
+  m_GameObject: {fileID: 1161490554157841905}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b97292b6a18710343be8355f3be0a5dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c889c988b5994d45a21d8f8c5bae2ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 40
-  destructionDelay: 2
-  damage: 0
-  direction: {x: 1, y: 0, z: 0}
+  speed: 10
+  destructionDelay: 5
+  damage: 1
+  direction: {x: 0, y: 0, z: 0}

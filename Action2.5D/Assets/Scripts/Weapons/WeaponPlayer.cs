@@ -6,12 +6,13 @@ public class WeaponPlayer : MonoBehaviour
 {
     [SerializeField]    protected GameObject bullet = null;
     [SerializeField]    protected float m_speed = 0f;
-    [SerializeField]    protected float m_damage = 0f;
+    [SerializeField]    protected int m_damage = 0;
     [SerializeField]    protected float m_destructionDelay = 0f;
     [SerializeField]    protected float horizontalInputSensitivity = 0f;
     [SerializeField]    protected float verticalInputSensitivity = 0f;
     [SerializeField]    protected float delayPerShot = 0f;
 
+    protected GameObject currentBullet;
     protected float shotTimer = 0f;
 
     protected Player player = null;
@@ -34,7 +35,6 @@ public class WeaponPlayer : MonoBehaviour
         bullet.GetComponent<BulletPlayer>().speed = m_speed;
         bullet.GetComponent<BulletPlayer>().damage = m_damage;
         bullet.GetComponent<BulletPlayer>().destructionDelay = m_destructionDelay;
-        bullet.GetComponent<SphereCollider>().enabled = false;
 
         player = gameObject.GetComponentInParent<Player>();
 

@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2675bc5a9dba0054b947cf03075d2bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
+  bullet: {fileID: 7777847976982743048, guid: 5a4c7b4358f13cc4ea6aaaae9db09c75, type: 3}
   m_speed: 10
   m_damage: 0
   m_destructionDelay: 2
@@ -100,4 +100,3 @@ MonoBehaviour:
   verticalInputSensitivity: 0.8
   delayPerShot: 2
   AOEradius: 3
-  AOEheight: 3
