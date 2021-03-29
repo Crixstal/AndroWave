@@ -5,11 +5,12 @@ using UnityEngine;
 public class Yak : MonoBehaviour
 {
     [SerializeField] private Player player = null;
-    [SerializeField] private int life = 0;
+    [SerializeField] private float life = 0f;
+    [SerializeField] private int score = 0;
     [SerializeField] private float speed = 0f;
     [SerializeField] protected GameObject playerBullet = null;
 
-    public int damage = 0;
+    public float damage = 0f;
 
     private Rigidbody rb;
     private Vector3 relativePos = Vector3.zero;
@@ -33,7 +34,10 @@ public class Yak : MonoBehaviour
         relativePos = player.transform.position - transform.position;
 
         if (life <= 0)
+        {
+            player.GetComponent<Player>().playerScore += score;
             Destroy(gameObject);
+        }
     }
 
     private void SecondRun()
@@ -80,9 +84,6 @@ public class Yak : MonoBehaviour
             rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
             gameObject.layer = 13; // 13 = Ghost
         }
-
-        if (other.gameObject.layer == 9) // 9 = BulletPlayer
-            life -= playerBullet.GetComponent<BulletPlayer>().damage;
     }
 
     private void OnBecameInvisible()
