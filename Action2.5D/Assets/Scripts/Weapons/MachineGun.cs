@@ -6,6 +6,39 @@ public class MachineGun : WeaponPlayer
 {
     [SerializeField] private float spawnRange = 0f;
 
+   /* private void Visor()
+    {
+        inputs = new Vector3(horizontalInput, verticalInput, 0f);
+
+        // ---------- SHOOT UP ----------
+        if (verticalInput > verticalInputSensitivity)
+            shootAngle = 90f;
+
+        // ---------- SHOOT DOWN ----------
+        if (verticalInput < -verticalInputSensitivity)
+            shootAngle = -90f;
+
+        // ---------- SHOOT RIGHT ----------
+        if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == sensitivityRange)
+        {
+            shootAngle = Vector3.Angle(Vector3.right, inputs);
+
+            if (verticalInput < 0)
+                shootAngle = Vector3.Angle(Vector3.right, -inputs);
+        }
+
+        // ---------- SHOOT LEFT ----------
+        if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == sensitivityRange)
+        {
+            shootAngle = Vector3.Angle(Vector3.left, -inputs);
+
+            if (verticalInput < 0)
+                shootAngle = Vector3.Angle(Vector3.left, inputs);
+        }
+
+        bulletRot = Quaternion.Euler(0f, 0f, shootAngle);
+    }*/
+
     public override void Shoot()
     {
         if (shootInput == 1f && Time.time > shotTimer)

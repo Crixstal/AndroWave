@@ -21,9 +21,11 @@ public class WeaponPlayer : MonoBehaviour
     protected float posForeground = 0f;
     protected float posBackground = 0f;
     protected bool canShoot = true;
+    protected float shootAngle = 0f;
 
     protected float shootInput = 0f;
     protected float horizontalInput = 0f;
+    protected float isInXRange = 0f;
     protected float verticalInput = 0f;
     protected float isInSensitivityRange = 0f;
     protected bool rotating = false;
@@ -55,6 +57,7 @@ public class WeaponPlayer : MonoBehaviour
         horizontalInput = Input.GetAxis("HorizontalInput");
         verticalInput = Input.GetAxis("VerticalInput");
         isInSensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
+        isInXRange = Mathf.Clamp(horizontalInput, -horizontalInputSensitivity, horizontalInputSensitivity);
 
         RotateWeapon();
         Shoot();
