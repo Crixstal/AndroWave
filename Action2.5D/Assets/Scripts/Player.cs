@@ -5,27 +5,34 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]    private float horizontalInputSensitivity = 0.5f;
-    [SerializeField]    private float verticalInputSensitivity = 0.5f;
-    [SerializeField]    private float speed = 20f;
+    [SerializeField]    private float verticalInputSensitivity = 0.8f;
+    [SerializeField]    private float life = 0;
+    [SerializeField]    private float speed = 0f;
     [SerializeField]    private float drag = 6f;
-    [SerializeField]    private float jump = 10f;
-    [SerializeField]    private float gravityUp = 10f;
-    [SerializeField]    private float gravityDown = 10f;
-    [SerializeField]    private float teleportationHeight = 6f;
-    [SerializeField]    private float teleportationDelay = 0.5f;
-    public float posForeground = 10.54f;
-    public float posBackground = 32.54f;
+    [SerializeField]    private float jump = 0f;
+    [SerializeField]    private float gravityUp = 0f;
+    [SerializeField]    private float gravityDown = 0f;
+
+    [SerializeField] private GameObject enemyBullet = null;
+    [SerializeField] private GameObject enemyGrenade = null;
+
+    public float teleportationDelay = 0f;
+    public float posForeground = 0f;
+    public float posBackground = 0f;
+    public int playerScore;
 
     [HideInInspector]   public bool isGrounded;
     [HideInInspector]   public bool canShoot;
 
     private Rigidbody rb;
-    private float startTimer = 0f;
-    readonly private int Platform = 10; // see Input Manager
+    private float startTimer;
+    private Ray groundCheck;
+    private RaycastHit hit;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
     }
 
     void FixedUpdate()
@@ -36,6 +43,9 @@ public class Player : MonoBehaviour
         Teleport();
         Jump();
         Gravity();
+
+        if (life <= 0)
+            Destroy(gameObject);
     }
 
     private void Move()
@@ -63,17 +73,23 @@ public class Player : MonoBehaviour
     {
         startTimer += Time.deltaTime;
 
-        if (Input.GetButton("Teleport") && isGrounded)
+        if (transform.position.z == posForeground)
+            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
+
+        if (transform.position.z == posBackground)
+            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posForeground), Vector3.down);
+
+        if (Input.GetButton("Teleport") && isGrounded && Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
             if (transform.position.z == posForeground && startTimer >= teleportationDelay)
             {
-                transform.position = new Vector3(transform.position.x, teleportationHeight, posBackground);
+                transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posBackground);
                 startTimer = 0f;
             }
 
             if (transform.position.z == posBackground && startTimer >= teleportationDelay)
             {
-                transform.position = new Vector3(transform.position.x, teleportationHeight, posForeground);
+                transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posForeground);
                 startTimer = 0f;
             }
         }
@@ -97,13 +113,28 @@ public class Player : MonoBehaviour
             rb.AddForce(gravityUp * Physics.gravity, ForceMode.Acceleration);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 11) // 11 = Enemy
+            --life; 
+
+        if(collision.gameObject.layer == 12) // 12 = BulletEnemy
+            life -= enemyBullet.GetComponent<BulletEnemy>().damage;
+
+        if (collision.gameObject.layer == 14) // 14 = Grenade
+            life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+    }
+
     private void OnCollisionStay(Collision collision)
     {
         isGrounded = true;
         canShoot = false;
 
-        if (collision.gameObject.layer == Platform)
+        if (collision.gameObject.layer == 10) // 10 = Platform
             canShoot = true;
+
+        if (collision.GetContact(0).normal.x == -1f || collision.GetContact(0).normal.x == 1f)
+            isGrounded = false;
     }
 
     private void OnCollisionExit(Collision collision)
@@ -114,13 +145,16 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == Platform)
+        if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), true);
+
+        if (other.gameObject.layer == 14) // 14 = Grenade
+            life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == Platform)
+        if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), false);
     }
 }
