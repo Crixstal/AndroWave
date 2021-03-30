@@ -9,6 +9,7 @@ TagManager:
   - Side
   - Back
   - Up
+  - Poison
   layers:
   - Default
   - TransparentFX
