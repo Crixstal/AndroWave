@@ -7,9 +7,10 @@ public class Aigle : MonoBehaviour
     [SerializeField] private Player player = null;
     [SerializeField] private GameObject grenade = null;
     [SerializeField] private float height = 0f;
-    [SerializeField] private int life = 0;
+    [SerializeField] private float life = 0f;
+    [SerializeField] private int score = 0;
     [SerializeField] private float speed = 0f;
-    [SerializeField] private int m_damage = 0;
+    [SerializeField] private float m_damage = 0f;
     [SerializeField] private float m_destructionDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
     [SerializeField] protected GameObject playerBullet = null;
@@ -35,7 +36,10 @@ public class Aigle : MonoBehaviour
         relativePos = player.transform.position - transform.position;
 
         if (life <= 0)
+        {
+            player.GetComponent<Player>().playerScore += score;
             Destroy(gameObject);
+        }
     }
 
     private void Shoot()
@@ -55,12 +59,6 @@ public class Aigle : MonoBehaviour
 
         else if (relativePos.x > 0f && enemyRotY == Mathf.Clamp(enemyRotY, 179f, 181f)) // look right
             transform.Rotate(0f, 180f, 0f);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 9) // 9 = BulletPlayer
-            life -= playerBullet.GetComponent<BulletPlayer>().damage;
     }
 
     public void OnTriggerStay(Collider other)

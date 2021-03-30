@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public float teleportationDelay = 0f;
     public float posForeground = 0f;
     public float posBackground = 0f;
+    public int playerScore;
 
     [HideInInspector]   public bool isGrounded;
     [HideInInspector]   public bool canShoot;

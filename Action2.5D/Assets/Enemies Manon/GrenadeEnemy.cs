@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GrenadeEnemy : MonoBehaviour
 {
-    [HideInInspector] public float speed;
-    [HideInInspector] public float destructionDelay;
-    [HideInInspector] public int damage;
+    [HideInInspector] public float speed = 0f;
+    [HideInInspector] public float destructionDelay = 0f;
+    [HideInInspector] public float damage = 0f;
 
     void FixedUpdate()
     {

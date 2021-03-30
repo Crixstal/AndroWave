@@ -222,7 +222,7 @@ MonoBehaviour:
   bullet: {fileID: 1161490554157841905, guid: d903a093a467a034488dd133bdee2eb3, type: 3}
   life: 1
   m_speed: 10
-  m_damage: 1
+  m_damage: 0
   m_destructionDelay: 5
   delayPerShot: 0.2
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,

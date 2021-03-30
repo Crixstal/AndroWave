@@ -94,9 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 7777847976982743048, guid: 5a4c7b4358f13cc4ea6aaaae9db09c75, type: 3}
   m_speed: 10
-  m_damage: 0
-  m_destructionDelay: 2
+  m_damage: 1
+  m_destructionDelay: 4
   horizontalInputSensitivity: 0.5
   verticalInputSensitivity: 0.8
-  delayPerShot: 2
-  AOEradius: 3
+  delayPerShot: 1
