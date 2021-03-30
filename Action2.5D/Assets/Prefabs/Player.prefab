@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5b565ae6c392dcc449edf051b64b14d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,14 +144,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalInputSensitivity: 0.5
   verticalInputSensitivity: 0.8
-  speed: 0
-  drag: 6
-  jump: 0
-  gravityUp: 0
-  gravityDown: 0
-  teleportationDelay: 0
-  posForeground: 0
-  posBackground: 0
+  life: 5
+  speed: 77.5
+  drag: 7
+  jump: 20
+  gravityUp: 1.5
+  gravityDown: 15
+  enemyBullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee,
+    type: 3}
+  enemyGrenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8,
+    type: 3}
+  teleportationDelay: 0.7
+  posForeground: 6.5
+  posBackground: 16.5
+  playerScore: 0
   isGrounded: 0
   canShoot: 0
 --- !u!1001 &966268254284587940

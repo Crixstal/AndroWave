@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 173ce901b8efa4a4baeb1b314d88cb65, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -135,19 +135,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 3715601081570562842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fddb304f1d983d4dbad5750e40b1985, type: 3}
+  m_Script: {fileID: 11500000, guid: 15996705c2f3d1645ab51116dbf0d550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  weapon: {fileID: 6252545393264792562}
+  weapon: {fileID: 3952157206966724009, guid: 7fd1a8bdb06d83b4885108641ac2d0ae, type: 3}
   bullet: {fileID: 1691527619995676252, guid: 8de5b5c1cc064984f8305b58b3002138, type: 3}
-  life: 1
-  m_speed: 8
-  m_damage: 0
+  life: 8
+  score: 0
+  m_speed: 10
+  m_damage: 1
   m_destructionDelay: 5
-  delayPerShot: 1
-  playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
-    type: 3}
+  delayPerShot: 1.5
+  playerBullet: {fileID: 0}
 --- !u!1 &6252545393264792562
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5b565ae6c392dcc449edf051b64b14d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5b565ae6c392dcc449edf051b64b14d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,10 +93,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
-  m_speed: 20
-  m_damage: 1
-  m_destructionDelay: 1
+  m_speed: 30
+  m_damage: 4
+  m_destructionDelay: 0.25
   horizontalInputSensitivity: 0.5
   verticalInputSensitivity: 0.7
-  delayPerShot: 1
+  delayPerShot: 0.5
   coneAngle: 11.25

@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5b565ae6c392dcc449edf051b64b14d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,5 +98,5 @@ MonoBehaviour:
   m_destructionDelay: 2
   horizontalInputSensitivity: 0.5
   verticalInputSensitivity: 0.8
-  delayPerShot: 0.1
+  delayPerShot: 0.175
   spawnRange: 0.5
