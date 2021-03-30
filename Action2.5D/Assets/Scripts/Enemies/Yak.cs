@@ -56,14 +56,14 @@ public class Yak : MonoBehaviour
             {
                 transform.position = new Vector3(player.transform.position.x - 50, hit.point.y + transform.localScale.y, background);
                 rb.velocity = Vector3.zero;
-                rb.AddForce(Vector3.right * speed, ForceMode.VelocityChange);
+                rb.AddForce((2 * Vector3.right) * speed, ForceMode.VelocityChange);
             }
 
             else if (transform.position.z == background)
             {
                 transform.position = new Vector3(player.transform.position.x - 30, hit.point.y + transform.localScale.y, foreground);
                 rb.velocity = Vector3.zero;
-                rb.AddForce(Vector3.right * speed, ForceMode.VelocityChange);
+                rb.AddForce((2 * Vector3.right) * speed, ForceMode.VelocityChange);
             }
         }
 

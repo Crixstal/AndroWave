@@ -118,9 +118,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.layer == 11) // 11 = Enemy
             --life; 
 
-        if(collision.gameObject.layer == 12) // 12 = BulletEnemy
-            life -= enemyBullet.GetComponent<BulletEnemy>().damage;
-
         if (collision.gameObject.layer == 14) // 14 = Grenade
             life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
     }
@@ -147,6 +144,9 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), true);
+
+        if (other.gameObject.layer == 12) // 12 = BulletEnemy
+            life -= enemyBullet.GetComponent<BulletEnemy>().damage;
 
         if (other.gameObject.layer == 14) // 14 = Grenade
             life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
