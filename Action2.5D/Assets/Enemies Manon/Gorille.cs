@@ -4,17 +4,33 @@ using UnityEngine;
 
 public class Gorille : Enemy
 {
+    private GameObject currentBullet;
+
     public override void Shoot()
     {
         if (Time.time > shotTimer)
         {
             shotTimer = Time.time + delayPerShot;
 
-            //for (int i = 0; i < bulletPerSalve; ++i)
-            //{
-            GameObject currentBullet = Instantiate(bullet, transform.position, Quaternion.identity);
+            // ---------- SHOOT UP ----------
+            if (weaponRot == Mathf.Clamp(weaponRot, 89f, 91f))
+                currentBullet = Instantiate(bullet, new Vector3(enemyPos.x, weaponPos.y + weaponLength, enemyPos.z), Quaternion.Euler(0f, enemyRot, weapon.transform.rotation.eulerAngles.z));
+
+            // ---------- SHOOT DOWN ----------
+            else if (weaponRot == Mathf.Clamp(weaponRot, 269f, 271f))
+                currentBullet = Instantiate(bullet, new Vector3(enemyPos.x, weaponPos.y - weaponLength, enemyPos.z), Quaternion.Euler(0f, enemyRot, weapon.transform.rotation.eulerAngles.z));
+
+
+            // ---------- SHOOT RIGHT ----------
+            if (enemyRot == Mathf.Clamp(enemyRot, -1f, 1f))
+                currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, weaponPos.y, enemyPos.z), Quaternion.Euler(0f, enemyRot, weapon.transform.rotation.eulerAngles.z));
+
+            // ---------- SHOOT LEFT ----------
+            else if (enemyRot == Mathf.Clamp(enemyRot, 179f, 181f))
+                currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, weaponPos.y, enemyPos.z), Quaternion.Euler(0f, enemyRot, weapon.transform.rotation.eulerAngles.z));
+
+
             currentBullet.GetComponent<BulletEnemy>().direction = Vector3.Normalize(relativePos);
-            //}
         }
     }
 }

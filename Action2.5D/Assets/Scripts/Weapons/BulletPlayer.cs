@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class BulletPlayer : MonoBehaviour
 {
-    [HideInInspector]   public float speed;
-    [HideInInspector]   public float destructionDelay;
-    [HideInInspector]   public float damage;
-    [HideInInspector]   public Vector3 direction;
+    [HideInInspector]   public float speed = 0f;
+    [HideInInspector]   public float destructionDelay = 0f;
+    [HideInInspector]   public float damage = 0f;
+    [HideInInspector]   public Vector3 direction = Vector3.zero;
 
     void FixedUpdate()
     {
@@ -18,7 +18,8 @@ public class BulletPlayer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        if (collision.gameObject.layer == 0 || collision.gameObject.layer == 11 || collision.gameObject.layer == 13) // 0 = default - 11 = enemy - 13 = ghost
+            Destroy(gameObject);
     }
 
     private void OnBecameInvisible()

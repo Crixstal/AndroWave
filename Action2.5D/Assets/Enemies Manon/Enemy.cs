@@ -7,30 +7,31 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected Player player = null;
     [SerializeField] protected GameObject weapon = null;
     [SerializeField] protected GameObject bullet = null;
-    [SerializeField] protected int life = 0;
+    [SerializeField] protected float life = 0f;
+    [SerializeField] protected int score = 0;
     [SerializeField] protected float m_speed = 0f;
-    [SerializeField] protected int m_damage = 0;
+    [SerializeField] protected float m_damage = 0f;
     [SerializeField] protected float m_destructionDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
-    [SerializeField] protected Vector3 m_size = Vector3.zero;
     //[SerializeField] protected float bulletPerSalve = 0f;
+    [SerializeField] protected GameObject playerBullet = null;
 
     protected float shotTimer = 0f;
 
     protected Vector3 relativePos = Vector3.zero;
     protected Vector3 enemyPos = Vector3.zero;
     protected float enemyRot = 0f;
+    protected float bulletRot = 0f;
 
     protected Vector3 weaponPos = Vector3.zero;
     protected float weaponLength = 0f;
     protected float weaponRot = 0f;
+
     void Start()
     {
         bullet.GetComponent<BulletEnemy>().speed = m_speed;
         bullet.GetComponent<BulletEnemy>().damage = m_damage;
         bullet.GetComponent<BulletEnemy>().destructionDelay = m_destructionDelay;
-
-        GetComponent<BoxCollider>().size = m_size;
     }
 
     public void FixedUpdate()
@@ -43,11 +44,17 @@ public class Enemy : MonoBehaviour
         weaponRot = weapon.transform.rotation.eulerAngles.z;
 
         relativePos = player.transform.position - transform.position;
+
+        if (life <= 0)
+        {
+            player.GetComponent<Player>().playerScore += score;
+            Destroy(gameObject);
+        }
     }
 
-    public virtual void Shoot() { }
+    public virtual void Shoot() {}
 
-    public void Rotate()
+    public void RotateEnemy()
     {
         if (relativePos.x < 0f && enemyRot == Mathf.Clamp(enemyRot, -1f, 1f)) // look left
             transform.Rotate(0f, 180f, 0f);
@@ -71,18 +78,13 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.layer == 8) // 8 = Player
         {
             Shoot();
-            Rotate();
+            RotateEnemy();
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
-        {
-            --life;
-
-            if (life <= 0)
-                Destroy(gameObject);
-        }
+            life -= playerBullet.GetComponent<BulletPlayer>().damage;
     }
 }
