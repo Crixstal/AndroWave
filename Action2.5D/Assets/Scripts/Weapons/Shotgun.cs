@@ -37,7 +37,7 @@ public class Shotgun : WeaponPlayer
             }
 
             // ---------- SHOOT RIGHT ----------
-            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == isInSensitivityRange)
+            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == isInYRange)
             {
                 for (int i = 0; i < 5; ++i)
                 {
@@ -48,7 +48,7 @@ public class Shotgun : WeaponPlayer
             }
 
             // ---------- SHOOT LEFT ----------
-            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInSensitivityRange)
+            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInYRange)
             {
                 for (int i = 0; i < 5; ++i)
                 {

@@ -25,14 +25,14 @@ public class MissileLauncher : WeaponPlayer
             }
 
             // ---------- SHOOT RIGHT ----------
-            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == isInSensitivityRange)
+            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == isInYRange)
             {
                 currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, 0f));
                 currentBullet.GetComponent<BulletPlayer>().direction = Vector3.right;
             }
 
             // ---------- SHOOT LEFT ----------
-            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInSensitivityRange)
+            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInYRange)
             {
                 currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, 0f));
                 currentBullet.GetComponent<BulletPlayer>().direction = Vector3.left;

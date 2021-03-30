@@ -27,7 +27,7 @@ public class WeaponPlayer : MonoBehaviour
     protected float horizontalInput = 0f;
     protected float isInXRange = 0f;
     protected float verticalInput = 0f;
-    protected float isInSensitivityRange = 0f;
+    protected float isInYRange = 0f;
     protected bool rotating = false;
     protected Vector3 weaponPos = Vector3.zero;
     protected float weaponLength = 0f;
@@ -56,7 +56,7 @@ public class WeaponPlayer : MonoBehaviour
         shootInput = Input.GetAxisRaw("Shoot");
         horizontalInput = Input.GetAxis("HorizontalInput");
         verticalInput = Input.GetAxis("VerticalInput");
-        isInSensitivityRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
+        isInYRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
         isInXRange = Mathf.Clamp(horizontalInput, -horizontalInputSensitivity, horizontalInputSensitivity);
 
         RotateWeapon();
@@ -65,35 +65,44 @@ public class WeaponPlayer : MonoBehaviour
 
     public void RotateWeapon()
     {
-        if (verticalInput > verticalInputSensitivity) // rotate up
+        // ---------- ROTATE RIGHT ----------
+        if (horizontalInput > horizontalInputSensitivity)
         {
-            if (!rotating)
-            {
-                transform.Rotate(0f, 0f, 90f);
-                rotating = true;
-            }
+            transform.eulerAngles = new Vector3(0f, 0f, 0f); // RIGHT
+
+            if (verticalInput > verticalInputSensitivity) // UP
+                transform.eulerAngles = new Vector3(0f, 0f, 45f);
+
+            else if (verticalInput < -verticalInputSensitivity) // DOWN
+                transform.eulerAngles = new Vector3(0f, 0f, -45f);
         }
 
-        else if (verticalInput < -verticalInputSensitivity) // rotate down
+        // ---------- ROTATE LEFT ----------
+        else if (horizontalInput < -horizontalInputSensitivity)
         {
-            if (!rotating)
-            {
-                transform.Rotate(0f, 0f, -90f);
-                rotating = true;
-            }
+            transform.eulerAngles = new Vector3(0f, 180f, 0f); // LEFT
+
+            if (verticalInput > verticalInputSensitivity) // UP
+                transform.eulerAngles = new Vector3(0f, 180f, 45f);
+
+            else if (verticalInput < -verticalInputSensitivity) // DOWN
+                transform.eulerAngles = new Vector3(0f, 180f, -45f);
+        }
+        
+        // ---------- ROTATE UP & DOWN ----------
+        else if (horizontalInput == isInXRange)
+        {
+            if (verticalInput > verticalInputSensitivity) // UP
+                transform.eulerAngles = new Vector3(0f, 0f, 90f);
+
+            else if (verticalInput < -verticalInputSensitivity) // DOWN
+                transform.eulerAngles = new Vector3(0f, 0f, -90f);
         }
 
-        else if (verticalInput == Mathf.Clamp(verticalInput, -0.5f, 0.5f)) // go back to initial rotation
-        {
-            if (transform.rotation.eulerAngles.z == Mathf.Clamp(transform.rotation.eulerAngles.z, 89f, 91f)) // if oriented up
-                transform.Rotate(0f, 0f, -90f);
+        if (horizontalInput == Mathf.Clamp(horizontalInput, -0.1f, 0.1f) && verticalInput == Mathf.Clamp(verticalInput, -0.1f, 0.1f))
+            transform.eulerAngles = new Vector3(0f, 0f, 0f);
 
-            else if (transform.rotation.eulerAngles.z == Mathf.Clamp(transform.rotation.eulerAngles.z, 269f, 271f)) // if oriented down
-                transform.Rotate(0f, 0f, 90f);
-        }
-
-        else
-            rotating = false;
+        shootAngle = transform.eulerAngles.z;
     }
 
     public virtual void Shoot() { }
