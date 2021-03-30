@@ -6,7 +6,7 @@ public class WeaponPlayer : MonoBehaviour
 {
     [SerializeField]    protected GameObject bullet = null;
     [SerializeField]    protected float m_speed = 0f;
-    [SerializeField]    protected int m_damage = 0;
+    [SerializeField]    protected float m_damage = 0f;
     [SerializeField]    protected float m_destructionDelay = 0f;
     [SerializeField]    protected float horizontalInputSensitivity = 0f;
     [SerializeField]    protected float verticalInputSensitivity = 0f;

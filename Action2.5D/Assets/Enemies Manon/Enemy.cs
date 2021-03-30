@@ -7,9 +7,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected Player player = null;
     [SerializeField] protected GameObject weapon = null;
     [SerializeField] protected GameObject bullet = null;
-    [SerializeField] protected int life = 0;
+    [SerializeField] protected float life = 0f;
+    [SerializeField] protected int score = 0;
     [SerializeField] protected float m_speed = 0f;
-    [SerializeField] protected int m_damage = 0;
+    [SerializeField] protected float m_damage = 0f;
     [SerializeField] protected float m_destructionDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
     //[SerializeField] protected float bulletPerSalve = 0f;
@@ -45,7 +46,10 @@ public class Enemy : MonoBehaviour
         relativePos = player.transform.position - transform.position;
 
         if (life <= 0)
+        {
+            player.GetComponent<Player>().playerScore += score;
             Destroy(gameObject);
+        }
     }
 
     public virtual void Shoot() {}
@@ -67,12 +71,6 @@ public class Enemy : MonoBehaviour
             weapon.transform.Rotate(0f, 0f, -90f);
         else if (relativePos.y > -transform.localScale.y && relativePos.z == Mathf.Clamp(relativePos.z, -1f, 1f) && weaponRot == Mathf.Clamp(weaponRot, 269f, 271f))
             weapon.transform.Rotate(0f, 0f, 90f);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 9) // 9 = BulletPlayer
-            life -= playerBullet.GetComponent<BulletPlayer>().damage;
     }
 
     public void OnTriggerStay(Collider other)

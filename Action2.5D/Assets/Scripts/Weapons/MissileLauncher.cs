@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class MissileLauncher : WeaponPlayer
 {
-    [SerializeField] private float AOEradius = 0f;
-
     public override void Shoot()
     {
-        bullet.GetComponent<SphereCollider>().radius = AOEradius;
-
         if (shootInput == 1f && Time.time > shotTimer)
         {
             shotTimer = Time.time + delayPerShot;
