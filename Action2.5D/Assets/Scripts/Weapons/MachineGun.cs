@@ -12,7 +12,7 @@ public class MachineGun : WeaponPlayer
         {
             shotTimer = Time.time + delayPerShot;
 
-            // ---------- SHOOT RIGHT & LEFT ----------
+            #region // ---------- SHOOT RIGHT & LEFT ----------
             if (verticalInput == isInYRange)
             {
                 if (playerRot == Mathf.Clamp(playerRot, -1f, 1f)) // RIGHT
@@ -27,8 +27,9 @@ public class MachineGun : WeaponPlayer
                     currentBullet.GetComponent<BulletPlayer>().direction = Vector3.left;
                 }
             }
+            #endregion
 
-            // -----------SHOOT UP ----------
+            #region // -----------SHOOT UP ----------
             if (verticalInput > verticalInputSensitivity) // UP
             {
                 if (horizontalInput == isInXRange) // UP
@@ -49,8 +50,9 @@ public class MachineGun : WeaponPlayer
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(shootAngle, Vector3.back) * Vector3.left;
                 }
             }
+            #endregion
 
-            // ---------- SHOOT DOWN ----------
+            #region // ---------- SHOOT DOWN ----------
             else if (verticalInput < -verticalInputSensitivity && canShoot) // DOWN
             {
                 if (horizontalInput == isInXRange) // DOWN
@@ -71,6 +73,7 @@ public class MachineGun : WeaponPlayer
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(shootAngle, Vector3.back) * Vector3.left;
                 }
             }
+            #endregion
         }
     }
 }
