@@ -11,34 +11,69 @@ public class MachineGun : WeaponPlayer
         if (shootInput == 1f && Time.time > shotTimer)
         {
             shotTimer = Time.time + delayPerShot;
-            
-            // ---------- SHOOT UP ----------
-            if (verticalInput > verticalInputSensitivity)
+
+            #region // ---------- SHOOT RIGHT & LEFT ----------
+            if (verticalInput == isInYRange)
             {
-                currentBullet = Instantiate(bullet, new Vector3(Random.Range(playerPos.x - spawnRange, playerPos.x + spawnRange), weaponPos.y + weaponLength, playerPos.z), Quaternion.Euler(0f, 0f, 90f));
-                currentBullet.GetComponent<BulletPlayer>().direction = Vector3.up;
+                if (playerRot == Mathf.Clamp(playerRot, -1f, 1f)) // RIGHT
+                {
+                    currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), playerPos.z), Quaternion.Euler(0f, playerRot, shootAngle));
+                    currentBullet.GetComponent<BulletPlayer>().direction = Vector3.right;
+                }
+
+                else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f)) // LEFT
+                {
+                    currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), playerPos.z), Quaternion.Euler(0f, playerRot, shootAngle));
+                    currentBullet.GetComponent<BulletPlayer>().direction = Vector3.left;
+                }
             }
-            
-            // ---------- SHOOT DOWN ----------
-            else if (verticalInput < -verticalInputSensitivity && canShoot)
+            #endregion
+
+            #region // -----------SHOOT UP ----------
+            if (verticalInput > verticalInputSensitivity) // UP
             {
-                currentBullet = Instantiate(bullet, new Vector3(Random.Range(playerPos.x - spawnRange, playerPos.x + spawnRange), weaponPos.y - weaponLength, playerPos.z), Quaternion.Euler(0f, 0f, -90f));
-                currentBullet.GetComponent<BulletPlayer>().direction = Vector3.down;
+                if (horizontalInput == isInXRange) // UP
+                {
+                    currentBullet = Instantiate(bullet, new Vector3(Random.Range(playerPos.x - spawnRange, playerPos.x + spawnRange), weaponPos.y + weaponLength, playerPos.z), Quaternion.Euler(0f, 0f, shootAngle));
+                    currentBullet.GetComponent<BulletPlayer>().direction = Vector3.up;
+                }
+
+                if (horizontalInput > horizontalInputSensitivity) // RIGHT
+                {
+                    currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), playerPos.z), Quaternion.Euler(0f, playerRot, shootAngle));
+                    currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(shootAngle, Vector3.forward) * Vector3.right;
+                }
+
+                if (horizontalInput < -horizontalInputSensitivity) // LEFT
+                {
+                    currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), playerPos.z), Quaternion.Euler(0f, playerRot, shootAngle));
+                    currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(shootAngle, Vector3.back) * Vector3.left;
+                }
             }
-            
-            // ---------- SHOOT RIGHT ----------
-            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == isInSensitivityRange)
+            #endregion
+
+            #region // ---------- SHOOT DOWN ----------
+            else if (verticalInput < -verticalInputSensitivity && canShoot) // DOWN
             {
-                currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), playerPos.z), Quaternion.Euler(0f, playerRot, 0f));
-                currentBullet.GetComponent<BulletPlayer>().direction = Vector3.right;
+                if (horizontalInput == isInXRange) // DOWN
+                {
+                    currentBullet = Instantiate(bullet, new Vector3(Random.Range(playerPos.x - spawnRange, playerPos.x + spawnRange), weaponPos.y - weaponLength, playerPos.z), Quaternion.Euler(0f, 0f, shootAngle));
+                    currentBullet.GetComponent<BulletPlayer>().direction = Vector3.down;
+                }
+
+                if (horizontalInput > horizontalInputSensitivity) // RIGHT
+                {
+                    currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), playerPos.z), Quaternion.Euler(0f, playerRot, shootAngle));
+                    currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(shootAngle, Vector3.forward) * Vector3.right;
+                }
+
+                if (horizontalInput < -horizontalInputSensitivity) // LEFT
+                {
+                    currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), playerPos.z), Quaternion.Euler(0f, playerRot, shootAngle));
+                    currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(shootAngle, Vector3.back) * Vector3.left;
+                }
             }
-            
-            // ---------- SHOOT LEFT ----------
-            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInSensitivityRange)
-            {
-                currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, Random.Range(weaponPos.y - spawnRange, weaponPos.y + spawnRange), playerPos.z), Quaternion.Euler(0f, playerRot, 0f));
-                currentBullet.GetComponent<BulletPlayer>().direction = Vector3.left;
-            }
+            #endregion
         }
     }
 }

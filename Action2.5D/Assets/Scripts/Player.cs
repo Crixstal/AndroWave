@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -12,9 +13,12 @@ public class Player : MonoBehaviour
     [SerializeField]    private float jump = 0f;
     [SerializeField]    private float gravityUp = 0f;
     [SerializeField]    private float gravityDown = 0f;
+    [SerializeField]    private float invincibilityDuration = 1.5f;
+    [SerializeField]    private float invincibilityDeltaTime = 0.15f;
 
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
+    [SerializeField] private Material material = null;
 
     public float teleportationDelay = 0f;
     public float posForeground = 0f;
@@ -28,16 +32,43 @@ public class Player : MonoBehaviour
     private float startTimer;
     private Ray groundCheck;
     private RaycastHit hit;
+    private Color baseColor;
+    private Camera cam;
+    private bool isInvincible = false;
+
+    private IEnumerator BecomeInvincible()
+    {
+        Debug.Log("Player invincible");
+        isInvincible = true;
+
+        for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
+        {
+            if (material.color == baseColor)
+                material.color = new Color(255, 255, 255);
+
+            else
+                material.color = baseColor; 
+
+            yield return new WaitForSeconds(invincibilityDeltaTime);
+        }
+
+        isInvincible = false;
+        Debug.Log("Player not invincible");
+    }
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
+        baseColor = material.color;
+        cam = Camera.main;
     }
 
     void FixedUpdate()
     {
         rb.drag = drag;
+        if (material.color != baseColor)
+            material.color = baseColor;
 
         Move();
         Teleport();
@@ -45,7 +76,7 @@ public class Player : MonoBehaviour
         Gravity();
 
         if (life <= 0)
-            Destroy(gameObject);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void Move()
@@ -116,13 +147,15 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 11) // 11 = Enemy
-            --life; 
+        {
+            if (isInvincible)
+                return;
 
-        if(collision.gameObject.layer == 12) // 12 = BulletEnemy
-            life -= enemyBullet.GetComponent<BulletEnemy>().damage;
+            --life;
+            cam.GetComponent<ScreenShake>().StartShake();
 
-        if (collision.gameObject.layer == 14) // 14 = Grenade
-            life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+            StartCoroutine(BecomeInvincible());
+        }
     }
 
     private void OnCollisionStay(Collision collision)
@@ -148,8 +181,27 @@ public class Player : MonoBehaviour
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), true);
 
+        if (other.gameObject.layer == 12) // 12 = BulletEnemy
+        {
+            if (isInvincible)
+                return;
+
+            life -= enemyBullet.GetComponent<BulletEnemy>().damage;
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            StartCoroutine(BecomeInvincible());
+        }
+
         if (other.gameObject.layer == 14) // 14 = Grenade
+        {
+            if (isInvincible)
+                return;
+
             life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            StartCoroutine(BecomeInvincible());
+        }
     }
 
     private void OnTriggerExit(Collider other)
