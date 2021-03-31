@@ -110,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 8947389070971826747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5892, y: 1.9315543, z: 1}
+  m_LocalScale: {x: 1, y: 1.9315543, z: 1}
   m_Children:
   - {fileID: 6073621264708857929}
   m_Father: {fileID: 0}
@@ -142,7 +142,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0ccdfe208d8d26c4d87db93dd76b7e81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -190,8 +190,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 5, z: 47}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 45.863907, y: 16.074474, z: 47}
+  m_Center: {x: -2.2041245, y: -0.25323057, z: 0}
 --- !u!65 &5474011429839441176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -220,12 +220,12 @@ MonoBehaviour:
   player: {fileID: 0}
   weapon: {fileID: 1837034767886021331}
   bullet: {fileID: 1161490554157841905, guid: d903a093a467a034488dd133bdee2eb3, type: 3}
-  life: 1
-  score: 0
-  m_speed: 10
+  life: 3
+  score: 100
+  m_speed: 1
   m_damage: 1
   m_destructionDelay: 5
-  delayPerShot: 0.2
+  delayPerShot: 3
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}
-  material: {fileID: 0}
+  material: {fileID: 2100000, guid: 0ccdfe208d8d26c4d87db93dd76b7e81, type: 2}
