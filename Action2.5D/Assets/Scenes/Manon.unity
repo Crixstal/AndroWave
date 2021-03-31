@@ -542,7 +542,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 50
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -592,7 +592,7 @@ MonoBehaviour:
   horizontalInputSensitivity: 0.1
   verticalInputSensitivity: 0.4
   Yaxis: 0
-  offset: {x: 0, y: 4, z: -20}
+  offset: {x: 2.27, y: 2.5, z: -18}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
