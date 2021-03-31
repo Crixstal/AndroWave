@@ -224,7 +224,7 @@ MonoBehaviour:
   m_speed: 10
   m_damage: 1
   coneAngle: 22.5
-  m_destructionDelay: 5
-  delayPerShot: 0.5
+  m_destructionDelay: 2
+  delayPerShot: 2
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}
