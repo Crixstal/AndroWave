@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6722348551941218849}
   m_Layer: 11
   m_Name: Aigle
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,8 +111,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 31.669163, y: 55.84663, z: 50}
-  m_Center: {x: 0.5260115, y: 3.998506, z: 0}
+  m_Size: {x: 20, y: 15, z: 50}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &388858997074372980
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -141,10 +141,10 @@ MonoBehaviour:
   player: {fileID: 0}
   grenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8, type: 3}
   height: 10
-  life: 8
+  life: 5
   score: 0
   speed: 5
-  m_damage: 1
+  m_damage: 0
   m_destructionDelay: 1
   delayPerShot: 0.5
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,

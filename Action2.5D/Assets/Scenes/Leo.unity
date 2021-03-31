@@ -1073,7 +1073,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14874
+  m_Name: pb_Mesh14018
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1230,6 +1230,26 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1216401987 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8947389070971826747, guid: 51c1222e3355b4743b96779fa64b4d13,
+    type: 3}
+  m_PrefabInstance: {fileID: 1117922523}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1216401988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216401987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbf8b427e27756408624bc10f849697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemList:
+  - {fileID: 8360809481289448550, guid: 5dd228fe49db47f4bb1d85df67a626e9, type: 3}
 --- !u!1 &1804983907
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,7 +1661,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14838
+  m_Name: pb_Mesh13982
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1986,6 +2006,12 @@ PrefabInstance:
       propertyPath: material
       value: 
       objectReference: {fileID: 2100000, guid: 5ef8c0a12911ab44ea24985c2b92062f, type: 2}
+    - target: {fileID: 966268253949854958, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+        type: 3}
+      propertyPath: heart
+      value: 
+      objectReference: {fileID: 8360809481289448550, guid: 5dd228fe49db47f4bb1d85df67a626e9,
+        type: 3}
     - target: {fileID: 966268254262328338, guid: a1480a481fe85e24c9aa4a3cd2dec671,
         type: 3}
       propertyPath: endLaserColor.r

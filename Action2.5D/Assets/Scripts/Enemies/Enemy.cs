@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     //[SerializeField] protected float bulletPerSalve = 0f;
     [SerializeField] protected GameObject playerBullet = null;
     [SerializeField] private Material material = null;
+    private DropHeart getHeart = null;
 
     protected float shotTimer = 0f;
 
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        getHeart = GetComponent<DropHeart>();
         bullet.GetComponent<BulletEnemy>().speed = m_speed;
         bullet.GetComponent<BulletEnemy>().damage = m_damage;
         bullet.GetComponent<BulletEnemy>().destructionDelay = m_destructionDelay;
@@ -53,6 +55,12 @@ public class Enemy : MonoBehaviour
 
         if (life <= 0)
         {
+            if (getHeart != null)
+            {
+                getHeart.ItemDrop();
+                Debug.Log(getHeart);
+            }
+
             player.GetComponent<Player>().playerScore += score;
             Destroy(gameObject);
         }
