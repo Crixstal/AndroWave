@@ -15,7 +15,8 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -73,5 +74,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.735849, g: 0.35661167, b: 0.12148449, a: 1}
+    - _Color: {r: 0.5660378, g: 0.2803489, b: 0.2803489, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

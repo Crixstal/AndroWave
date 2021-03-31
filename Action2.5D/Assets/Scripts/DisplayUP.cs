@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DisplayLife : MonoBehaviour
+public class DisplayUP : MonoBehaviour
 {
-    [SerializeField]    private Player player = null;
+    [SerializeField] private Player player = null;
 
     private TMPro.TMP_Text text;
 
@@ -15,6 +15,6 @@ public class DisplayLife : MonoBehaviour
 
     void Update()
     {
-        text.text = player.runLife.ToString();
+        text.text = player.generalLife.ToString();
     }
 }

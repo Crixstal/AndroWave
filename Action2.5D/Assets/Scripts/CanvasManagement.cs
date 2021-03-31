@@ -9,8 +9,8 @@ public class CanvasManagement : MonoBehaviour
     [SerializeField]    private GameObject GameOver = null;
     [SerializeField]    private Player player = null;
     
-    private GameManager gm = null;
     private bool playerIsAlive;
+    private bool gameIsPaused;
 
     void Awake()
     {
@@ -19,9 +19,10 @@ public class CanvasManagement : MonoBehaviour
         GameOver.SetActive(false);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         playerIsAlive = player.IsAlive();
+        gameIsPaused = gameObject.GetComponent<GameManager>().isPaused;
 
         if (!playerIsAlive)
         {
@@ -30,7 +31,7 @@ public class CanvasManagement : MonoBehaviour
             player.enabled = false;
         }
 
-        if (gm.GetComponent<GameManager>().isPaused)
+        if (gameIsPaused)
         {
             pause.SetActive(true);
             player.enabled = false;
@@ -38,7 +39,7 @@ public class CanvasManagement : MonoBehaviour
 
         else
         {
-            pause.SetActive(true);
+            pause.SetActive(false);
             player.enabled = true;
         }
     }

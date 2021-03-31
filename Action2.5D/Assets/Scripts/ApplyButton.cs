@@ -9,9 +9,15 @@ public class ApplyButton : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ChangeScene(int scene)
+    {
+        SceneManager.LoadScene(scene);
     }
 
     public void Quit()
