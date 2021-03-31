@@ -9,7 +9,7 @@ TagManager:
   - Side
   - Back
   - Up
-  - Poison
+  - Heart
   layers:
   - Default
   - TransparentFX

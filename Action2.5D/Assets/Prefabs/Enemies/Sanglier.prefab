@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5800436604211049107}
   m_Layer: 11
   m_Name: Sanglier
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,12 +142,14 @@ MonoBehaviour:
   weapon: {fileID: 6252545393264792562}
   bullet: {fileID: 1691527619995676252, guid: 8de5b5c1cc064984f8305b58b3002138, type: 3}
   life: 1
+  score: 0
   m_speed: 8
   m_damage: 0
   m_destructionDelay: 5
   delayPerShot: 1
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}
+  material: {fileID: 0}
 --- !u!1 &6252545393264792562
 GameObject:
   m_ObjectHideFlags: 0

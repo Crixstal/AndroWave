@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: -5216436332727214057}
   m_Layer: 11
   m_Name: Frelon
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_speed: 10
   m_damage: 1
   coneAngle: 22.5
-  m_destructionDelay: 1
+  m_destructionDelay: 5
   delayPerShot: 0.5
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}
