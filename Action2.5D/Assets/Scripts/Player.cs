@@ -5,16 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]    private float horizontalInputSensitivity = 0.5f;
-    [SerializeField]    private float verticalInputSensitivity = 0.8f;
-    [SerializeField]    private float life = 0;
-    [SerializeField]    private float speed = 0f;
-    [SerializeField]    private float drag = 6f;
-    [SerializeField]    private float jump = 0f;
-    [SerializeField]    private float gravityUp = 0f;
-    [SerializeField]    private float gravityDown = 0f;
-    [SerializeField]    private float invincibilityDuration = 1.5f;
-    [SerializeField]    private float invincibilityDeltaTime = 0.15f;
+    [SerializeField] private float horizontalInputSensitivity = 0.5f;
+    [SerializeField] private float verticalInputSensitivity = 0.8f;
+    [SerializeField] private float life = 0;
+    [SerializeField] private float speed = 0f;
+    [SerializeField] private float drag = 6f;
+    [SerializeField] private float jump = 0f;
+    [SerializeField] private float gravityUp = 0f;
+    [SerializeField] private float gravityDown = 0f;
+    [SerializeField] private float invincibilityDuration = 1.5f;
+    [SerializeField] private float invincibilityDeltaTime = 0.15f;
 
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
@@ -24,9 +24,10 @@ public class Player : MonoBehaviour
     public float posForeground = 0f;
     public float posBackground = 0f;
     public int playerScore;
+    public int currentWeapon = 0;
 
-    [HideInInspector]   public bool isGrounded;
-    [HideInInspector]   public bool canShoot;
+    [HideInInspector] public bool isGrounded;
+    [HideInInspector] public bool canShoot;
 
     private Rigidbody rb;
     private float startTimer;
@@ -47,7 +48,7 @@ public class Player : MonoBehaviour
                 material.color = new Color(255, 255, 255);
 
             else
-                material.color = baseColor; 
+                material.color = baseColor;
 
             yield return new WaitForSeconds(invincibilityDeltaTime);
         }
@@ -209,11 +210,61 @@ public class Player : MonoBehaviour
             life++;
             Destroy(other.transform.parent.gameObject);
         }
+
+        if (other.gameObject.CompareTag("MachineGun"))
+        {
+            Debug.Log("Pick up Weapon");
+            GameObject weapon = transform.GetChild(0).gameObject;
+
+            ChangeWeapon(weapon, 0);
+
+            Destroy(other.transform.parent.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Shotgun"))
+        {
+            Debug.Log("Pick up Weapon");
+            GameObject weapon = transform.GetChild(1).gameObject;
+
+            ChangeWeapon(weapon, 1);
+
+            Destroy(other.transform.parent.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("MissileLauncher"))
+        {
+            Debug.Log("Pick up Weapon");
+            GameObject weapon = transform.GetChild(2).gameObject;
+
+            ChangeWeapon(weapon, 2);
+
+            Destroy(other.transform.parent.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Railgun"))
+        {
+            Debug.Log("Pick up Weapon");
+            GameObject weapon = transform.GetChild(3).gameObject;
+
+            ChangeWeapon(weapon, 3);
+
+            Destroy(other.transform.parent.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), false);
+    }
+
+    private void ChangeWeapon(GameObject weapon, int weaponID)
+    {
+        if (!weapon.activeSelf)
+        {
+            weapon.SetActive(true);
+            gameObject.transform.GetChild(currentWeapon).gameObject.SetActive(false);
+            gameObject.GetComponent<Player>().currentWeapon = weaponID;
+        }
     }
 }
