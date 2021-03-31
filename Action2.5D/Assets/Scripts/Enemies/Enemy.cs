@@ -58,7 +58,6 @@ public class Enemy : MonoBehaviour
             if (getHeart != null)
             {
                 getHeart.ItemDrop();
-                Debug.Log(getHeart);
             }
 
             player.GetComponent<Player>().playerScore += score;
