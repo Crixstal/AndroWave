@@ -97,7 +97,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!65 &3516185138602309280
 BoxCollider:
@@ -110,8 +110,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 2, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 25.740774, y: 23.934223, z: 3}
+  m_Center: {x: 0.25036892, y: -0.2529321, z: 0}
 --- !u!65 &1015747510696373496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -138,8 +138,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  life: 1
+  life: 20
+  score: 0
   speed: 15
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}
-  damage: 0
+  damage: 1
