@@ -30,35 +30,33 @@ public class CameraFollowPlayer : MonoBehaviour
     {
         Vector3 targetPosition;
 
-        if (!Yaxis)
+        if (Yaxis)
         {
             targetPosition = player.transform.position + offset;
-            transform.position = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x, targetPosition.y + offset.y, foregroundZ + offset.z);
         }
 
         else
         {
             targetPosition = player.transform.position + offset;
-            transform.position = new Vector3(transform.position.x, targetPosition.y, transform.position.z);
+            transform.position = new Vector3(targetPosition.x, yPos + offset.y, foregroundZ + offset.z);
+
+            Vector3 leftShift = transform.position + new Vector3(cameraShift, 0, 0);
+            Vector3 rightShift = transform.position + new Vector3(-cameraShift, 0, 0);
+            Vector3 baseCamera = transform.position;
+            float horizontalInput = Input.GetAxis("HorizontalInput");
+            float verticalInput = Input.GetAxis("VerticalInput");
+
+            if (horizontalInput < horizontalInputSensitivity && verticalInput == Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity))
+                targetPosition = rightShift;
+
+            else if (horizontalInput > horizontalInputSensitivity && verticalInput == Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity))
+                targetPosition = leftShift;
+
+            else
+                targetPosition = baseCamera;
+
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
-
-        transform.position = new Vector3(targetPosition.x, yPos + offset.y, foregroundZ + offset.z);
-
-        Vector3 leftShift = transform.position + new Vector3(cameraShift, 0, 0);
-        Vector3 rightShift = transform.position + new Vector3(-cameraShift, 0, 0);
-        Vector3 baseCamera = transform.position;
-        float horizontalInput = Input.GetAxis("HorizontalInput");
-        float verticalInput = Input.GetAxis("VerticalInput");
-
-        if (horizontalInput < horizontalInputSensitivity && verticalInput == Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity))
-            targetPosition = rightShift;
-
-        else if (horizontalInput > horizontalInputSensitivity && verticalInput == Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity))
-            targetPosition = leftShift;
-
-        else
-            targetPosition = baseCamera;
-
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
 }

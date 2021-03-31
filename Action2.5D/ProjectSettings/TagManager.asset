@@ -9,7 +9,11 @@ TagManager:
   - Side
   - Back
   - Up
-  - Sea
+  - Heart
+  - MachineGun
+  - Shotgun
+  - MissileLauncher
+  - Railgun
   layers:
   - Default
   - TransparentFX

@@ -15,16 +15,6 @@ public class ChangeCamera : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Front"))
-        {
-            transform.position += new Vector3(0f, 0f, 22f);
-        }
-
-        if (other.CompareTag("Back"))
-        {
-            transform.position -= new Vector3(0f, 0f, 22f);
-        }
-
         if (other.CompareTag("Up") && !Camera.Yaxis)
         {
             Camera.Yaxis = true;

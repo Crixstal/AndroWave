@@ -1,43 +1,75 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]    private float horizontalInputSensitivity = 0.5f;
-    [SerializeField]    private float verticalInputSensitivity = 0.8f;
-    [SerializeField]    private float life = 0;
-    [SerializeField]    private float speed = 0f;
-    [SerializeField]    private float drag = 6f;
-    [SerializeField]    private float jump = 0f;
-    [SerializeField]    private float gravityUp = 0f;
-    [SerializeField]    private float gravityDown = 0f;
+    [SerializeField] private float horizontalInputSensitivity = 0.5f;
+    [SerializeField] private float verticalInputSensitivity = 0.8f;
+    [SerializeField] private float life = 0;
+    [SerializeField] private float speed = 0f;
+    [SerializeField] private float drag = 6f;
+    [SerializeField] private float jump = 0f;
+    [SerializeField] private float gravityUp = 0f;
+    [SerializeField] private float gravityDown = 0f;
+    [SerializeField] private float invincibilityDuration = 1.5f;
+    [SerializeField] private float invincibilityDeltaTime = 0.15f;
 
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
+    [SerializeField] private Material material = null;
 
     public float teleportationDelay = 0f;
     public float posForeground = 0f;
     public float posBackground = 0f;
     public int playerScore;
+    public int currentWeapon = 0;
 
-    [HideInInspector]   public bool isGrounded;
-    [HideInInspector]   public bool canShoot;
+    [HideInInspector] public bool isGrounded;
+    [HideInInspector] public bool canShoot;
 
     private Rigidbody rb;
     private float startTimer;
     private Ray groundCheck;
     private RaycastHit hit;
+    private Color baseColor;
+    private Camera cam;
+    private bool isInvincible = false;
+
+    private IEnumerator BecomeInvincible()
+    {
+        Debug.Log("Player invincible");
+        isInvincible = true;
+
+        for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
+        {
+            if (material.color == baseColor)
+                material.color = new Color(255, 255, 255);
+
+            else
+                material.color = baseColor;
+
+            yield return new WaitForSeconds(invincibilityDeltaTime);
+        }
+
+        isInvincible = false;
+        Debug.Log("Player not invincible");
+    }
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
+        baseColor = material.color;
+        cam = Camera.main;
     }
 
     void FixedUpdate()
     {
         rb.drag = drag;
+        if (material.color != baseColor)
+            material.color = baseColor;
 
         Move();
         Teleport();
@@ -45,7 +77,7 @@ public class Player : MonoBehaviour
         Gravity();
 
         if (life <= 0)
-            Destroy(gameObject);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void Move()
@@ -116,10 +148,15 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 11) // 11 = Enemy
-            --life; 
+        {
+            if (isInvincible)
+                return;
 
-        if (collision.gameObject.layer == 14) // 14 = Grenade
-            life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+            --life;
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            StartCoroutine(BecomeInvincible());
+        }
     }
 
     private void OnCollisionStay(Collision collision)
@@ -146,15 +183,88 @@ public class Player : MonoBehaviour
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), true);
 
         if (other.gameObject.layer == 12) // 12 = BulletEnemy
+        {
+            if (isInvincible)
+                return;
+
             life -= enemyBullet.GetComponent<BulletEnemy>().damage;
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            StartCoroutine(BecomeInvincible());
+        }
 
         if (other.gameObject.layer == 14) // 14 = Grenade
+        {
+            if (isInvincible)
+                return;
+
             life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            StartCoroutine(BecomeInvincible());
+        }
+
+        if (other.gameObject.CompareTag("Heart"))
+        {
+            Debug.Log("Heart");
+            life++;
+            Destroy(other.transform.parent.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("MachineGun"))
+        {
+            Debug.Log("Pick up Weapon");
+            GameObject weapon = transform.GetChild(0).gameObject;
+
+            ChangeWeapon(weapon, 0);
+
+            Destroy(other.transform.parent.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Shotgun"))
+        {
+            Debug.Log("Pick up Weapon");
+            GameObject weapon = transform.GetChild(1).gameObject;
+
+            ChangeWeapon(weapon, 1);
+
+            Destroy(other.transform.parent.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("MissileLauncher"))
+        {
+            Debug.Log("Pick up Weapon");
+            GameObject weapon = transform.GetChild(2).gameObject;
+
+            ChangeWeapon(weapon, 2);
+
+            Destroy(other.transform.parent.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Railgun"))
+        {
+            Debug.Log("Pick up Weapon");
+            GameObject weapon = transform.GetChild(3).gameObject;
+
+            ChangeWeapon(weapon, 3);
+
+            Destroy(other.transform.parent.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), false);
+    }
+
+    private void ChangeWeapon(GameObject weapon, int weaponID)
+    {
+        if (!weapon.activeSelf)
+        {
+            weapon.SetActive(true);
+            gameObject.transform.GetChild(currentWeapon).gameObject.SetActive(false);
+            gameObject.GetComponent<Player>().currentWeapon = weaponID;
+        }
     }
 }

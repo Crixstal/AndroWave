@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float delayPerShot = 0f;
     //[SerializeField] protected float bulletPerSalve = 0f;
     [SerializeField] protected GameObject playerBullet = null;
+    [SerializeField] private Material material = null;
+    private DropHeart getHeart = null;
 
     protected float shotTimer = 0f;
 
@@ -26,16 +28,22 @@ public class Enemy : MonoBehaviour
     protected Vector3 weaponPos = Vector3.zero;
     protected float weaponLength = 0f;
     protected float weaponRot = 0f;
+    private Color baseColor;
 
     void Start()
     {
+        getHeart = GetComponent<DropHeart>();
         bullet.GetComponent<BulletEnemy>().speed = m_speed;
         bullet.GetComponent<BulletEnemy>().damage = m_damage;
         bullet.GetComponent<BulletEnemy>().destructionDelay = m_destructionDelay;
+        baseColor = material.color;
     }
 
     public void FixedUpdate()
     {
+        if (material.color != baseColor)
+            material.color = baseColor;
+
         enemyPos = transform.position;
         enemyRot = transform.rotation.eulerAngles.y;
 
@@ -47,6 +55,11 @@ public class Enemy : MonoBehaviour
 
         if (life <= 0)
         {
+            if (getHeart != null)
+            {
+                getHeart.ItemDrop();
+            }
+
             player.GetComponent<Player>().playerScore += score;
             Destroy(gameObject);
         }
@@ -85,6 +98,9 @@ public class Enemy : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
+        {
             life -= playerBullet.GetComponent<BulletPlayer>().damage;
+            material.color = new Color(255, 255, 255);
+        }
     }
 }
