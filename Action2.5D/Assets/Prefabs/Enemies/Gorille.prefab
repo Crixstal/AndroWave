@@ -220,7 +220,7 @@ MonoBehaviour:
   player: {fileID: 0}
   weapon: {fileID: 1837034767886021331}
   bullet: {fileID: 1161490554157841905, guid: d903a093a467a034488dd133bdee2eb3, type: 3}
-  life: 8
+  life: 4
   score: 0
   m_speed: 10
   m_damage: 1
