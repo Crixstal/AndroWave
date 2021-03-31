@@ -5,16 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]    private float horizontalInputSensitivity = 0.5f;
-    [SerializeField]    private float verticalInputSensitivity = 0.8f;
-    [SerializeField]    private float life = 0;
-    [SerializeField]    private float speed = 0f;
-    [SerializeField]    private float drag = 6f;
-    [SerializeField]    private float jump = 0f;
-    [SerializeField]    private float gravityUp = 0f;
-    [SerializeField]    private float gravityDown = 0f;
-    [SerializeField]    private float invincibilityDuration = 1.5f;
-    [SerializeField]    private float invincibilityDeltaTime = 0.15f;
+    [SerializeField] private float horizontalInputSensitivity = 0.5f;
+    [SerializeField] private float verticalInputSensitivity = 0.8f;
+    [SerializeField] public float generalLife = 0;
+    [SerializeField] public float runLife = 0;
+    [SerializeField] private float speed = 0f;
+    [SerializeField] private float drag = 6f;
+    [SerializeField] private float jump = 0f;
+    [SerializeField] private float gravityUp = 0f;
+    [SerializeField] private float gravityDown = 0f;
+    [SerializeField] private float invincibilityDuration = 1.5f;
+    [SerializeField] private float invincibilityDeltaTime = 0.15f;
 
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
@@ -25,8 +26,9 @@ public class Player : MonoBehaviour
     public float posBackground = 0f;
     public int playerScore;
 
-    [HideInInspector]   public bool isGrounded;
-    [HideInInspector]   public bool canShoot;
+    [HideInInspector] public bool isGrounded;
+    [HideInInspector] public bool canShoot;
+    [HideInInspector] public Vector3 checkpointPos;
 
     private Rigidbody rb;
     private float startTimer;
@@ -75,8 +77,11 @@ public class Player : MonoBehaviour
         Jump();
         Gravity();
 
-        if (life <= 0)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (runLife <= 0)
+        {
+            transform.position = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
+            --generalLife;
+        }
     }
 
     private void Move()
@@ -144,6 +149,14 @@ public class Player : MonoBehaviour
             rb.AddForce(gravityUp * Physics.gravity, ForceMode.Acceleration);
     }
 
+    public bool IsAlive()
+    {
+        if (generalLife <= 0)
+            return false;
+
+        return true;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 11) // 11 = Enemy
@@ -151,7 +164,7 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            --life;
+            --runLife;
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -186,7 +199,7 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            life -= enemyBullet.GetComponent<BulletEnemy>().damage;
+            runLife -= enemyBullet.GetComponent<BulletEnemy>().damage;
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -197,7 +210,7 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+            runLife -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
