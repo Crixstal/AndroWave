@@ -9,6 +9,7 @@ TagManager:
   - Side
   - Back
   - Up
+  - Heart
   layers:
   - Default
   - TransparentFX

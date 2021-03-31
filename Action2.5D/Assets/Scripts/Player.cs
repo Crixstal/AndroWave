@@ -202,6 +202,13 @@ public class Player : MonoBehaviour
 
             StartCoroutine(BecomeInvincible());
         }
+
+        if (other.gameObject.CompareTag("Heart"))
+        {
+            Debug.Log("Heart");
+            life++;
+            Destroy(other.transform.parent.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)

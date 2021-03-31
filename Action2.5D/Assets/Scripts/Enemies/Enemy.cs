@@ -56,7 +56,10 @@ public class Enemy : MonoBehaviour
         if (life <= 0)
         {
             if (getHeart != null)
+            {
                 getHeart.ItemDrop();
+                Debug.Log(getHeart);
+            }
 
             player.GetComponent<Player>().playerScore += score;
             Destroy(gameObject);
