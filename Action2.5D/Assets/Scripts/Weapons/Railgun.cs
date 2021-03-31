@@ -43,7 +43,7 @@ public class Railgun : WeaponPlayer
         else if (verticalInput < -verticalInputSensitivity && canShoot)
             laser.SetPosition(1, new Vector3(playerPos.x, end.y, playerPos.z));
 
-        if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) || playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInSensitivityRange)
+        if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) || playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInYRange)
             laser.SetPosition(1, new Vector3(end.x, weaponPos.y, playerPos.z));
 
         laser.enabled = true;
@@ -80,14 +80,14 @@ public class Railgun : WeaponPlayer
             }
 
             // ---------- SHOOT RIGHT ----------
-            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == isInSensitivityRange)
+            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && verticalInput == isInYRange)
             {
                 rayOrigin = new Ray(new Vector3(weaponPos.x + weaponLength, weaponPos.y, playerPos.z), Vector3.right);
                 end = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, weaponPos.y, screenPos.z));
             }
 
             // ---------- SHOOT LEFT ----------
-            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInSensitivityRange)
+            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && verticalInput == isInYRange)
             {
                 rayOrigin = new Ray(new Vector3(weaponPos.x - weaponLength, weaponPos.y, playerPos.z), Vector3.left);
                 end = Camera.main.ScreenToWorldPoint(new Vector3(0, weaponPos.y, screenPos.z));

@@ -97,6 +97,6 @@ MonoBehaviour:
   m_damage: 1
   m_destructionDelay: 2
   horizontalInputSensitivity: 0.5
-  verticalInputSensitivity: 0.8
+  verticalInputSensitivity: 0.5
   delayPerShot: 0.1
-  spawnRange: 0.5
+  spawnRange: 0.2
