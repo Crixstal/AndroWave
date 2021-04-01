@@ -25,12 +25,17 @@ PrefabInstance:
     - target: {fileID: 3857727125421694700, guid: 1b6665dc2f47b2b459da8de37606d2f7,
         type: 3}
       propertyPath: delayPerShot
-      value: 0
+      value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 3857727125421694700, guid: 1b6665dc2f47b2b459da8de37606d2f7,
         type: 3}
       propertyPath: m_destructionDelay
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857727125421694700, guid: 1b6665dc2f47b2b459da8de37606d2f7,
+        type: 3}
+      propertyPath: life
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4683880900301441908, guid: 1b6665dc2f47b2b459da8de37606d2f7,
         type: 3}
@@ -107,6 +112,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ennemie Nul
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3857727125421694700, guid: 1b6665dc2f47b2b459da8de37606d2f7, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b6665dc2f47b2b459da8de37606d2f7, type: 3}

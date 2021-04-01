@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 173ce901b8efa4a4baeb1b314d88cb65, type: 2}
+  - {fileID: 2100000, guid: 0ccdfe208d8d26c4d87db93dd76b7e81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,8 +111,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 15, z: 50}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 42.347397, y: 15, z: 50}
+  m_Center: {x: -0.6602135, y: 0, z: 0}
 --- !u!65 &388858997074372980
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -140,13 +140,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   grenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8, type: 3}
-  height: 10
-  life: 5
-  score: 0
+  height: 5
+  life: 6
+  score: 500
   speed: 5
-  m_damage: 0
+  m_damage: 1
   m_destructionDelay: 1
-  delayPerShot: 0.5
+  delayPerShot: 2
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}
 --- !u!1 &6335557752499492543
