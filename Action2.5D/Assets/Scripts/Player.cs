@@ -7,7 +7,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float horizontalInputSensitivity = 0.5f;
     [SerializeField] private float verticalInputSensitivity = 0.8f;
-    [SerializeField] private float life = 0;
+    [SerializeField] public float generalLife = 0f;
+    [SerializeField] public float runLife = 0f;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float drag = 6f;
     [SerializeField] private float jump = 0f;
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
     public int currentWeapon = 0;
 
     [HideInInspector] public bool isGrounded;
-    [HideInInspector] public bool canShoot;
+    [HideInInspector] public Vector3 checkpointPos;
 
     private Rigidbody rb;
     private float startTimer;
@@ -36,10 +37,10 @@ public class Player : MonoBehaviour
     private Color baseColor;
     private Camera cam;
     private bool isInvincible = false;
+    private float constRunLife;
 
     private IEnumerator BecomeInvincible()
     {
-        Debug.Log("Player invincible");
         isInvincible = true;
 
         for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
@@ -54,7 +55,6 @@ public class Player : MonoBehaviour
         }
 
         isInvincible = false;
-        Debug.Log("Player not invincible");
     }
 
     void Start()
@@ -63,10 +63,12 @@ public class Player : MonoBehaviour
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         baseColor = material.color;
         cam = Camera.main;
+        constRunLife = runLife;
     }
 
     void FixedUpdate()
     {
+
         rb.drag = drag;
         if (material.color != baseColor)
             material.color = baseColor;
@@ -76,8 +78,12 @@ public class Player : MonoBehaviour
         Jump();
         Gravity();
 
-        if (life <= 0)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (runLife <= 0)
+        {
+            transform.position = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
+            --generalLife;
+            runLife = constRunLife;
+        }
     }
 
     private void Move()
@@ -111,7 +117,7 @@ public class Player : MonoBehaviour
         if (transform.position.z == posBackground)
             groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posForeground), Vector3.down);
 
-        if (Input.GetButton("Teleport") && isGrounded && Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+        if (Input.GetButton("Teleport") && Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
             if (transform.position.z == posForeground && startTimer >= teleportationDelay)
             {
@@ -145,6 +151,14 @@ public class Player : MonoBehaviour
             rb.AddForce(gravityUp * Physics.gravity, ForceMode.Acceleration);
     }
 
+    public bool IsAlive()
+    {
+        if (generalLife <= 0)
+            return false;
+
+        return true;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 11) // 11 = Enemy
@@ -152,7 +166,7 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            --life;
+            --runLife;
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -162,10 +176,6 @@ public class Player : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         isGrounded = true;
-        canShoot = false;
-
-        if (collision.gameObject.layer == 10) // 10 = Platform
-            canShoot = true;
 
         if (collision.GetContact(0).normal.x == -1f || collision.GetContact(0).normal.x == 1f)
             isGrounded = false;
@@ -174,7 +184,6 @@ public class Player : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
-        canShoot = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -187,7 +196,7 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            life -= enemyBullet.GetComponent<BulletEnemy>().damage;
+            runLife -= enemyBullet.GetComponent<BulletEnemy>().damage;
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -198,7 +207,7 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            life -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+            runLife -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -207,7 +216,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Heart"))
         {
             Debug.Log("Heart");
-            life++;
+            runLife++;
             Destroy(other.transform.parent.gameObject);
         }
 
@@ -250,6 +259,9 @@ public class Player : MonoBehaviour
 
             Destroy(other.transform.parent.gameObject);
         }
+        
+        if (other.CompareTag("Finish"))
+            SceneManager.LoadScene("MainMenu");
     }
 
     private void OnTriggerExit(Collider other)

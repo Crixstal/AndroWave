@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 4836848449367827956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5892, y: 1.9315543, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9c9cf742e4f180941a1db57b9c104cb2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,13 +134,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4836848449367827956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71ffa6b02c39a7438af8dff52a1b11e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b365167c099450428d29a09876b024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: -340084532950076543, guid: a1480a481fe85e24c9aa4a3cd2dec671, type: 3}
   life: 10
   score: 0
   speed: 15
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}
-  damage: 0
+  damage: 1
