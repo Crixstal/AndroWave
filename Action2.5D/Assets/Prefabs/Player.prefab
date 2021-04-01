@@ -150,14 +150,18 @@ MonoBehaviour:
   jump: 20
   gravityUp: 1.5
   gravityDown: 15
+  invincibilityDuration: 1.5
+  invincibilityDeltaTime: 0.15
   enemyBullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee,
     type: 3}
   enemyGrenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8,
     type: 3}
+  material: {fileID: 0}
   teleportationDelay: 0.7
   posForeground: 6.5
   posBackground: 16.5
   playerScore: 0
+  currentWeapon: 0
   isGrounded: 0
   canShoot: 0
 --- !u!1001 &966268254284587940
@@ -247,6 +251,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 966268253949854947}
     m_Modifications:
+    - target: {fileID: 6308052746796823497, guid: 2a457ef661bca5f41b1efc956e9eea6c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5b565ae6c392dcc449edf051b64b14d9, type: 2}
     - target: {fileID: 6308052746796823498, guid: 2a457ef661bca5f41b1efc956e9eea6c,
         type: 3}
       propertyPath: m_Name
