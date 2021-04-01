@@ -112,6 +112,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gazelle
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3857727125421694700, guid: 51c1222e3355b4743b96779fa64b4d13, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51c1222e3355b4743b96779fa64b4d13, type: 3}
