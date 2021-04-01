@@ -17,9 +17,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float invincibilityDuration = 1.5f;
     [SerializeField] private float invincibilityDeltaTime = 0.15f;
 
+
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
     [SerializeField] private Material material = null;
+    [SerializeField] protected AudioSource damageSound = null;
 
     public float teleportationDelay = 0f;
     public float posForeground = 0f;
@@ -167,6 +169,7 @@ public class Player : MonoBehaviour
                 return;
 
             --runLife;
+            damageSound.Play();
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -197,6 +200,19 @@ public class Player : MonoBehaviour
                 return;
 
             runLife -= enemyBullet.GetComponent<BulletEnemy>().damage;
+            damageSound.Play();
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            StartCoroutine(BecomeInvincible());
+        }
+
+        if (other.GetType() == typeof(CapsuleCollider) && other.gameObject.layer == 13) // 13 = Yak
+        {
+            if (isInvincible)
+                return;
+
+            runLife -= other.gameObject.GetComponent<Yak>().damage;
+            damageSound.Play();
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -208,6 +224,7 @@ public class Player : MonoBehaviour
                 return;
 
             runLife -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+            damageSound.Play();
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -215,14 +232,12 @@ public class Player : MonoBehaviour
 
         if (other.gameObject.CompareTag("Heart"))
         {
-            Debug.Log("Heart");
             runLife++;
             Destroy(other.transform.parent.gameObject);
         }
 
         if (other.gameObject.CompareTag("MachineGun"))
         {
-            Debug.Log("Pick up Weapon");
             GameObject weapon = transform.GetChild(0).gameObject;
 
             ChangeWeapon(weapon, 0);
@@ -232,30 +247,9 @@ public class Player : MonoBehaviour
 
         if (other.gameObject.CompareTag("Shotgun"))
         {
-            Debug.Log("Pick up Weapon");
             GameObject weapon = transform.GetChild(1).gameObject;
 
             ChangeWeapon(weapon, 1);
-
-            Destroy(other.transform.parent.gameObject);
-        }
-
-        if (other.gameObject.CompareTag("MissileLauncher"))
-        {
-            Debug.Log("Pick up Weapon");
-            GameObject weapon = transform.GetChild(2).gameObject;
-
-            ChangeWeapon(weapon, 2);
-
-            Destroy(other.transform.parent.gameObject);
-        }
-
-        if (other.gameObject.CompareTag("Railgun"))
-        {
-            Debug.Log("Pick up Weapon");
-            GameObject weapon = transform.GetChild(3).gameObject;
-
-            ChangeWeapon(weapon, 3);
 
             Destroy(other.transform.parent.gameObject);
         }

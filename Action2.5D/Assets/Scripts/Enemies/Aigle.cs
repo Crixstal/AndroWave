@@ -14,6 +14,7 @@ public class Aigle : MonoBehaviour
     [SerializeField] private float m_destructionDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
     [SerializeField] protected GameObject playerBullet = null;
+    [SerializeField] protected AudioSource damageSound = null;
 
     private float shotTimer = 0f;
 
@@ -77,6 +78,9 @@ public class Aigle : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
+        {
             life -= playerBullet.GetComponent<BulletPlayer>().damage;
+            damageSound.Play();
+        }
     }
 }

@@ -14,6 +14,7 @@ public class Frelon : MonoBehaviour
     [SerializeField] private float m_destructionDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
     [SerializeField] protected GameObject playerBullet = null;
+    [SerializeField] protected AudioSource damageSound = null;
 
     private GameObject currentBullet;
     private float shotTimer = 0f;
@@ -81,6 +82,10 @@ public class Frelon : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
+        {
             life -= playerBullet.GetComponent<BulletPlayer>().damage;
+            damageSound.Play();
+        }
+
     }
 }

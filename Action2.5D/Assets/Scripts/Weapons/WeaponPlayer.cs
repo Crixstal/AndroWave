@@ -11,6 +11,7 @@ public class WeaponPlayer : MonoBehaviour
     [SerializeField]    protected float horizontalInputSensitivity = 0f;
     [SerializeField]    protected float verticalInputSensitivity = 0f;
     [SerializeField]    protected float delayPerShot = 0f;
+    [SerializeField]    protected AudioSource weaponSound = null;
 
     protected GameObject currentBullet;
     protected float shotTimer = 0f;

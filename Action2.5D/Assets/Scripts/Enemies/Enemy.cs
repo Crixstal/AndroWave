@@ -13,9 +13,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float m_damage = 0f;
     [SerializeField] protected float m_destructionDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
+    [SerializeField] protected float delayBeforeShoot = 0f;
     //[SerializeField] protected float bulletPerSalve = 0f;
     [SerializeField] protected GameObject playerBullet = null;
     [SerializeField] private Material material = null;
+    [SerializeField] protected AudioSource damageSound = null;
+
     private DropHeart getHeart = null;
 
     protected float shotTimer = 0f;
@@ -90,7 +93,14 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.layer == 8) // 8 = Player
         {
-            Shoot();
+            delayBeforeShoot -= Time.deltaTime;
+
+            if (delayBeforeShoot <= 0f)
+            {
+                Shoot();
+                Debug.Log(new Vector2(Time.deltaTime, delayBeforeShoot));
+            }
+
             RotateEnemy();
         }
     }
@@ -100,6 +110,7 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
         {
             life -= playerBullet.GetComponent<BulletPlayer>().damage;
+            damageSound.Play();
             material.color = new Color(255, 255, 255);
         }
     }

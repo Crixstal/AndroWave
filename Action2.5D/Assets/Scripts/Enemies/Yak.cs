@@ -9,6 +9,7 @@ public class Yak : MonoBehaviour
     [SerializeField] private int score = 0;
     [SerializeField] private float speed = 0f;
     [SerializeField] protected GameObject playerBullet = null;
+    [SerializeField] protected AudioSource damageSound = null;
 
     public float damage = 0f;
 
@@ -19,6 +20,7 @@ public class Yak : MonoBehaviour
     private Ray groundCheck;
     private RaycastHit hit;
 
+    private bool firstRunDone = false;
     private bool secondRunDone = false;
 
     void Start()
@@ -70,19 +72,20 @@ public class Yak : MonoBehaviour
         secondRunDone = true;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == 9) // 9 = BulletPlayer
-            life -= playerBullet.GetComponent<BulletPlayer>().damage;
-    }
-
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 8) // 8 = Player
+        if (other.gameObject.layer == 8 && !firstRunDone) // 8 = Player
         {
             transform.Rotate(0f, 180f, 0f);
             rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
-            gameObject.layer = 13; // 13 = Ghost
+            gameObject.layer = 13; // 13 = Yak
+            firstRunDone = true;
+        }
+
+        if (other.gameObject.layer == 9) // 9 = BulletPlayer
+        {
+            life -= playerBullet.GetComponent<BulletPlayer>().damage;
+            damageSound.Play();
         }
     }
 
