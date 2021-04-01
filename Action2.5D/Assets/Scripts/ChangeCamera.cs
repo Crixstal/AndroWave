@@ -24,9 +24,9 @@ public class ChangeCamera : MonoBehaviour
         if (other.CompareTag("Side") && Camera.Yaxis)
         {
             Camera.Yaxis = false;
-            cam.transform.position = new Vector3(cam.transform.position.x, other.transform.position.y + Camera.offset.y + 1, cam.transform.position.z);
+            Camera.offset.y = 30;
+            cam.transform.position = new Vector3(cam.transform.position.x, other.transform.position.y + Camera.offset.y, cam.transform.position.z);
             return;
         }
     }
-
 }

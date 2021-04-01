@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
     [SerializeField] private Material material = null;
-    [SerializeField] protected AudioSource damageSound = null;
+    [SerializeField] private AudioSource damageSound = null;
 
     public float teleportationDelay = 0f;
     public float posForeground = 0f;
