@@ -190,8 +190,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 7, z: 47}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 37.749847, y: 33.361023, z: 130.12173}
+  m_Center: {x: 1.7448349, y: 0.6521301, z: -0.7270508}
 --- !u!65 &5474011429839441176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -220,8 +220,8 @@ MonoBehaviour:
   player: {fileID: 0}
   weapon: {fileID: 1837034767886021331}
   bullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee, type: 3}
-  life: 8
-  score: 0
+  life: 3
+  score: 100
   m_speed: 10
   m_damage: 1
   m_destructionDelay: 5
