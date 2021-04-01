@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7257459888431012084}
   m_Layer: 0
   m_Name: ShotgunDrop
-  m_TagString: Weapon
+  m_TagString: Shotgun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4923206887810362499}
   m_Layer: 0
   m_Name: Hitbox
-  m_TagString: Untagged
+  m_TagString: Shotgun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

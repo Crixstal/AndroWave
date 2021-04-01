@@ -5,25 +5,42 @@ using UnityEngine;
 public class PickUpWeapon : MonoBehaviour
 {
     [SerializeField]
-    private GameObject Weapon = null;
+    private GameObject weapon = null, weaponOnTheGround = null;
+    [SerializeField]
+    private int weaponID = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
-
+/*
+    void ChangeWeapon()
+    {
+        int i = 0;
+        foreach (Transform weapon in transform)
+        {
+            if (i == selectedWeapon)
+                weapon.gameObject.SetActive(true);
+            else
+                weapon.gameObject.SetActive(false);
+            i++;
+        }
+    }
+*/
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Weapon"))
         {
             Debug.Log("Pick up Weapon");
 
-            if (!Weapon.activeSelf)
+            if (!weapon.activeSelf)
             {
-                Weapon.SetActive(true);
+                weapon.SetActive(true);
+                gameObject.transform.GetChild(gameObject.GetComponent<Player>().currentWeapon);
+                gameObject.GetComponent<Player>().currentWeapon = weaponID;
             }
-            Destroy(gameObject);
+            
+            Destroy(weaponOnTheGround);
         }
     }
 }

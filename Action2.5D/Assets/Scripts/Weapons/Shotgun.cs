@@ -75,7 +75,7 @@ public class Shotgun : WeaponPlayer
             #endregion
 
             #region // ---------- SHOOT DOWN ----------
-            else if (verticalInput < -verticalInputSensitivity && canShoot) // DOWN
+            else if (verticalInput < -verticalInputSensitivity) // DOWN
             {
                 if (horizontalInput == isInXRange) // DOWN
                 {
