@@ -20,7 +20,6 @@ public class WeaponPlayer : MonoBehaviour
     protected Vector3 playerPos = Vector3.zero;
     protected float posForeground = 0f;
     protected float posBackground = 0f;
-    protected bool canShoot = true;
     protected float shootAngle = 0f;
 
     protected float shootInput = 0f;
@@ -51,7 +50,6 @@ public class WeaponPlayer : MonoBehaviour
         posBackground = player.GetComponent<Player>().posBackground;
 
         weaponPos = transform.position;
-        canShoot = player.GetComponent<Player>().canShoot;
 
         shootInput = Input.GetAxisRaw("Shoot");
         horizontalInput = Input.GetAxis("HorizontalInput");
