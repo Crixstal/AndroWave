@@ -227,7 +227,7 @@ MonoBehaviour:
   m_damage: 1
   m_destructionDelay: 5
   delayPerShot: 1.5
-  delayBeforeShoot: 0
+  delayBeforeShoot: 1
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}
   material: {fileID: 2100000, guid: 173ce901b8efa4a4baeb1b314d88cb65, type: 2}
