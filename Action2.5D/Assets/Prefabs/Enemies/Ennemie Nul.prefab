@@ -21,9 +21,11 @@ MonoBehaviour:
   m_damage: 0
   m_destructionDelay: 0
   delayPerShot: 100
+  delayBeforeShoot: 0
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}
   material: {fileID: 2100000, guid: f81138a5b36da8e4e90628c97e65a90b, type: 2}
+  damageSound: {fileID: 0}
 --- !u!1001 &5971105882959553175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34,6 +36,11 @@ PrefabInstance:
     - target: {fileID: 1074770775915009853, guid: 1b6665dc2f47b2b459da8de37606d2f7,
         type: 3}
       propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074770775915009853, guid: 1b6665dc2f47b2b459da8de37606d2f7,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3857727125421694700, guid: 1b6665dc2f47b2b459da8de37606d2f7,

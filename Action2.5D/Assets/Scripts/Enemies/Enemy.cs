@@ -96,10 +96,7 @@ public class Enemy : MonoBehaviour
             delayBeforeShoot -= Time.deltaTime;
 
             if (delayBeforeShoot <= 0f)
-            {
                 Shoot();
-                Debug.Log(new Vector2(Time.deltaTime, delayBeforeShoot));
-            }
 
             RotateEnemy();
         }
