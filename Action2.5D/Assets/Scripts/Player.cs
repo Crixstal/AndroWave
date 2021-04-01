@@ -216,7 +216,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Heart"))
         {
             Debug.Log("Heart");
-            life++;
+            runLife++;
             Destroy(other.transform.parent.gameObject);
         }
 
