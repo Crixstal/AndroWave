@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 380f9311a41a76b42a7ffca01582727d
+  - enabled: 1
+    path: Assets/Scenes/Lelio.unity
+    guid: 35637081d3b5d384d8db9514a7694943
+  - enabled: 1
     path: Assets/Scenes/Manon.unity
     guid: f38165474edb4e34e8a92d9102d8a22e
   m_configObjects: {}

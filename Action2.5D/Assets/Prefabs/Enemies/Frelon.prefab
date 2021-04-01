@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0ccdfe208d8d26c4d87db93dd76b7e81, type: 2}
+  - {fileID: 2100000, guid: 5b565ae6c392dcc449edf051b64b14d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: -5216436332727214057}
   m_Layer: 11
   m_Name: Frelon
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,7 +142,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: deaa467f05af8f048a53dc323f64b933, type: 2}
+  - {fileID: 2100000, guid: 4d70b7781fe6d634a8c2fac5730db45b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -217,8 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c69f3e9fd79964da2d60489786de8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  bullet: {fileID: 1161490554157841905, guid: d903a093a467a034488dd133bdee2eb3, type: 3}
+  player: {fileID: -340084532950076543, guid: a1480a481fe85e24c9aa4a3cd2dec671, type: 3}
+  bullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee, type: 3}
   life: 1
   score: 0
   m_speed: 10
