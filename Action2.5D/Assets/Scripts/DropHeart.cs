@@ -8,7 +8,6 @@ public class DropHeart : MonoBehaviour
     private GameObject[] itemList = null;
     private Transform Epos;
 
-    // Start is called before the first frame update
     void Start()
     {
         Epos = GetComponent<Transform>();

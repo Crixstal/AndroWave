@@ -12,29 +12,15 @@ public class Yak : MonoBehaviour
     [SerializeField] protected AudioSource damageSound = null;
 
     public float damage = 0f;
-
     private Rigidbody rb;
-    private Vector3 relativePos = Vector3.zero;
-    private float foreground = 0f;
-    private float background = 0f;
-    private Ray groundCheck;
-    private RaycastHit hit;
-
-    private bool firstRunDone = false;
-    private bool secondRunDone = false;
 
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-
-        foreground = player.GetComponent<Player>().posForeground;
-        background = player.GetComponent<Player>().posBackground;
     }
 
     private void FixedUpdate()
     {
-        relativePos = player.transform.position - transform.position;
-
         if (life <= 0)
         {
             player.GetComponent<Player>().playerScore += score;
@@ -42,44 +28,19 @@ public class Yak : MonoBehaviour
         }
     }
 
-    private void SecondRun()
+    void OnCollisionEnter(Collision collision)
     {
-        transform.Rotate(0f, 180f, 0f);
-
-        if (transform.position.z == foreground)
-            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, background), Vector3.down);
-
-        if (transform.position.z == background)
-            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, foreground), Vector3.down);
-
-        if (Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
-        {
-            if (transform.position.z == foreground)
-            {
-                transform.position = new Vector3(player.transform.position.x - 50, hit.point.y + transform.localScale.y, background);
-                rb.velocity = Vector3.zero;
-                rb.AddForce((2 * Vector3.right) * speed, ForceMode.VelocityChange);
-            }
-
-            else if (transform.position.z == background)
-            {
-                transform.position = new Vector3(player.transform.position.x - 30, hit.point.y + transform.localScale.y, foreground);
-                rb.velocity = Vector3.zero;
-                rb.AddForce((2 * Vector3.right) * speed, ForceMode.VelocityChange);
-            }
-        }
-
-        secondRunDone = true;
+        if (collision.gameObject.CompareTag("Wall"))
+            Destroy(gameObject);
     }
 
-    public void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 8 && !firstRunDone) // 8 = Player
+        if (other.gameObject.layer == 8) // 8 = Player
         {
             transform.Rotate(0f, 180f, 0f);
             rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
             gameObject.layer = 13; // 13 = Yak
-            firstRunDone = true;
         }
 
         if (other.gameObject.layer == 9) // 9 = BulletPlayer
@@ -87,16 +48,5 @@ public class Yak : MonoBehaviour
             life -= playerBullet.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
         }
-    }
-
-    private void OnBecameInvisible()
-    {
-        if (relativePos.x > 0)
-            SecondRun();
-
-        gameObject.layer = 11; // 11 = Enemy
-
-        if (secondRunDone && relativePos.x < 0)
-            Destroy(gameObject);
     }
 }

@@ -7,32 +7,33 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float horizontalInputSensitivity = 0.5f;
     [SerializeField] private float verticalInputSensitivity = 0.8f;
-    [SerializeField] public float generalLife = 0f;
-    [SerializeField] public float runLife = 0f;
+    [SerializeField] internal float generalLife = 0f;
+    [SerializeField] internal float runLife = 0f;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float drag = 6f;
     [SerializeField] private float jump = 0f;
     [SerializeField] private float gravityUp = 0f;
     [SerializeField] private float gravityDown = 0f;
-    [SerializeField] private float invincibilityDuration = 1.5f;
-    [SerializeField] private float invincibilityDeltaTime = 0.15f;
-
-
+    [SerializeField] private float invincibilityDuration = 0f;
+    [SerializeField] private float invincibilityDeltaTime = 0f;
+    [SerializeField] private float respawnDelay = 0f;
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
     [SerializeField] private Material material = null;
     [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] private float respawnHeight = 0f;
+    [SerializeField] private int losePoints;
 
-    public float teleportationDelay = 0f;
-    public float posForeground = 0f;
-    public float posBackground = 0f;
-    public int playerScore;
-    public int currentWeapon = 0;
+    [SerializeField] internal float teleportationDelay = 0f;
+    [SerializeField] internal float posForeground = 0f;
+    [SerializeField] internal float posBackground = 0f;
+    [SerializeField] internal int playerScore;
+    [SerializeField] internal int currentWeapon = 0;
 
-    [HideInInspector] public bool isGrounded;
-    [HideInInspector] public Vector3 checkpointPos;
+    [HideInInspector] internal bool isGrounded;
+    [HideInInspector] internal bool win = false;
+    [HideInInspector] internal Rigidbody rb;
 
-    private Rigidbody rb;
     private float startTimer;
     private Ray groundCheck;
     private RaycastHit hit;
@@ -40,6 +41,46 @@ public class Player : MonoBehaviour
     private Camera cam;
     private bool isInvincible = false;
     private float constRunLife;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
+        baseColor = material.color;
+        cam = Camera.main;
+        constRunLife = runLife;
+    }
+
+    void FixedUpdate()
+    {
+        rb.drag = drag;
+        if (material.color != baseColor)
+            material.color = baseColor;
+
+        Move();
+        Teleport();
+        Jump();
+        Gravity();
+
+        if (runLife <= 0)
+            StartCoroutine(Respawn());
+    }
+
+    private IEnumerator Respawn()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y + respawnHeight, transform.position.z);
+        Time.timeScale = 0f;
+        --generalLife;
+        runLife = constRunLife;
+        playerScore -= losePoints;
+
+        if (generalLife <= 0)
+            yield break;
+
+        yield return new WaitForSecondsRealtime(respawnDelay);
+
+        Time.timeScale = 1f;
+    }
 
     private IEnumerator BecomeInvincible()
     {
@@ -57,35 +98,6 @@ public class Player : MonoBehaviour
         }
 
         isInvincible = false;
-    }
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
-        baseColor = material.color;
-        cam = Camera.main;
-        constRunLife = runLife;
-    }
-
-    void FixedUpdate()
-    {
-
-        rb.drag = drag;
-        if (material.color != baseColor)
-            material.color = baseColor;
-
-        Move();
-        Teleport();
-        Jump();
-        Gravity();
-
-        if (runLife <= 0)
-        {
-            transform.position = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
-            --generalLife;
-            runLife = constRunLife;
-        }
     }
 
     private void Move()
@@ -153,30 +165,17 @@ public class Player : MonoBehaviour
             rb.AddForce(gravityUp * Physics.gravity, ForceMode.Acceleration);
     }
 
-    public bool IsAlive()
+    private void ChangeWeapon(GameObject weapon, int weaponID)
     {
-        if (generalLife <= 0)
-            return false;
-
-        return true;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == 11) // 11 = Enemy
+        if (!weapon.activeSelf)
         {
-            if (isInvincible)
-                return;
-
-            --runLife;
-            damageSound.Play();
-            cam.GetComponent<ScreenShake>().StartShake();
-
-            StartCoroutine(BecomeInvincible());
+            weapon.SetActive(true);
+            gameObject.transform.GetChild(currentWeapon).gameObject.SetActive(false);
+            gameObject.GetComponent<Player>().currentWeapon = weaponID;
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    void OnCollisionStay(Collision collision)
     {
         isGrounded = true;
 
@@ -184,12 +183,12 @@ public class Player : MonoBehaviour
             isGrounded = false;
     }
 
-    private void OnCollisionExit(Collision collision)
+    void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), true);
@@ -255,22 +254,12 @@ public class Player : MonoBehaviour
         }
         
         if (other.CompareTag("Finish"))
-            SceneManager.LoadScene("MainMenu");
+            win = true;
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), false);
-    }
-
-    private void ChangeWeapon(GameObject weapon, int weaponID)
-    {
-        if (!weapon.activeSelf)
-        {
-            weapon.SetActive(true);
-            gameObject.transform.GetChild(currentWeapon).gameObject.SetActive(false);
-            gameObject.GetComponent<Player>().currentWeapon = weaponID;
-        }
     }
 }
