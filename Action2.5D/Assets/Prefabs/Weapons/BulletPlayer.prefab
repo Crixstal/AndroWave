@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 19981e9ac5fdffc48a4c39e2a0f1c80b, type: 2}
+  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97292b6a18710343be8355f3be0a5dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  destructionDelay: 1
-  damage: 1
+  speed: 30
+  destructionDelay: 0.25
+  damage: 4
   direction: {x: 1, y: 0, z: 0}

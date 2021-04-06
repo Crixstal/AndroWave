@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 966268253949854956}
   - component: {fileID: 966268253949854959}
   - component: {fileID: 966268253949854958}
-  - component: {fileID: 966268253949854944}
   - component: {fileID: 2696704486409536833}
   m_Layer: 8
   m_Name: Player
@@ -152,19 +151,6 @@ MonoBehaviour:
   currentWeapon: 0
   isGrounded: 0
   checkpointPos: {x: 0, y: 0, z: 0}
---- !u!114 &966268253949854944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 966268253949854953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fad8b1c8d389264ba1bb508c64e54de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Camera: {fileID: 0}
 --- !u!82 &2696704486409536833
 AudioSource:
   m_ObjectHideFlags: 0

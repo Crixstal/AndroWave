@@ -29,17 +29,21 @@ public class Player : MonoBehaviour
     public int playerScore;
     public int currentWeapon = 0;
 
-    [HideInInspector] public bool isGrounded;
+     public bool isGrounded;
+    [HideInInspector] public bool isJumping;
     [HideInInspector] public Vector3 checkpointPos;
 
     private Rigidbody rb;
     private float startTimer;
     private Ray groundCheck;
     private RaycastHit hit;
+    private Ray groundCheckJump;
+    private RaycastHit hitDown;
     private Color baseColor;
     private Camera cam;
     private bool isInvincible = false;
     private float constRunLife;
+    private float hitDownNormal;
 
     private IEnumerator BecomeInvincible()
     {
@@ -63,6 +67,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
+        groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
         baseColor = material.color;
         cam = Camera.main;
         constRunLife = runLife;
@@ -70,7 +75,6 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-
         rb.drag = drag;
         if (material.color != baseColor)
             material.color = baseColor;
@@ -99,13 +103,13 @@ public class Player : MonoBehaviour
             if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // rotate right
                 transform.Rotate(0f, 180f, 0f);
             else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
-                rb.AddForce(Vector3.right * speed, ForceMode.Acceleration);
+                rb.AddForce(speed * new Vector3 (1, -hitDownNormal, 0), ForceMode.Acceleration);
 
 
             if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // rotate left
                 transform.Rotate(0f, 180f, 0f);
             else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
-                rb.AddForce(Vector3.left * speed, ForceMode.Acceleration);
+                rb.AddForce(speed * new Vector3(-1, -hitDownNormal, 0), ForceMode.Acceleration);
         }
     }
 
@@ -137,8 +141,29 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
+        groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
+
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f))
+        {
+            isGrounded = true;
+            isJumping = false;
+
+            if (hitDown.normal.y < 1)
+                hitDownNormal = hitDown.normal.normalized.y;
+            else
+                hitDownNormal = 0;
+        }
+
+        else
+        {
+            isGrounded = false;
+        }
+
         if (Input.GetButton("Jump") && isGrounded)
+        {
+            isJumping = true;
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
+        }
     }
 
     private void Gravity()
@@ -176,9 +201,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    /*private void OnCollisionStay(Collision collision)
     {
         isGrounded = true;
+        isJumping = false;
 
         if (collision.GetContact(0).normal.x == -1f || collision.GetContact(0).normal.x == 1f)
             isGrounded = false;
@@ -187,7 +213,7 @@ public class Player : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
@@ -253,7 +279,7 @@ public class Player : MonoBehaviour
 
             Destroy(other.transform.parent.gameObject);
         }
-        
+
         if (other.CompareTag("Finish"))
             SceneManager.LoadScene("MainMenu");
     }
