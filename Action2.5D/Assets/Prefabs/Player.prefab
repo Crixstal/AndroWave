@@ -132,26 +132,27 @@ MonoBehaviour:
   verticalInputSensitivity: 0.7
   generalLife: 3
   runLife: 5
-  speed: 70
-  drag: 6
-  jump: 30
-  gravityUp: 10
-  gravityDown: 20
+  speed: 77.5
+  drag: 7
+  jump: 20
+  gravityUp: 1.5
+  gravityDown: 15
   invincibilityDuration: 1.5
   invincibilityDeltaTime: 0.15
+  respawnDelay: 3
+  respawnHeight: 5
   enemyBullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee,
     type: 3}
   enemyGrenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8,
     type: 3}
   material: {fileID: 2100000, guid: 5ef8c0a12911ab44ea24985c2b92062f, type: 2}
   damageSound: {fileID: 2696704486409536833}
-  teleportationDelay: 0.5
+  losePoints: 0
+  teleportationDelay: 0.7
   posForeground: 10.54
   posBackground: 32.54
   playerScore: 0
   currentWeapon: 0
-  isGrounded: 0
-  checkpointPos: {x: 0, y: 0, z: 0}
 --- !u!114 &966268253949854944
 MonoBehaviour:
   m_ObjectHideFlags: 0

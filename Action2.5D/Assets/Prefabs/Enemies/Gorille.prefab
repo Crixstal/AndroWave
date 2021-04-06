@@ -221,12 +221,12 @@ MonoBehaviour:
   player: {fileID: 966268253949854958, guid: a1480a481fe85e24c9aa4a3cd2dec671, type: 3}
   weapon: {fileID: 1837034767886021331}
   bullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee, type: 3}
-  life: 3
+  life: 8
   score: 100
   m_speed: 10
   m_damage: 1
   m_destructionDelay: 5
-  delayPerShot: 2
+  delayPerShot: 3
   delayBeforeShoot: 1
   playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
     type: 3}

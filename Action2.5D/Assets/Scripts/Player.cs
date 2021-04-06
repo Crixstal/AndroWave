@@ -17,12 +17,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float invincibilityDuration = 0f;
     [SerializeField] private float invincibilityDeltaTime = 0f;
     [SerializeField] private float respawnDelay = 0f;
+    [SerializeField] private float respawnHeight = 0f;
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
     [SerializeField] private Material material = null;
     [SerializeField] private AudioSource damageSound = null;
-    [SerializeField] private float respawnHeight = 0f;
-    [SerializeField] private int losePoints;
+    [SerializeField] private int losePoints = 0;
 
     [SerializeField] internal float teleportationDelay = 0f;
     [SerializeField] internal float posForeground = 0f;
@@ -30,9 +30,9 @@ public class Player : MonoBehaviour
     [SerializeField] internal int playerScore;
     [SerializeField] internal int currentWeapon = 0;
 
-    [HideInInspector] internal bool isGrounded;
-    [HideInInspector] internal bool win = false;
-    [HideInInspector] internal Rigidbody rb;
+    internal bool isGrounded;
+    internal bool win = false;
+    internal Rigidbody rb;
 
     private float startTimer;
     private Ray groundCheck;
@@ -175,12 +175,28 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 14) // 14 = Grenade
+        {
+            if (isInvincible)
+                return;
+
+            runLife -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+            damageSound.Play();
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            StartCoroutine(BecomeInvincible());
+        }
+    }
+
     void OnCollisionStay(Collision collision)
     {
-        isGrounded = true;
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.layer == 10) // 10 = PLatform
+            isGrounded = true;
 
-        if (collision.GetContact(0).normal.x == -1f || collision.GetContact(0).normal.x == 1f)
-            isGrounded = false;
+        if (collision.GetContact(0).normal.y == 1f && collision.gameObject.CompareTag("Wall"))
+            isGrounded = true;
     }
 
     void OnCollisionExit(Collision collision)
