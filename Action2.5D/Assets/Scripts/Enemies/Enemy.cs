@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float delayBeforeShoot = 0f;
     //[SerializeField] protected float bulletPerSalve = 0f;
     [SerializeField] protected GameObject playerBullet = null;
-    [SerializeField] private Material material = null;
     [SerializeField] protected AudioSource damageSound = null;
 
     private DropHeart getHeart = null;
@@ -39,13 +38,13 @@ public class Enemy : MonoBehaviour
         bullet.GetComponent<BulletEnemy>().speed = m_speed;
         bullet.GetComponent<BulletEnemy>().damage = m_damage;
         bullet.GetComponent<BulletEnemy>().destructionDelay = m_destructionDelay;
-        baseColor = material.color;
+        baseColor = GetComponent<Renderer>().material.color;
     }
 
     public void FixedUpdate()
     {
-        if (material.color != baseColor)
-            material.color = baseColor;
+        if (GetComponent<Renderer>().material.color != baseColor)
+            GetComponent<Renderer>().material.color = baseColor;
 
         enemyPos = transform.position;
         enemyRot = transform.rotation.eulerAngles.y;
@@ -108,7 +107,7 @@ public class Enemy : MonoBehaviour
         {
             life -= playerBullet.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
-            material.color = new Color(255, 255, 255);
+            GetComponent<Renderer>().material.color = new Color(255, 255, 255);
         }
     }
 }
