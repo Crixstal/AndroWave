@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float horizontalInputSensitivity = 0.5f;
-    [SerializeField] private float verticalInputSensitivity = 0.8f;
     [SerializeField] internal float generalLife = 0f;
     [SerializeField] internal float runLife = 0f;
     [SerializeField] private float speed = 0f;
@@ -57,7 +56,7 @@ public class Player : MonoBehaviour
         if (material.color != baseColor)
             material.color = baseColor;
 
-        //Move();
+        Move();
         Teleport();
         Jump();
         Gravity();
@@ -103,22 +102,18 @@ public class Player : MonoBehaviour
     private void Move()
     {
         float horizontalInput = Input.GetAxis("HorizontalInput");
-        float verticalInput = Input.GetAxis("VerticalInput");
         float playerRot = transform.rotation.eulerAngles.y;
 
-        if (verticalInput == Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity))
-        {
-            if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // rotate right
-                transform.Rotate(0f, 180f, 0f);
-            else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
-                rb.AddForce(Vector3.right * speed, ForceMode.Acceleration);
+        if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > 0) // rotate right
+            transform.Rotate(0f, 180f, 0f);
+        else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
+            rb.AddForce(Vector3.right * speed, ForceMode.Acceleration);
 
 
-            if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // rotate left
-                transform.Rotate(0f, 180f, 0f);
-            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
-                rb.AddForce(Vector3.left * speed, ForceMode.Acceleration);
-        }
+        if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -0) // rotate left
+            transform.Rotate(0f, 180f, 0f);
+        else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
+            rb.AddForce(Vector3.left * speed, ForceMode.Acceleration);
     }
 
     private void Teleport()

@@ -8,27 +8,21 @@ public class WeaponPlayer : MonoBehaviour
     [SerializeField] protected float m_speed = 0f;
     [SerializeField] protected float m_damage = 0f;
     [SerializeField] protected float m_destructionDelay = 0f;
-    [SerializeField] protected float horizontalInputSensitivity = 0f;
-    [SerializeField] protected float verticalInputSensitivity = 0f;
     [SerializeField] protected float delayPerShot = 0f;
     [SerializeField] protected AudioSource weaponSound = null;
 
     protected GameObject currentBullet;
     protected float shotTimer = 0f;
+    protected float shootAngle = 0f;
+    protected Vector3 inputs = Vector3.zero;
+    protected Vector3 spawnPoint = Vector3.zero;
 
     protected Player player = null;
     protected float playerRot = 0f;
-    protected Vector3 playerPos = Vector3.zero;
-    protected float shootAngle = 0f;
 
     protected float shootInput = 0f;
     protected float horizontalInput = 0f;
-    protected float isInXRange = 0f;
     protected float verticalInput = 0f;
-    protected float isInYRange = 0f;
-    protected Vector3 weaponPos = Vector3.zero;
-    protected float weaponLength = 0f;
-    protected Vector3 inputs = Vector3.zero;
 
     void Start()
     {
@@ -37,24 +31,19 @@ public class WeaponPlayer : MonoBehaviour
         bullet.GetComponent<BulletPlayer>().destructionDelay = m_destructionDelay;
 
         player = gameObject.GetComponentInParent<Player>();
-
-        weaponLength = transform.localScale.x;
     }
 
     public void FixedUpdate()
     {
         playerRot = player.transform.rotation.eulerAngles.y;
-        playerPos = player.transform.position;
-
-        weaponPos = transform.position;
 
         shootInput = Input.GetAxisRaw("Shoot");
         horizontalInput = Input.GetAxis("HorizontalInput");
         verticalInput = Input.GetAxis("VerticalInput");
-        isInYRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
-        isInXRange = Mathf.Clamp(horizontalInput, -horizontalInputSensitivity, horizontalInputSensitivity);
 
         inputs = new Vector3(horizontalInput, verticalInput, 0f);
+
+        spawnPoint = transform.GetChild(0).position;
 
         RotateWeapon();
         Shoot();
