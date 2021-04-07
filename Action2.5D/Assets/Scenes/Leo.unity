@@ -4086,7 +4086,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-4020
+  m_Name: pb_Mesh-1236
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4268,7 +4268,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-2372
+  m_Name: pb_Mesh16106
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5759,11 +5759,21 @@ PrefabInstance:
       propertyPath: endLaserColor.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2456012000662380693, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5964638569709143405, guid: a1480a481fe85e24c9aa4a3cd2dec671,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
+    - target: {fileID: 6548914827851842220, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6548914827851842223, guid: a1480a481fe85e24c9aa4a3cd2dec671,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

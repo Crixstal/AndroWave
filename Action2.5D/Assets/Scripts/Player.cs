@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     public float posForeground = 0f;
     public float posBackground = 0f;
     public int playerScore;
-    public int currentWeapon = 0;
+    public int currentWeapon;
 
      public bool isGrounded;
     [HideInInspector] public bool isJumping;
@@ -71,6 +71,12 @@ public class Player : MonoBehaviour
         baseColor = material.color;
         cam = Camera.main;
         constRunLife = runLife;
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.activeSelf == true)
+                currentWeapon = i;
+        }
     }
 
     void FixedUpdate()
