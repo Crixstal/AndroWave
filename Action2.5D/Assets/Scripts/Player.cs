@@ -7,34 +7,33 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float horizontalInputSensitivity = 0.5f;
     [SerializeField] private float verticalInputSensitivity = 0.8f;
-    [SerializeField] public float generalLife = 0f;
-    [SerializeField] public float runLife = 0f;
+    [SerializeField] internal float generalLife = 0f;
+    [SerializeField] internal float runLife = 0f;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float drag = 6f;
-    [SerializeField] private float jump = 0f;
     [SerializeField] private float gravityUp = 0f;
     [SerializeField] private float gravityDown = 0f;
     [SerializeField] private float invincibilityDuration = 1.5f;
     [SerializeField] private float invincibilityDeltaTime = 0.15f;
 
-
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
-    [SerializeField] private Material material = null;
     [SerializeField] private AudioSource damageSound = null;
 
-    public float teleportationDelay = 0f;
-    public float posForeground = 0f;
-    public float posBackground = 0f;
-    public int playerScore;
-    public int currentWeapon;
+    [SerializeField] internal float jump = 0f;
+    [SerializeField] internal float teleportationDelay = 0f;
+    [SerializeField] internal float posForeground = 0f;
+    [SerializeField] internal float posBackground = 0f;
+    [SerializeField] internal int playerScore;
+    [SerializeField] internal int currentWeapon;
 
-     public bool isGrounded;
-    [HideInInspector] public bool isJumping;
-    [HideInInspector] public Vector3 checkpointPos;
+    [HideInInspector] internal bool isGrounded;
+    [HideInInspector] internal bool isJumping;
+    [HideInInspector] internal Vector3 checkpointPos;
+    [HideInInspector] internal float jumpStartY;
 
+    private Material material;
     private Rigidbody rb;
-    private float startTimer;
     private Ray groundCheck;
     private RaycastHit hit;
     private Ray groundCheckJump;
@@ -42,8 +41,9 @@ public class Player : MonoBehaviour
     private Color baseColor;
     private Camera cam;
     private bool isInvincible = false;
+    private float startTimer;
     private float constRunLife;
-    private float hitDownNormal;
+    private float hitDownY;
 
     private IEnumerator BecomeInvincible()
     {
@@ -67,7 +67,8 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
-        groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
+        groundCheckJump = new Ray(transform.position, Vector3.down);
+        material = GetComponent<Renderer>().material;
         baseColor = material.color;
         cam = Camera.main;
         constRunLife = runLife;
@@ -109,13 +110,13 @@ public class Player : MonoBehaviour
             if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // rotate right
                 transform.Rotate(0f, 180f, 0f);
             else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
-                rb.AddForce(speed * new Vector3 (1, -hitDownNormal, 0), ForceMode.Acceleration);
+                rb.AddForce(speed * new Vector3 (1, -hitDownY, 0), ForceMode.Acceleration);
 
 
             if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // rotate left
                 transform.Rotate(0f, 180f, 0f);
             else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
-                rb.AddForce(speed * new Vector3(-1, -hitDownNormal, 0), ForceMode.Acceleration);
+                rb.AddForce(speed * new Vector3(-1, -hitDownY, 0), ForceMode.Acceleration);
         }
     }
 
@@ -154,10 +155,13 @@ public class Player : MonoBehaviour
             isGrounded = true;
             isJumping = false;
 
-            if (hitDown.normal.y < 1)
-                hitDownNormal = hitDown.normal.normalized.y;
-            else
-                hitDownNormal = 0;
+            if (rb.velocity.y < 0)
+            {
+                if (hitDown.normal.y < 1)
+                    hitDownY = hitDown.normal.y;
+                else
+                    hitDownY = 0;
+            }
         }
 
         else
@@ -168,6 +172,8 @@ public class Player : MonoBehaviour
         if (Input.GetButton("Jump") && isGrounded)
         {
             isJumping = true;
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            jumpStartY = transform.position.y;
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
         }
     }

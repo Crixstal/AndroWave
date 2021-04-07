@@ -22,18 +22,22 @@ public class CameraFollowPlayer : MonoBehaviour
     private float foregroundZ;
     private float xCameraShift = 0;
     private float epsilon = 0.5f;
+    private float jumpForce;
 
     private void Start()
     {
         foregroundZ = player.GetComponent<Player>().posForeground;
         body = player.GetComponent<Rigidbody>();
+        jumpForce = player.GetComponent<Player>().jump;
     }
 
     void Update()
     {
         Vector3 targetPosition;
 
-        if (!player.GetComponent<Player>().isJumping && Yaxis && Xaxis)
+        if ((!player.GetComponent<Player>().isJumping && Yaxis && Xaxis) || (Yaxis && Xaxis &&
+            (player.transform.position.y < player.GetComponent<Player>().jumpStartY ||
+            player.transform.position.y > player.GetComponent<Player>().jumpStartY + jumpForce / 10f)))
         {
             targetPosition = player.transform.position + offset;
             transform.position = new Vector3(targetPosition.x, targetPosition.y, foregroundZ + offset.z);
