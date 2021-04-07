@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
         if (material.color != baseColor)
             material.color = baseColor;
 
-        Move();
+        //Move();
         Teleport();
         Jump();
         Gravity();

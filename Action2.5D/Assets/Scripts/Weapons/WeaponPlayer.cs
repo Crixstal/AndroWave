@@ -28,6 +28,7 @@ public class WeaponPlayer : MonoBehaviour
     protected float isInYRange = 0f;
     protected Vector3 weaponPos = Vector3.zero;
     protected float weaponLength = 0f;
+    protected Vector3 inputs = Vector3.zero;
 
     void Start()
     {
@@ -53,50 +54,31 @@ public class WeaponPlayer : MonoBehaviour
         isInYRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
         isInXRange = Mathf.Clamp(horizontalInput, -horizontalInputSensitivity, horizontalInputSensitivity);
 
+        inputs = new Vector3(horizontalInput, verticalInput, 0f);
+
         RotateWeapon();
         Shoot();
     }
 
     public void RotateWeapon()
     {
-        // ---------- ROTATE RIGHT ----------
-        if (horizontalInput > horizontalInputSensitivity)
+        if (playerRot == Mathf.Clamp(playerRot, -1f, 1f)) // shoot right
         {
-            transform.eulerAngles = new Vector3(0f, 0f, 0f); // RIGHT
+            shootAngle = Vector3.Angle(Vector3.right, inputs);
 
-            if (verticalInput > verticalInputSensitivity) // UP
-                transform.eulerAngles = new Vector3(0f, 0f, 45f);
-
-            else if (verticalInput < -verticalInputSensitivity) // DOWN
-                transform.eulerAngles = new Vector3(0f, 0f, -45f);
+            if (verticalInput < 0f)
+                shootAngle = -shootAngle;
         }
 
-        // ---------- ROTATE LEFT ----------
-        else if (horizontalInput < -horizontalInputSensitivity)
+        else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f)) // shoot left
         {
-            transform.eulerAngles = new Vector3(0f, 180f, 0f); // LEFT
+            shootAngle = Vector3.Angle(Vector3.left, inputs);
 
-            if (verticalInput > verticalInputSensitivity) // UP
-                transform.eulerAngles = new Vector3(0f, 180f, 45f);
-
-            else if (verticalInput < -verticalInputSensitivity) // DOWN
-                transform.eulerAngles = new Vector3(0f, 180f, -45f);
-        }
-        
-        // ---------- ROTATE UP & DOWN ----------
-        else if (horizontalInput == isInXRange)
-        {
-            if (verticalInput > verticalInputSensitivity) // UP
-                transform.eulerAngles = new Vector3(0f, 0f, 90f);
-
-            else if (verticalInput < -verticalInputSensitivity) // DOWN
-                transform.eulerAngles = new Vector3(0f, 0f, -90f);
+            if (verticalInput < 0f)
+                shootAngle = -shootAngle;
         }
 
-        if (horizontalInput == Mathf.Clamp(horizontalInput, -0.1f, 0.1f) && verticalInput == Mathf.Clamp(verticalInput, -0.1f, 0.1f))
-            transform.eulerAngles = new Vector3(0f, 0f, 0f);
-
-        shootAngle = transform.eulerAngles.z;
+        transform.eulerAngles = new Vector3(0f, playerRot, shootAngle);
     }
 
     public virtual void Shoot() { }
