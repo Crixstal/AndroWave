@@ -10,7 +10,7 @@ public class DebugInputs : MonoBehaviour
 
     void Start()
     {
-        initialDelay = player.GetComponent<Player>().teleportationDelay;
+        initialDelay = player.teleportationDelay;
     }
 
     void Update()
@@ -22,11 +22,11 @@ public class DebugInputs : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.T)) // decrease teleportation delay
         {
-            if (player.GetComponent<Player>().teleportationDelay != 0.1f)
-                player.GetComponent<Player>().teleportationDelay = 0.1f;
+            if (player.teleportationDelay != 0.1f)
+                player.teleportationDelay = 0.1f;
 
-            else if (player.GetComponent<Player>().teleportationDelay == 0.1f)
-                player.GetComponent<Player>().teleportationDelay = initialDelay;
+            else if (player.teleportationDelay == 0.1f)
+                player.teleportationDelay = initialDelay;
         }
 
         if (Input.GetKeyDown(KeyCode.K)) // kill all enemies
@@ -49,24 +49,16 @@ public class DebugInputs : MonoBehaviour
             }
         }
     }
+
     void MovePlayer()
     {
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            //player.GetComponent<Rigidbody>().AddForce(5f, 0f, 0f);
-            player.GetComponent<Rigidbody>().AddForce(Vector3.right * 60, ForceMode.Acceleration);
-        }
+            player.rb.AddForce(Vector3.right * 70, ForceMode.Acceleration);
 
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            //player.GetComponent<Rigidbody>().AddForce(-5f, 0f, 0f);
-            player.GetComponent<Rigidbody>().AddForce(Vector3.left * 60, ForceMode.Acceleration);
-        }
+            player.rb.AddForce(Vector3.left * 70, ForceMode.Acceleration);
 
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //player.GetComponent<Rigidbody>().AddForce(0f, 10f, 0f, ForceMode.Impulse);
-            player.GetComponent<Rigidbody>().AddForce(Vector3.up * 40, ForceMode.VelocityChange);
-        }
+            player.rb.AddForce(Vector3.up * 40, ForceMode.VelocityChange);
     }
 }

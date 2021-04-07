@@ -4,13 +4,27 @@ using UnityEngine;
 
 public class GrenadeEnemy : MonoBehaviour
 {
-    [HideInInspector] public float speed = 0f;
-    [HideInInspector] public float destructionDelay = 0f;
     [HideInInspector] public float damage = 0f;
+    [HideInInspector] public float blastDelay = 0f;
+    [HideInInspector] public float destructionDelay = 0f;
 
-    void FixedUpdate()
+    private IEnumerator Explosion()
     {
-        Destroy(gameObject, destructionDelay);
+        yield return new WaitForSeconds(blastDelay);
+
+        gameObject.GetComponent<CapsuleCollider>().enabled = true;
+
+        yield return new WaitForSeconds(destructionDelay);
+
+        Destroy(gameObject);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 8) // 8 = Player
+            Destroy(gameObject);
+        else
+            StartCoroutine(Explosion());
     }
 
     private void OnBecameInvisible()

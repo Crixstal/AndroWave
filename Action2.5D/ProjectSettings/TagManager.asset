@@ -12,6 +12,9 @@ TagManager:
   - Heart
   - MachineGun
   - Shotgun
+  - Poison
+  - Wall
+  - Ground
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4938847958400987816}
   - component: {fileID: 5946788856257285912}
   - component: {fileID: -8953959263087698136}
-  - component: {fileID: 390616087969021812}
+  - component: {fileID: 5951130164155622569}
   - component: {fileID: 5042288633023399459}
   - component: {fileID: 3268438965932175839}
   m_Layer: 14
@@ -99,8 +99,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!135 &390616087969021812
-SphereCollider:
+--- !u!136 &5951130164155622569
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -109,8 +109,9 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 2.3
+  m_Height: 12.38
+  m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &5042288633023399459
 SphereCollider:
@@ -137,6 +138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c6d07eb2bc77a54bacd5363e064317a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  destructionDelay: 0
-  damage: 0
+  blastDelay: 5
+  destructionDelay: 1
+  damage: 1
