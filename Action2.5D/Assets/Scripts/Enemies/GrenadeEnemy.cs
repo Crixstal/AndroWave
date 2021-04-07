@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class GrenadeEnemy : MonoBehaviour
 {
-    public float blastDelay = 0f;
-    public float destructionDelay = 0f;
-    public float damage = 0f;
+    [HideInInspector] public float damage = 0f;
+    [HideInInspector] public float blastDelay = 0f;
+    [HideInInspector] public float destructionDelay = 0f;
 
     private IEnumerator Explosion()
     {
-        yield return new WaitForSecondsRealtime(blastDelay);
+        yield return new WaitForSeconds(blastDelay);
 
         gameObject.GetComponent<CapsuleCollider>().enabled = true;
 
-        yield return new WaitForSecondsRealtime(destructionDelay);
+        yield return new WaitForSeconds(destructionDelay);
 
         Destroy(gameObject);
     }

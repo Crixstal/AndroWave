@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 1061593147569252949}
   - component: {fileID: 197417469744134859}
   - component: {fileID: 5659953550985586041}
-  - component: {fileID: 4455507169927719448}
+  - component: {fileID: 5595181967204553637}
   - component: {fileID: 6306032681895403481}
   - component: {fileID: 5136312632142628165}
+  - component: {fileID: -1594272160308558583}
   m_Layer: 11
   m_Name: Sanglier
   m_TagString: Enemy
@@ -30,8 +31,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3715601081570562842}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.494787, y: 6.831517, z: 10.323501}
+  m_LocalRotation: {x: 0, y: -0.3918264, z: -0, w: 0.92003924}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children:
   - {fileID: 2013711391178101096}
@@ -114,8 +115,8 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 15, y: 5, z: 14.45}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &4455507169927719448
-CapsuleCollider:
+--- !u!65 &5595181967204553637
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -124,9 +125,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000001, y: 1, z: 1.0000001}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6306032681895403481
 MonoBehaviour:
@@ -250,6 +250,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!895512359 &-1594272160308558583
+AimConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3715601081570562842}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: -0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AimVector: {x: 1, y: 0, z: 0}
+  m_UpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpObject: {fileID: 0}
+  m_UpType: 0
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 0
+  m_IsContraintActive: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 966268253949854947, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+      type: 3}
+    weight: 1
 --- !u!1 &6252545393264792562
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,6 +286,7 @@ GameObject:
   - component: {fileID: 2013711391178101096}
   - component: {fileID: 8844707017448631064}
   - component: {fileID: 1214540854392255951}
+  - component: {fileID: 994102288060585871}
   m_Layer: 11
   m_Name: Weapon
   m_TagString: Untagged
@@ -275,7 +301,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6252545393264792562}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.23306376, w: 0.9724615}
   m_LocalPosition: {x: 0.5726151, y: 0.010354592, z: -0.59000015}
   m_LocalScale: {x: 0.7659667, y: 0.28241265, z: 0.2187337}
   m_Children: []
@@ -329,3 +355,28 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!895512359 &994102288060585871
+AimConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6252545393264792562}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: -0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AimVector: {x: 1, y: 0, z: 0}
+  m_UpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpObject: {fileID: 0}
+  m_UpType: 0
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 966268253949854947, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+      type: 3}
+    weight: 1

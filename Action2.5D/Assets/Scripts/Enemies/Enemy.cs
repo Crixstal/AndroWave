@@ -70,25 +70,6 @@ public class Enemy : MonoBehaviour
 
     public virtual void Shoot() {}
 
-    public void RotateEnemy()
-    {
-        if (relativePos.x < 0f && enemyRot == Mathf.Clamp(enemyRot, -1f, 1f)) // look left
-            transform.Rotate(0f, 180f, 0f);
-
-        else if (relativePos.x > 0f && enemyRot == Mathf.Clamp(enemyRot, 179f, 181f)) // look right
-            transform.Rotate(0f, 180f, 0f);
-
-        if (relativePos.y > transform.localScale.y && relativePos.z == Mathf.Clamp(relativePos.z, -1f, 1f) && weaponRot != Mathf.Clamp(weaponRot, 89f, 91f)) // rotate up
-            weapon.transform.Rotate(0f, 0f, 90f);
-        else if (relativePos.y < transform.localScale.y && relativePos.z == Mathf.Clamp(relativePos.z, -1f, 1f) && weaponRot == Mathf.Clamp(weaponRot, 89f, 91f))
-            weapon.transform.Rotate(0f, 0f, -90f);
-
-        if (relativePos.y < -transform.localScale.y && relativePos.z == Mathf.Clamp(relativePos.z, -1f, 1f) && weaponRot != Mathf.Clamp(weaponRot, 269f, 271f)) // rotate down
-            weapon.transform.Rotate(0f, 0f, -90f);
-        else if (relativePos.y > -transform.localScale.y && relativePos.z == Mathf.Clamp(relativePos.z, -1f, 1f) && weaponRot == Mathf.Clamp(weaponRot, 269f, 271f))
-            weapon.transform.Rotate(0f, 0f, 90f);
-    }
-
     public void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 8) // 8 = Player
@@ -97,8 +78,6 @@ public class Enemy : MonoBehaviour
 
             if (delayBeforeShoot <= 0f)
                 Shoot();
-
-            RotateEnemy();
         }
     }
 
