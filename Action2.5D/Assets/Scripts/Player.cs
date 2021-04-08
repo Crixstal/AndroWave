@@ -7,8 +7,6 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float horizontalInputSensitivity = 0.5f;
     [SerializeField] private float verticalInputSensitivity = 0.8f;
-    [SerializeField] internal float generalLife = 0f;
-    [SerializeField] internal float runLife = 0f;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float drag = 6f;
     [SerializeField] private float gravityUp = 0f;
@@ -20,6 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject enemyGrenade = null;
     [SerializeField] private AudioSource damageSound = null;
 
+    [SerializeField] internal float generalLife = 0f;
+    [SerializeField] internal float runLife = 0f;
     [SerializeField] internal float jump = 0f;
     [SerializeField] internal float teleportationDelay = 0f;
     [SerializeField] internal float posForeground = 0f;
@@ -27,10 +27,10 @@ public class Player : MonoBehaviour
     [SerializeField] internal int playerScore;
     [SerializeField] internal int currentWeapon;
 
-    [HideInInspector] internal bool isGrounded;
-    [HideInInspector] internal bool isJumping;
-    [HideInInspector] internal Vector3 checkpointPos;
-    [HideInInspector] internal float jumpStartY;
+    internal bool isGrounded;
+    internal bool isJumping;
+    internal Vector3 checkpointPos;
+    internal float jumpStartY;
 
     private Material material;
     private Rigidbody rb;
@@ -150,8 +150,9 @@ public class Player : MonoBehaviour
     {
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
 
-        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f))
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, 9))
         {
+        Debug.DrawLine(groundCheckJump.origin, hitDown.point);
             isGrounded = true;
             isJumping = false;
 
@@ -212,20 +213,6 @@ public class Player : MonoBehaviour
             StartCoroutine(BecomeInvincible());
         }
     }
-
-    /*private void OnCollisionStay(Collision collision)
-    {
-        isGrounded = true;
-        isJumping = false;
-
-        if (collision.GetContact(0).normal.x == -1f || collision.GetContact(0).normal.x == 1f)
-            isGrounded = false;
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        isGrounded = false;
-    }*/
 
     private void OnTriggerEnter(Collider other)
     {
