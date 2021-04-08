@@ -22,6 +22,7 @@ public class Frelon : MonoBehaviour
     private Vector3 relativePos = Vector3.zero;
     private Vector3 enemyPos = Vector3.zero;
     private float enemyRotY = 0f;
+    private bool barrelHit = false;
 
     void Start()
     {
@@ -59,6 +60,17 @@ public class Frelon : MonoBehaviour
         }
 
         coneAngle = constConeAngle;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
+        {
+            life -= other.gameObject.GetComponent<Barrel>().damage;
+            damageSound.Play();
+            //material.color = new Color(255, 255, 255);
+            barrelHit = true;
+        }
     }
 
     public void OnTriggerStay(Collider other)

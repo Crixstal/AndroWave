@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     protected float weaponLength = 0f;
     protected float weaponRot = 0f;
     private Color baseColor;
+    private bool barrelHit = false;
 
     void Start()
     {
@@ -69,6 +70,17 @@ public class Enemy : MonoBehaviour
     }
 
     public virtual void Shoot() {}
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
+        {
+            life -= other.gameObject.GetComponent<Barrel>().damage;
+            damageSound.Play();
+            material.color = new Color(255, 255, 255);
+            barrelHit = true;
+        }
+    }
 
     public void OnTriggerStay(Collider other)
     {

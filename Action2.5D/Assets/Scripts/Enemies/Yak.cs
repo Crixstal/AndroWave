@@ -13,6 +13,7 @@ public class Yak : MonoBehaviour
 
     public float damage = 0f;
     private Rigidbody rb;
+    private bool barrelHit = false;
 
     void Start()
     {
@@ -47,6 +48,14 @@ public class Yak : MonoBehaviour
         {
             life -= playerBullet.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
+        }
+
+        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
+        {
+            life -= other.gameObject.GetComponent<Barrel>().damage;
+            damageSound.Play();
+            //material.color = new Color(255, 255, 255);
+            barrelHit = true;
         }
     }
 }

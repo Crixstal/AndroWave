@@ -17,22 +17,22 @@ public class Player : MonoBehaviour
     [SerializeField] private float invincibilityDeltaTime = 0f;
     [SerializeField] private float respawnDelay = 0f;
     [SerializeField] private float respawnHeight = 0f;
-    [SerializeField] private GameObject enemyBullet = null;
-    [SerializeField] private GameObject enemyGrenade = null;
-    [SerializeField] private Material material = null;
     [SerializeField] private AudioSource damageSound = null;
     [SerializeField] private int losePoints = 0;
 
     [SerializeField] internal float teleportationDelay = 0f;
+    [SerializeField] internal float teleportationHeight = 0f;
     [SerializeField] internal float posForeground = 0f;
     [SerializeField] internal float posBackground = 0f;
-    [SerializeField] internal int playerScore;
-    [SerializeField] internal int currentWeapon = 0;
+
+    internal int playerScore;
+    internal int currentWeapon = 0;
 
     internal bool isGrounded;
     internal bool win = false;
     internal Rigidbody rb;
 
+    private Material material = null;
     private float startTimer;
     private Ray groundCheck;
     private RaycastHit hit;
@@ -41,13 +41,38 @@ public class Player : MonoBehaviour
     private bool isInvincible = false;
     private float constRunLife;
 
+    internal bool isJumping;
+    internal float jumpStartY;
+    private Ray groundCheckJump;
+    private RaycastHit hitDown;
+    private float hitDownY;
+
+    [SerializeField] private float delayBetweenDamage = 0f;
+    [SerializeField] private float delayBeforeDamage = 0f;
+    private float constdelayBeforeDamage = 0f;
+    private float timestamp = 0f;
+    private bool isInVoid;
+    private Vector3 respawnVoidPoint = Vector3.zero;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
-        baseColor = material.color;
         cam = Camera.main;
         constRunLife = runLife;
+
+        groundCheckJump = new Ray(transform.position, Vector3.down);
+        material = GetComponent<Renderer>().material;
+        baseColor = material.color;
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.activeSelf == true)
+                currentWeapon = i;
+        }
+
+        constdelayBeforeDamage = delayBeforeDamage;
     }
 
     void FixedUpdate()
@@ -67,7 +92,13 @@ public class Player : MonoBehaviour
 
     private IEnumerator Respawn()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y + respawnHeight, transform.position.z);
+        if (isInVoid)
+            transform.position = respawnVoidPoint;
+        else
+            transform.position = new Vector3(transform.position.x, transform.position.y + respawnHeight, transform.position.z);
+
+        isInVoid = false;
+
         Time.timeScale = 0f;
         --generalLife;
         runLife = constRunLife;
@@ -107,13 +138,13 @@ public class Player : MonoBehaviour
         if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > 0) // rotate right
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
-            rb.AddForce(Vector3.right * speed, ForceMode.Acceleration);
+            rb.AddForce(speed * new Vector3(1, -hitDownY, 0), ForceMode.Acceleration);
 
 
         if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -0) // rotate left
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
-            rb.AddForce(Vector3.left * speed, ForceMode.Acceleration);
+            rb.AddForce(speed * new Vector3(-1, -hitDownY, 0), ForceMode.Acceleration);
     }
 
     private void Teleport()
@@ -121,10 +152,10 @@ public class Player : MonoBehaviour
         startTimer += Time.deltaTime;
 
         if (transform.position.z == posForeground)
-            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
+            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + teleportationHeight, posBackground), Vector3.down);
 
         if (transform.position.z == posBackground)
-            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posForeground), Vector3.down);
+            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + teleportationHeight, posForeground), Vector3.down);
 
         if (Input.GetButton("Teleport") && Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
@@ -144,8 +175,32 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
+        groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
+
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f))
+        {
+            isGrounded = true;
+            isJumping = false;
+
+            if (rb.velocity.y < 0)
+            {
+                if (hitDown.normal.y < 1)
+                    hitDownY = hitDown.normal.y;
+                else
+                    hitDownY = 0;
+            }
+        }
+
+        else
+            isGrounded = false;
+
         if (Input.GetButton("Jump") && isGrounded)
+        {
+            isJumping = true;
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            jumpStartY = transform.position.y;
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
+        }
     }
 
     private void Gravity()
@@ -170,35 +225,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == 14) // 14 = Grenade
-        {
-            if (isInvincible)
-                return;
-
-            runLife -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
-            damageSound.Play();
-            cam.GetComponent<ScreenShake>().StartShake();
-
-            StartCoroutine(BecomeInvincible());
-        }
-    }
-
-    void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.layer == 10) // 10 = PLatform
-            isGrounded = true;
-
-        if (collision.GetContact(0).normal.y == 1f && collision.gameObject.CompareTag("Wall"))
-            isGrounded = true;
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        isGrounded = false;
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 10) // 10 = Platform
@@ -209,7 +235,7 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            runLife -= enemyBullet.GetComponent<BulletEnemy>().damage;
+            runLife -= other.GetComponent<BulletEnemy>().damage;
             damageSound.Play();
             cam.GetComponent<ScreenShake>().StartShake();
 
@@ -221,7 +247,7 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            runLife -= other.gameObject.GetComponent<Yak>().damage;
+            runLife -= other.GetComponent<Yak>().damage;
             damageSound.Play();
             cam.GetComponent<ScreenShake>().StartShake();
 
@@ -233,17 +259,37 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            runLife -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
+            runLife -= other.GetComponent<GrenadeEnemy>().damage;
             damageSound.Play();
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
         }
 
+        if (other.gameObject.CompareTag("Trap"))
+        {
+            if (isInvincible)
+                return;
+
+            runLife -= other.GetComponent<Trap>().damage;
+            damageSound.Play();
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            StartCoroutine(BecomeInvincible());
+        }
+
+        if (other.gameObject.CompareTag("Void"))
+        {
+            isInVoid = true;
+            --runLife;
+            respawnVoidPoint = other.transform.GetChild(0).position;
+            transform.position = respawnVoidPoint;
+        }
+
         if (other.gameObject.CompareTag("Heart"))
         {
             runLife++;
-            Destroy(other.transform.parent.gameObject);
+            Destroy(other.gameObject);
         }
 
         if (other.gameObject.CompareTag("MachineGun"))
@@ -263,14 +309,58 @@ public class Player : MonoBehaviour
 
             Destroy(other.transform.parent.gameObject);
         }
-        
+
         if (other.CompareTag("Finish"))
             win = true;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Poison") || other.gameObject.CompareTag("Tide"))
+        {
+            delayBeforeDamage -= Time.deltaTime;
+
+            if (delayBeforeDamage <= 0f)
+            {
+                if (Time.time > timestamp)
+                {
+                    timestamp = Time.time + delayBetweenDamage;
+                    --runLife;
+                }
+            }
+        }
+
+        if (other.gameObject.CompareTag("Lava") || other.gameObject.CompareTag("Laser"))
+        {
+            if (Time.time > timestamp)
+            {
+                timestamp = Time.time + delayBetweenDamage;
+                --runLife;
+            }
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), false);
+
+        if (other.gameObject.CompareTag("Poison") || other.gameObject.CompareTag("Tide"))
+            delayBeforeDamage = constdelayBeforeDamage;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 14) // 14 = Grenade
+        {
+            if (isInvincible)
+                return;
+
+            runLife -= collision.gameObject.GetComponent<GrenadeEnemy>().damage;
+            damageSound.Play();
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            StartCoroutine(BecomeInvincible());
+        }
     }
 }

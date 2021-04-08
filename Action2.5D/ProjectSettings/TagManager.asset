@@ -5,16 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Front
-  - Side
-  - Back
-  - Up
   - Heart
   - MachineGun
   - Shotgun
   - Poison
-  - Wall
-  - Ground
+  - Trap
+  - Barrel
+  - Lava
+  - Laser
+  - Tide
+  - Void
   layers:
   - Default
   - TransparentFX
