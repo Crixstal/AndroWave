@@ -31,11 +31,11 @@ public class Player : MonoBehaviour
     internal bool isJumping;
     internal Vector3 checkpointPos;
     internal float jumpStartY;
+    internal Ray groundCheck;
+    internal RaycastHit hit;
 
     private Material material;
     private Rigidbody rb;
-    private Ray groundCheck;
-    private RaycastHit hit;
     private Ray groundCheckJump;
     private RaycastHit hitDown;
     private Color baseColor;
@@ -149,8 +149,9 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
+        LayerMask mask = LayerMask.GetMask("BulletPlayer");
 
-        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, 9))
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, ~mask))
         {
         Debug.DrawLine(groundCheckJump.origin, hitDown.point);
             isGrounded = true;

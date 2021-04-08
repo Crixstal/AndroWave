@@ -23,10 +23,10 @@ public class WeaponPlayer : MonoBehaviour
     protected float posBackground = 0f;
     protected float shootAngle = 0f;
 
-    protected float shootInput = 0f;
+    internal float shootInput = 0f;
+    internal float verticalInput = 0f;
     protected float horizontalInput = 0f;
     protected float isInXRange = 0f;
-    protected float verticalInput = 0f;
     protected float isInYRange = 0f;
     protected bool rotating = false;
     protected Vector3 weaponPos = Vector3.zero;
@@ -51,15 +51,14 @@ public class WeaponPlayer : MonoBehaviour
         posBackground = player.GetComponent<Player>().posBackground;
 
         weaponPos = transform.position;
+        RotateWeapon();
+        Shoot();
 
         shootInput = Input.GetAxisRaw("Shoot");
         horizontalInput = Input.GetAxis("HorizontalInput");
         verticalInput = Input.GetAxis("VerticalInput");
         isInYRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
         isInXRange = Mathf.Clamp(horizontalInput, -horizontalInputSensitivity, horizontalInputSensitivity);
-
-        RotateWeapon();
-        Shoot();
     }
 
     public void RotateWeapon()
