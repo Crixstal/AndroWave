@@ -6,17 +6,18 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float horizontalInputSensitivity = 0.5f;
-    [SerializeField] private float verticalInputSensitivity = 0.8f;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float drag = 6f;
     [SerializeField] private float gravityUp = 0f;
     [SerializeField] private float gravityDown = 0f;
-    [SerializeField] private float invincibilityDuration = 1.5f;
-    [SerializeField] private float invincibilityDeltaTime = 0.15f;
-
+    [SerializeField] private float invincibilityDuration = 0f;
+    [SerializeField] private float invincibilityDeltaTime = 0f;
+    [SerializeField] private float respawnDelay = 0f;
+    [SerializeField] private float respawnHeight = 0f;
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
     [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] private int losePoints = 0;
 
     [SerializeField] internal float generalLife = 0f;
     [SerializeField] internal float runLife = 0f;
@@ -44,24 +45,6 @@ public class Player : MonoBehaviour
     private float startTimer;
     private float constRunLife;
     private float hitDownY;
-
-    private IEnumerator BecomeInvincible()
-    {
-        isInvincible = true;
-
-        for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
-        {
-            if (material.color == baseColor)
-                material.color = new Color(255, 255, 255);
-
-            else
-                material.color = baseColor;
-
-            yield return new WaitForSeconds(invincibilityDeltaTime);
-        }
-
-        isInvincible = false;
-    }
 
     void Start()
     {
@@ -92,11 +75,41 @@ public class Player : MonoBehaviour
         Gravity();
 
         if (runLife <= 0)
+            StartCoroutine(Respawn());
+    }
+
+    private IEnumerator Respawn()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y + respawnHeight, transform.position.z);
+        Time.timeScale = 0f;
+        --generalLife;
+        runLife = constRunLife;
+        playerScore -= losePoints;
+
+        if (generalLife <= 0)
+            yield break;
+
+        yield return new WaitForSecondsRealtime(respawnDelay);
+
+        Time.timeScale = 1f;
+    }
+
+    private IEnumerator BecomeInvincible()
+    {
+        isInvincible = true;
+
+        for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
         {
-            transform.position = new Vector3(checkpointPos.x, checkpointPos.y, transform.position.z);
-            --generalLife;
-            runLife = constRunLife;
+            if (material.color == baseColor)
+                material.color = new Color(255, 255, 255);
+
+            else
+                material.color = baseColor;
+
+            yield return new WaitForSeconds(invincibilityDeltaTime);
         }
+
+        isInvincible = false;
     }
 
     private void Move()
@@ -192,22 +205,24 @@ public class Player : MonoBehaviour
             rb.AddForce(gravityUp * Physics.gravity, ForceMode.Acceleration);
     }
 
-    public bool IsAlive()
+    private void ChangeWeapon(GameObject weapon, int weaponID)
     {
-        if (generalLife <= 0)
-            return false;
-
-        return true;
+        if (!weapon.activeSelf)
+        {
+            weapon.SetActive(true);
+            gameObject.transform.GetChild(currentWeapon).gameObject.SetActive(false);
+            gameObject.GetComponent<Player>().currentWeapon = weaponID;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == 11) // 11 = Enemy
+        if (collision.gameObject.layer == 14) // 14 = Grenade
         {
             if (isInvincible)
                 return;
 
-            --runLife;
+            runLife -= enemyGrenade.GetComponent<GrenadeEnemy>().damage;
             damageSound.Play();
             cam.GetComponent<ScreenShake>().StartShake();
 
@@ -281,22 +296,12 @@ public class Player : MonoBehaviour
         }
 
         if (other.CompareTag("Finish"))
-            SceneManager.LoadScene("MainMenu");
+            win = true;
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), false);
-    }
-
-    private void ChangeWeapon(GameObject weapon, int weaponID)
-    {
-        if (!weapon.activeSelf)
-        {
-            weapon.SetActive(true);
-            gameObject.transform.GetChild(currentWeapon).gameObject.SetActive(false);
-            gameObject.GetComponent<Player>().currentWeapon = weaponID;
-        }
     }
 }

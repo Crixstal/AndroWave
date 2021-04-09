@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class WeaponPlayer : MonoBehaviour
 {
-    [SerializeField]    protected GameObject bullet = null;
-    [SerializeField]    protected float m_speed = 0f;
-    [SerializeField]    protected float m_damage = 0f;
-    [SerializeField]    protected float m_destructionDelay = 0f;
-    [SerializeField]    protected float horizontalInputSensitivity = 0f;
-    [SerializeField]    protected float verticalInputSensitivity = 0f;
-    [SerializeField]    protected float delayPerShot = 0f;
-    [SerializeField]    protected AudioSource weaponSound = null;
+    [SerializeField] protected GameObject bullet = null;
+    [SerializeField] protected float m_speed = 0f;
+    [SerializeField] protected float m_damage = 0f;
+    [SerializeField] protected float m_destructionDelay = 0f;
+    [SerializeField] protected float horizontalInputSensitivity = 0f;
+    [SerializeField] protected float verticalInputSensitivity = 0f;
+    [SerializeField] protected float delayPerShot = 0f;
+    [SerializeField] protected AudioSource weaponSound = null;
 
     protected GameObject currentBullet;
     protected float shotTimer = 0f;
@@ -19,8 +19,6 @@ public class WeaponPlayer : MonoBehaviour
     protected Player player = null;
     protected float playerRot = 0f;
     protected Vector3 playerPos = Vector3.zero;
-    protected float posForeground = 0f;
-    protected float posBackground = 0f;
     protected float shootAngle = 0f;
 
     internal float shootInput = 0f;
@@ -28,7 +26,6 @@ public class WeaponPlayer : MonoBehaviour
     protected float horizontalInput = 0f;
     protected float isInXRange = 0f;
     protected float isInYRange = 0f;
-    protected bool rotating = false;
     protected Vector3 weaponPos = Vector3.zero;
     protected float weaponLength = 0f;
 
@@ -47,8 +44,6 @@ public class WeaponPlayer : MonoBehaviour
     {
         playerRot = player.transform.rotation.eulerAngles.y;
         playerPos = player.transform.position;
-        posForeground = player.GetComponent<Player>().posForeground;
-        posBackground = player.GetComponent<Player>().posBackground;
 
         weaponPos = transform.position;
         RotateWeapon();

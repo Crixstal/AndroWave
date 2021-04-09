@@ -8,6 +8,9 @@ TagManager:
   - Heart
   - MachineGun
   - Shotgun
+  - Poison
+  - Wall
+  - Ground
   - Lock Y
   - Unlock Y
   - Lock X

@@ -9,20 +9,28 @@ public class BulletEnemy : MonoBehaviour
     [HideInInspector] public float damage = 0f;
     [HideInInspector] public Vector3 direction = Vector3.zero;
 
+    private float calculSpeed = 0f;
+    private Vector3 lastPosition = Vector3.zero;
+
     void FixedUpdate()
     {
         transform.Translate(direction * Time.deltaTime * speed, Space.World);
 
         Destroy(gameObject, destructionDelay);
+
+        calculSpeed = (transform.position - lastPosition).magnitude * 100f;
+        lastPosition = transform.position;
+        if (calculSpeed == 0f)
+            Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 0 || other.gameObject.layer == 8) // 0 = default - 8 = player
             Destroy(gameObject);
     }
 
-    private void OnBecameInvisible()
+    void OnBecameInvisible()
     {
         Destroy(gameObject);
     }

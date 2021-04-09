@@ -61,22 +61,10 @@ public class Frelon : MonoBehaviour
         coneAngle = constConeAngle;
     }
 
-    private void Rotate()
-    {
-        if (relativePos.x < 0f && enemyRotY == Mathf.Clamp(enemyRotY, -1f, 1f)) // look left
-            transform.Rotate(0f, 180f, 0f);
-
-        else if (relativePos.x > 0f && enemyRotY == Mathf.Clamp(enemyRotY, 179f, 181f)) // look right
-            transform.Rotate(0f, 180f, 0f);
-    }
-
     public void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 8) // 8 = Player
-        {
             Shoot();
-            Rotate();
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
