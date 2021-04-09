@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float horizontalInputSensitivity = 0.5f;
     [SerializeField] internal float generalLife = 0f;
     [SerializeField] internal float runLife = 0f;
+    [SerializeField] internal float jump = 0f;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float drag = 6f;
     [SerializeField] private float gravityUp = 0f;
@@ -19,9 +20,6 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource damageSound = null;
     [SerializeField] private int losePoints = 0;
 
-    [SerializeField] internal float generalLife = 0f;
-    [SerializeField] internal float runLife = 0f;
-    [SerializeField] internal float jump = 0f;
     [SerializeField] internal float teleportationDelay = 0f;
     [SerializeField] internal float teleportationHeight = 0f;
     [SerializeField] internal float posForeground = 0f;
@@ -36,14 +34,12 @@ public class Player : MonoBehaviour
 
     private Material material = null;
     private float startTimer;
-    private Ray groundCheck;
-    private RaycastHit hit;
+    internal Ray groundCheck;
+    internal RaycastHit hit;
     private Color baseColor;
     private Camera cam;
     private bool isInvincible = false;
-    private float startTimer;
     private float constRunLife;
-    private float hitDownY;
 
     internal bool isJumping;
     internal float jumpStartY;
@@ -57,7 +53,6 @@ public class Player : MonoBehaviour
     private float timestamp = 0f;
     private bool isInVoid;
     private Vector3 respawnVoidPoint = Vector3.zero;
-
 
     void Start()
     {
@@ -183,7 +178,6 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, ~mask))
         {
-        Debug.DrawLine(groundCheckJump.origin, hitDown.point);
             isGrounded = true;
             isJumping = false;
 
@@ -271,7 +265,7 @@ public class Player : MonoBehaviour
             StartCoroutine(BecomeInvincible());
         }
 
-        if (other.gameObject.CompareTag("Trap"))
+        if (other.CompareTag("Trap"))
         {
             if (isInvincible)
                 return;
@@ -283,7 +277,7 @@ public class Player : MonoBehaviour
             StartCoroutine(BecomeInvincible());
         }
 
-        if (other.gameObject.CompareTag("Void"))
+        if (other.CompareTag("Void"))
         {
             isInVoid = true;
             --runLife;
@@ -291,13 +285,13 @@ public class Player : MonoBehaviour
             transform.position = respawnVoidPoint;
         }
 
-        if (other.gameObject.CompareTag("Heart"))
+        if (other.CompareTag("Heart"))
         {
             runLife++;
             Destroy(other.gameObject);
         }
 
-        if (other.gameObject.CompareTag("MachineGun"))
+        if (other.CompareTag("MachineGun"))
         {
             GameObject weapon = transform.GetChild(0).gameObject;
 
@@ -306,7 +300,7 @@ public class Player : MonoBehaviour
             Destroy(other.transform.parent.gameObject);
         }
 
-        if (other.gameObject.CompareTag("Shotgun"))
+        if (other.CompareTag("Shotgun"))
         {
             GameObject weapon = transform.GetChild(1).gameObject;
 
@@ -321,7 +315,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Poison") || other.gameObject.CompareTag("Tide"))
+        if (other.CompareTag("Poison") || other.CompareTag("Tide"))
         {
             delayBeforeDamage -= Time.deltaTime;
 
@@ -335,7 +329,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (other.gameObject.CompareTag("Lava") || other.gameObject.CompareTag("Laser"))
+        if (other.CompareTag("Lava") || other.CompareTag("Laser"))
         {
             if (Time.time > timestamp)
             {
@@ -350,7 +344,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), false);
 
-        if (other.gameObject.CompareTag("Poison") || other.gameObject.CompareTag("Tide"))
+        if (other.CompareTag("Poison") || other.CompareTag("Tide"))
             delayBeforeDamage = constdelayBeforeDamage;
     }
 

@@ -13,15 +13,15 @@ public class Frelon : MonoBehaviour
     [SerializeField] private float coneAngle = 0f;
     [SerializeField] private float m_destructionDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
-    [SerializeField] protected GameObject playerBullet = null;
     [SerializeField] protected AudioSource damageSound = null;
+
+    private Material material = null;
+    private Color baseColor = Color.black;
 
     private GameObject currentBullet;
     private float shotTimer = 0f;
 
-    private Vector3 relativePos = Vector3.zero;
     private Vector3 enemyPos = Vector3.zero;
-    private float enemyRotY = 0f;
     private bool barrelHit = false;
 
     void Start()
@@ -29,12 +29,17 @@ public class Frelon : MonoBehaviour
         bullet.GetComponent<BulletEnemy>().speed = m_speed;
         bullet.GetComponent<BulletEnemy>().damage = m_damage;
         bullet.GetComponent<BulletEnemy>().destructionDelay = m_destructionDelay;
+
+        material = GetComponent<Renderer>().material;
+        baseColor = material.color;
     }
 
     public void FixedUpdate()
     {
+        //if (material.color != baseColor)
+        //    material.color = baseColor;
+
         enemyPos = transform.position;
-        enemyRotY = transform.rotation.eulerAngles.y;
 
         if (life <= 0)
         {
@@ -64,11 +69,11 @@ public class Frelon : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
+        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
-            //material.color = new Color(255, 255, 255);
+            material.color = new Color(255, 255, 255);
             barrelHit = true;
         }
     }
@@ -83,8 +88,9 @@ public class Frelon : MonoBehaviour
     {
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
         {
-            life -= playerBullet.GetComponent<BulletPlayer>().damage;
+            life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
+            material.color = new Color(255, 255, 255);
         }
 
     }

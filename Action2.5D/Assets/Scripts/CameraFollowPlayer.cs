@@ -78,7 +78,6 @@ public class CameraFollowPlayer : MonoBehaviour
             Vector3 yPos = new Vector3(transform.position.x, YPos, transform.position.z);
             transform.position = Vector3.SmoothDamp(yPos, targetPosition, ref velocity, smoothTime);
             YPos++;
-            Debug.Log("test");
         }
 
         else*/

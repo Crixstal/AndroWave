@@ -32,7 +32,6 @@ public class Enemy : MonoBehaviour
     protected Vector3 weaponPos = Vector3.zero;
     protected float weaponLength = 0f;
     protected float weaponRot = 0f;
-    private Color baseColor;
     private bool barrelHit = false;
 
     void Start()

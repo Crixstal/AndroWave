@@ -98,8 +98,6 @@ MonoBehaviour:
   m_speed: 30
   m_damage: 4
   m_destructionDelay: 0.25
-  horizontalInputSensitivity: 0.5
-  verticalInputSensitivity: 0.7
   delayPerShot: 0.5
   weaponSound: {fileID: 7189603631260641333}
   coneAngle: 11.25

@@ -128,8 +128,6 @@ MonoBehaviour:
   m_speed: 40
   m_damage: 1
   m_destructionDelay: 2
-  horizontalInputSensitivity: 0.5
-  verticalInputSensitivity: 0.8
   delayPerShot: 0.175
   weaponSound: {fileID: 9037757194968043381}
   spawnRange: 0.5

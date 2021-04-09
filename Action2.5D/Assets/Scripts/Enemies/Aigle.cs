@@ -14,15 +14,15 @@ public class Aigle : MonoBehaviour
     [SerializeField] private float m_blastDelay = 0f;
     [SerializeField] private float m_destructionDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
-    [SerializeField] protected GameObject playerBullet = null;
     [SerializeField] protected AudioSource damageSound = null;
+
+    private Material material = null;
+    private Color baseColor = Color.black;
 
     private float shotTimer = 0f;
 
-    private Vector3 relativePos = Vector3.zero;
     private Vector3 playerPos = Vector3.zero;
     private Vector3 enemyPos = Vector3.zero;
-    private float enemyRotY = 0f;
     private bool barrelHit = false;
 
     void Start()
@@ -30,14 +30,18 @@ public class Aigle : MonoBehaviour
         grenade.GetComponent<GrenadeEnemy>().damage = m_damage;
         grenade.GetComponent<GrenadeEnemy>().blastDelay = m_blastDelay;
         grenade.GetComponent<GrenadeEnemy>().destructionDelay = m_destructionDelay;
+
+        material = GetComponent<Renderer>().material;
+        baseColor = material.color;
     }
 
     public void FixedUpdate()
     {
+        if (material.color != baseColor)
+            material.color = baseColor;
+
         enemyPos = transform.position;
-        enemyRotY = transform.rotation.eulerAngles.y;
         playerPos = player.transform.position;
-        relativePos = player.transform.position - transform.position;
 
         if (life <= 0)
         {
@@ -58,11 +62,11 @@ public class Aigle : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
+        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
         {
-            life -= other.gameObject.GetComponent<Barrel>().damage;
+            life -= other.GetComponent<Barrel>().damage;
             damageSound.Play();
-            //material.color = new Color(255, 255, 255);
+            material.color = new Color(255, 255, 255);
             barrelHit = true;
         }
     }
@@ -82,8 +86,9 @@ public class Aigle : MonoBehaviour
     {
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
         {
-            life -= playerBullet.GetComponent<BulletPlayer>().damage;
+            life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
+            material.color = new Color(255, 255, 255);
         }
     }
 }

@@ -21,9 +21,8 @@ public class WeaponPlayer : MonoBehaviour
     protected float playerRot = 0f;
 
     internal float shootInput = 0f;
-    internal float verticalInput = 0f;
     protected float horizontalInput = 0f;
-    protected float verticalInput = 0f;
+    internal float verticalInput = 0f;
 
     void Start()
     {
