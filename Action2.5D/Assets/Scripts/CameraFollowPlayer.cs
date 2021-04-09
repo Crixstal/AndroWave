@@ -33,36 +33,35 @@ public class CameraFollowPlayer : MonoBehaviour
         YPos = transform.position.y;
     }
 
-    void Update()
+    void LateUpdate()
     {
         Vector3 targetPosition;
         bool isJumping = player.GetComponent<Player>().isJumping;
 
         if ((!isJumping && Yaxis && Xaxis) || (Yaxis && Xaxis &&
-            (player.transform.position.y < player.GetComponent<Player>().jumpStartY ||
-            player.transform.position.y > player.GetComponent<Player>().jumpStartY + jumpForce / 10f)))
+            (player.transform.position.y < player.GetComponent<Player>().jumpStartY)))
         {
             targetPosition = player.transform.position + offset;
             transform.position = new Vector3(targetPosition.x, targetPosition.y, foregroundZ + offset.z);
+            //YPos = player.transform.position.y;
         }
 
         else if (!isJumping && Yaxis && !Xaxis)
         {
             targetPosition = player.transform.position + offset;
             transform.position = new Vector3(Xpos, targetPosition.y, foregroundZ + offset.z);
+            //YPos = player.transform.position.y;
         }
 
         else if (Xaxis && (!Yaxis || isJumping))
         {
             targetPosition = player.transform.position + offset;
             transform.position = new Vector3(targetPosition.x, transform.position.y, foregroundZ + offset.z);
-            YPos = player.transform.position.y + jumpForce / 10;
         }
 
         else
         {
             transform.position = new Vector3(Xpos, transform.position.y, foregroundZ + offset.z);
-            YPos = player.transform.position.y + jumpForce / 10;
         }
 
         float horizontalInput = Input.GetAxis("HorizontalInput");
@@ -73,15 +72,16 @@ public class CameraFollowPlayer : MonoBehaviour
         }
 
         targetPosition = transform.position + new Vector3(xCameraShift, 0, 0);
-
-        if (isJumping)
+        /*
+        if (YPos < player.transform.position.y)
         {
             Vector3 yPos = new Vector3(transform.position.x, YPos, transform.position.z);
             transform.position = Vector3.SmoothDamp(yPos, targetPosition, ref velocity, smoothTime);
-            //Debug.Log("test");
+            YPos++;
+            Debug.Log("test");
         }
 
-        else
+        else*/
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
 }
