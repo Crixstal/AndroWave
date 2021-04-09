@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     [SerializeField] internal float runLife = 0f;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float drag = 6f;
-    [SerializeField] private float jump = 0f;
     [SerializeField] private float gravityUp = 0f;
     [SerializeField] private float gravityDown = 0f;
     [SerializeField] private float invincibilityDuration = 0f;
@@ -20,6 +19,9 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource damageSound = null;
     [SerializeField] private int losePoints = 0;
 
+    [SerializeField] internal float generalLife = 0f;
+    [SerializeField] internal float runLife = 0f;
+    [SerializeField] internal float jump = 0f;
     [SerializeField] internal float teleportationDelay = 0f;
     [SerializeField] internal float teleportationHeight = 0f;
     [SerializeField] internal float posForeground = 0f;
@@ -39,7 +41,9 @@ public class Player : MonoBehaviour
     private Color baseColor;
     private Camera cam;
     private bool isInvincible = false;
+    private float startTimer;
     private float constRunLife;
+    private float hitDownY;
 
     internal bool isJumping;
     internal float jumpStartY;
@@ -59,12 +63,11 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
-        cam = Camera.main;
-        constRunLife = runLife;
-
         groundCheckJump = new Ray(transform.position, Vector3.down);
         material = GetComponent<Renderer>().material;
         baseColor = material.color;
+        cam = Camera.main;
+        constRunLife = runLife;
 
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -176,9 +179,11 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
+        LayerMask mask = LayerMask.GetMask("BulletPlayer");
 
-        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f))
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, ~mask))
         {
+        Debug.DrawLine(groundCheckJump.origin, hitDown.point);
             isGrounded = true;
             isJumping = false;
 

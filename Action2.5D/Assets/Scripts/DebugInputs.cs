@@ -7,15 +7,18 @@ public class DebugInputs : MonoBehaviour
 {
     [SerializeField] private Player player = null;
     private float initialDelay;
+    private float startTimer;
 
     void Start()
     {
         initialDelay = player.teleportationDelay;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         MovePlayer();
+        Teleport();
+        Shoot();
 
         if (Input.GetKeyDown(KeyCode.R)) // reload scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -52,13 +55,70 @@ public class DebugInputs : MonoBehaviour
 
     void MovePlayer()
     {
+        float playerRot = player.transform.rotation.eulerAngles.y;
+
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            player.rb.AddForce(Vector3.right * 70, ForceMode.Acceleration);
+        {
+            if (playerRot != Mathf.Clamp(playerRot, -1f, 1f)) // rotate right
+                player.transform.Rotate(0f, 180f, 0f);
+
+            else
+                player.GetComponent<Rigidbody>().AddForce(Vector3.right * 70, ForceMode.Acceleration);
+        }
 
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            player.rb.AddForce(Vector3.left * 70, ForceMode.Acceleration);
+        {
+            if (playerRot != Mathf.Clamp(playerRot, 179f, 181f)) // rotate left
+                player.transform.Rotate(0f, 180f, 0f);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            player.rb.AddForce(Vector3.up * 40, ForceMode.VelocityChange);
+            else
+                player.GetComponent<Rigidbody>().AddForce(Vector3.left * 70, ForceMode.Acceleration);
+        }
+
+        if (Input.GetKey(KeyCode.Space) && player.isGrounded)
+        {
+            player.GetComponent<Rigidbody>().AddForce(Vector3.up * 40, ForceMode.VelocityChange);
+        }
+    }
+
+    void Teleport()
+    {
+        startTimer += Time.deltaTime;
+
+        if (player.transform.position.z == player.posForeground)
+            player.groundCheck = new Ray(new Vector3(player.transform.position.x, player.transform.position.y + 30, player.posBackground), Vector3.down);
+
+        if (player.transform.position.z == player.posBackground)
+            player.groundCheck = new Ray(new Vector3(player.transform.position.x, player.transform.position.y + 30, player.posForeground), Vector3.down);
+
+        if (Input.GetKeyDown(KeyCode.W) && Physics.Raycast(player.groundCheck, out player.hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+        {
+            if (player.transform.position.z == player.posForeground && startTimer >= player.teleportationDelay)
+            {
+                player.transform.position = new Vector3(player.hit.point.x, player.hit.point.y + player.transform.localScale.y, player.posBackground);
+                startTimer = 0f;
+            }
+
+            if (player.transform.position.z == player.posBackground && startTimer >= player.teleportationDelay)
+            {
+                player.transform.position = new Vector3(player.hit.point.x, player.hit.point.y + player.transform.localScale.y, player.posForeground);
+                startTimer = 0f;
+            }
+        }
+    }
+
+    void Shoot()
+    {
+        if (Input.GetKey(KeyCode.F))
+        {
+            //Debug.Log("Shoot");
+            player.transform.GetChild(player.currentWeapon).GetComponent<WeaponPlayer>().shootInput = 1f;
+
+            if (Input.GetKey(KeyCode.DownArrow))
+                player.transform.GetChild(player.currentWeapon).GetComponent<WeaponPlayer>().verticalInput = -1f;
+
+            if (Input.GetKey(KeyCode.UpArrow))
+                player.transform.GetChild(player.currentWeapon).GetComponent<WeaponPlayer>().verticalInput = 1f;
+        }
     }
 }

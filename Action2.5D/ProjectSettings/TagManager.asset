@@ -15,6 +15,11 @@ TagManager:
   - Laser
   - Tide
   - Void
+  - Wall
+  - Lock Y
+  - Unlock Y
+  - Lock X
+  - Unlock X
   layers:
   - Default
   - TransparentFX

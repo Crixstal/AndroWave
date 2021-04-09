@@ -20,7 +20,8 @@ public class WeaponPlayer : MonoBehaviour
     protected Player player = null;
     protected float playerRot = 0f;
 
-    protected float shootInput = 0f;
+    internal float shootInput = 0f;
+    internal float verticalInput = 0f;
     protected float horizontalInput = 0f;
     protected float verticalInput = 0f;
 
