@@ -7,39 +7,43 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float horizontalInputSensitivity = 0.5f;
     [SerializeField] private float verticalInputSensitivity = 0.8f;
-    [SerializeField] public float generalLife = 0f;
-    [SerializeField] public float runLife = 0f;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float drag = 6f;
-    [SerializeField] private float jump = 0f;
     [SerializeField] private float gravityUp = 0f;
     [SerializeField] private float gravityDown = 0f;
     [SerializeField] private float invincibilityDuration = 1.5f;
     [SerializeField] private float invincibilityDeltaTime = 0.15f;
 
-
     [SerializeField] private GameObject enemyBullet = null;
     [SerializeField] private GameObject enemyGrenade = null;
-    [SerializeField] private Material material = null;
     [SerializeField] private AudioSource damageSound = null;
 
-    public float teleportationDelay = 0f;
-    public float posForeground = 0f;
-    public float posBackground = 0f;
-    public int playerScore;
-    public int currentWeapon = 0;
+    [SerializeField] internal float generalLife = 0f;
+    [SerializeField] internal float runLife = 0f;
+    [SerializeField] internal float jump = 0f;
+    [SerializeField] internal float teleportationDelay = 0f;
+    [SerializeField] internal float posForeground = 0f;
+    [SerializeField] internal float posBackground = 0f;
+    [SerializeField] internal int playerScore;
+    [SerializeField] internal int currentWeapon;
 
-    [HideInInspector] public bool isGrounded;
-    [HideInInspector] public Vector3 checkpointPos;
+    internal bool isGrounded;
+    internal bool isJumping;
+    internal Vector3 checkpointPos;
+    internal float jumpStartY;
+    internal Ray groundCheck;
+    internal RaycastHit hit;
 
+    private Material material;
     private Rigidbody rb;
-    private float startTimer;
-    private Ray groundCheck;
-    private RaycastHit hit;
+    private Ray groundCheckJump;
+    private RaycastHit hitDown;
     private Color baseColor;
     private Camera cam;
     private bool isInvincible = false;
+    private float startTimer;
     private float constRunLife;
+    private float hitDownY;
 
     private IEnumerator BecomeInvincible()
     {
@@ -63,14 +67,21 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
+        groundCheckJump = new Ray(transform.position, Vector3.down);
+        material = GetComponent<Renderer>().material;
         baseColor = material.color;
         cam = Camera.main;
         constRunLife = runLife;
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.activeSelf == true)
+                currentWeapon = i;
+        }
     }
 
     void FixedUpdate()
     {
-
         rb.drag = drag;
         if (material.color != baseColor)
             material.color = baseColor;
@@ -99,13 +110,13 @@ public class Player : MonoBehaviour
             if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // rotate right
                 transform.Rotate(0f, 180f, 0f);
             else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
-                rb.AddForce(Vector3.right * speed, ForceMode.Acceleration);
+                rb.AddForce(speed * new Vector3 (1, -hitDownY, 0), ForceMode.Acceleration);
 
 
             if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // rotate left
                 transform.Rotate(0f, 180f, 0f);
             else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
-                rb.AddForce(Vector3.left * speed, ForceMode.Acceleration);
+                rb.AddForce(speed * new Vector3(-1, -hitDownY, 0), ForceMode.Acceleration);
         }
     }
 
@@ -137,8 +148,36 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
+        groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
+        LayerMask mask = LayerMask.GetMask("BulletPlayer");
+
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, ~mask))
+        {
+        Debug.DrawLine(groundCheckJump.origin, hitDown.point);
+            isGrounded = true;
+            isJumping = false;
+
+            if (rb.velocity.y < 0)
+            {
+                if (hitDown.normal.y < 1)
+                    hitDownY = hitDown.normal.y;
+                else
+                    hitDownY = 0;
+            }
+        }
+
+        else
+        {
+            isGrounded = false;
+        }
+
         if (Input.GetButton("Jump") && isGrounded)
+        {
+            isJumping = true;
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            jumpStartY = transform.position.y;
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
+        }
     }
 
     private void Gravity()
@@ -174,19 +213,6 @@ public class Player : MonoBehaviour
 
             StartCoroutine(BecomeInvincible());
         }
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        isGrounded = true;
-
-        if (collision.GetContact(0).normal.x == -1f || collision.GetContact(0).normal.x == 1f)
-            isGrounded = false;
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        isGrounded = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -253,7 +279,7 @@ public class Player : MonoBehaviour
 
             Destroy(other.transform.parent.gameObject);
         }
-        
+
         if (other.CompareTag("Finish"))
             SceneManager.LoadScene("MainMenu");
     }

@@ -16,10 +16,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float delayBeforeShoot = 0f;
     //[SerializeField] protected float bulletPerSalve = 0f;
     [SerializeField] protected GameObject playerBullet = null;
-    [SerializeField] private Material material = null;
     [SerializeField] protected AudioSource damageSound = null;
 
     private DropHeart getHeart = null;
+    private Material material;
+    private Color baseColor;
 
     protected float shotTimer = 0f;
 
@@ -31,7 +32,6 @@ public class Enemy : MonoBehaviour
     protected Vector3 weaponPos = Vector3.zero;
     protected float weaponLength = 0f;
     protected float weaponRot = 0f;
-    private Color baseColor;
 
     void Start()
     {
@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour
         bullet.GetComponent<BulletEnemy>().speed = m_speed;
         bullet.GetComponent<BulletEnemy>().damage = m_damage;
         bullet.GetComponent<BulletEnemy>().destructionDelay = m_destructionDelay;
+        material = GetComponent<Renderer>().material;
         baseColor = material.color;
     }
 

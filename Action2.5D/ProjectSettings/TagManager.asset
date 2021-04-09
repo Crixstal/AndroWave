@@ -5,13 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Front
-  - Side
-  - Back
-  - Up
   - Heart
   - MachineGun
   - Shotgun
+  - Lock Y
+  - Unlock Y
+  - Lock X
+  - Unlock X
   layers:
   - Default
   - TransparentFX
