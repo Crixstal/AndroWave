@@ -30,10 +30,10 @@ public class Player : MonoBehaviour
 
     internal bool isGrounded;
     internal bool isJumping;
-    internal Vector3 checkpointPos;
     internal float jumpStartY;
     internal Ray groundCheck;
     internal RaycastHit hit;
+    internal bool win = false;
 
     private Material material;
     private Rigidbody rb;
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
         material = GetComponent<Renderer>().material;
-        baseColor = material.color;
+        baseColor = material.GetColor("_BaseColor");
         cam = Camera.main;
         constRunLife = runLife;
 
@@ -66,8 +66,8 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         rb.drag = drag;
-        if (material.color != baseColor)
-            material.color = baseColor;
+        if (material.GetColor("_BaseColor") != baseColor)
+            material.SetColor("_BaseColor", baseColor);
 
         Move();
         Teleport();
@@ -100,11 +100,11 @@ public class Player : MonoBehaviour
 
         for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
         {
-            if (material.color == baseColor)
-                material.color = new Color(255, 255, 255);
+            if (material.GetColor("_BaseColor") == baseColor)
+                material.SetColor("_BaseColor", new Color(255, 255, 255));
 
             else
-                material.color = baseColor;
+                material.SetColor("_BaseColor", baseColor);
 
             yield return new WaitForSeconds(invincibilityDeltaTime);
         }
@@ -115,22 +115,18 @@ public class Player : MonoBehaviour
     private void Move()
     {
         float horizontalInput = Input.GetAxis("HorizontalInput");
-        float verticalInput = Input.GetAxis("VerticalInput");
         float playerRot = transform.rotation.eulerAngles.y;
 
-        if (verticalInput == Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity))
-        {
-            if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // rotate right
-                transform.Rotate(0f, 180f, 0f);
-            else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
-                rb.AddForce(speed * new Vector3 (1, -hitDownY, 0), ForceMode.Acceleration);
+        if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // rotate right
+            transform.Rotate(0f, 180f, 0f);
+        else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
+            rb.AddForce(speed * new Vector3(1, -hitDownY, 0), ForceMode.Acceleration);
 
 
-            if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // rotate left
-                transform.Rotate(0f, 180f, 0f);
-            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
-                rb.AddForce(speed * new Vector3(-1, -hitDownY, 0), ForceMode.Acceleration);
-        }
+        if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // rotate left
+            transform.Rotate(0f, 180f, 0f);
+        else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
+            rb.AddForce(speed * new Vector3(-1, -hitDownY, 0), ForceMode.Acceleration);
     }
 
     private void Teleport()
@@ -166,7 +162,7 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, ~mask))
         {
-        Debug.DrawLine(groundCheckJump.origin, hitDown.point);
+            Debug.DrawLine(groundCheckJump.origin, hitDown.point);
             isGrounded = true;
             isJumping = false;
 

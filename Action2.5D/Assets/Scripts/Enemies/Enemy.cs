@@ -45,8 +45,8 @@ public class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (material.color != baseColor)
-            material.color = baseColor;
+        if (material.GetColor("_BaseColor") != baseColor)
+            material.SetColor("_BaseColor", baseColor);
 
         enemyPos = transform.position;
         enemyRot = transform.rotation.eulerAngles.y;
@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
         {
             life -= playerBullet.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
-            material.color = new Color(255, 255, 255);
+            material.SetColor("_BaseColor", new Color(255, 255, 255));
         }
     }
 }
