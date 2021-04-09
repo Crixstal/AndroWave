@@ -155,7 +155,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Jump()
+    public bool Jumping
+    {
+        get
+        {
+            return isJumping;
+        }
+        set
+        {
+            if (isJumping != value)
+            {
+                isJumping = value;
+                cam.GetComponent<CameraFollowPlayer>().playerJumping = value;
+            }
+        }
+    }
+
+    private bool Grounded()
     {
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
         LayerMask mask = LayerMask.GetMask("BulletPlayer");
@@ -163,8 +179,7 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, ~mask))
         {
             Debug.DrawLine(groundCheckJump.origin, hitDown.point);
-            isGrounded = true;
-            isJumping = false;
+            Jumping = false;
 
             if (rb.velocity.y < 0)
             {
@@ -173,19 +188,22 @@ public class Player : MonoBehaviour
                 else
                     hitDownY = 0;
             }
+            return true;
         }
 
-        else
-        {
-            isGrounded = false;
-        }
+        return false;
+    }
+
+    private void Jump()
+    {
+        isGrounded = Grounded();
 
         if (Input.GetButton("Jump") && isGrounded)
         {
-            isJumping = true;
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             jumpStartY = transform.position.y;
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
+            Jumping = true;
         }
     }
 

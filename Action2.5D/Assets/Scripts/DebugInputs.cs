@@ -77,7 +77,8 @@ public class DebugInputs : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && player.isGrounded)
         {
-            player.GetComponent<Rigidbody>().AddForce(Vector3.up * 40, ForceMode.VelocityChange);
+            player.GetComponent<Rigidbody>().AddForce(Vector3.up * 50, ForceMode.VelocityChange);
+            player.Jumping = true;
         }
     }
 
