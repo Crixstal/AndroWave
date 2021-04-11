@@ -4,86 +4,92 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] protected DropHeart getHeart = null;
     [SerializeField] protected Player player = null;
-    [SerializeField] protected GameObject weapon = null;
     [SerializeField] protected GameObject bullet = null;
+    [SerializeField] protected GameObject grenade = null;
     [SerializeField] protected float life = 0f;
     [SerializeField] protected int score = 0;
-    [SerializeField] protected float m_speed = 0f;
-    [SerializeField] protected float m_damage = 0f;
-    [SerializeField] protected float m_destructionDelay = 0f;
+    [SerializeField] protected float bulletSpeed = 0f;
+    [SerializeField] protected float bulletDamage = 0f;
+    [SerializeField] protected float bulletDestructionDelay = 0f;
+    [SerializeField] protected float grenadeDamage = 0f;
+    [SerializeField] protected float grenadeDestructionDelay = 0f;
+    [SerializeField] protected float grenadeBlastDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
     [SerializeField] protected float delayBeforeShoot = 0f;
-    //[SerializeField] protected float bulletPerSalve = 0f;
-    [SerializeField] protected GameObject playerBullet = null;
     [SerializeField] protected AudioSource damageSound = null;
+    [SerializeField] protected bool dropGrenade = false;
 
-    private DropHeart getHeart = null;
-    private Material material;
-    private Color baseColor;
+    protected GameObject currentBullet = null;
+    protected GameObject currentGrenade = null;
+
+    protected Material material;
+    protected Color baseColor;
 
     protected float shotTimer = 0f;
 
     protected Vector3 relativePos = Vector3.zero;
+    protected Vector3 playerPos = Vector3.zero;
     protected Vector3 enemyPos = Vector3.zero;
-    protected float enemyRot = 0f;
-    protected float bulletRot = 0f;
 
-    protected Vector3 weaponPos = Vector3.zero;
-    protected float weaponLength = 0f;
-    protected float weaponRot = 0f;
-    private bool barrelHit = false;
+    protected bool barrelHit = false;
+    protected Vector3 bulletSpawn = Vector3.zero;
 
-    void Start()
+
+    public void Start()
     {
-        getHeart = GetComponent<DropHeart>();
-        bullet.GetComponent<BulletEnemy>().speed = m_speed;
-        bullet.GetComponent<BulletEnemy>().damage = m_damage;
-        bullet.GetComponent<BulletEnemy>().destructionDelay = m_destructionDelay;
+        bullet.GetComponent<BulletEnemy>().speed = bulletSpeed;
+        bullet.GetComponent<BulletEnemy>().damage = bulletDamage;
+        bullet.GetComponent<BulletEnemy>().destructionDelay = bulletDestructionDelay;
+
+        grenade.GetComponent<GrenadeEnemy>().damage = grenadeDamage;
+        grenade.GetComponent<GrenadeEnemy>().destructionDelay = grenadeDestructionDelay;
+        grenade.GetComponent<GrenadeEnemy>().blastDelay = grenadeBlastDelay;
+
         material = GetComponent<Renderer>().material;
-        baseColor = material.color;
+        baseColor = material.GetColor("_BaseColor");
     }
 
     public void FixedUpdate()
     {
-        if (material.color != baseColor)
-            material.color = baseColor;
+        if (material.GetColor("_BaseColor") != baseColor)
+            material.SetColor("_BaseColor", baseColor);
 
         enemyPos = transform.position;
-        enemyRot = transform.rotation.eulerAngles.y;
+        playerPos = player.transform.position;
+        relativePos = playerPos - enemyPos;
 
-        weaponPos = weapon.transform.position;
-        weaponLength = weapon.transform.localScale.x;
-        weaponRot = weapon.transform.rotation.eulerAngles.z;
-
-        relativePos = player.transform.position - transform.position;
+        bulletSpawn = transform.GetChild(0).GetChild(0).position;
 
         if (life <= 0)
         {
+            if (dropGrenade)
+                currentGrenade = Instantiate(grenade, enemyPos, Quaternion.identity);
+
             if (getHeart != null)
-            {
                 getHeart.ItemDrop();
-            }
 
             player.GetComponent<Player>().playerScore += score;
+
             Destroy(gameObject);
         }
     }
 
     public virtual void Shoot() {}
 
-    void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
+        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
-            material.color = new Color(255, 255, 255);
+            material.SetColor("_BaseColor", new Color(255, 255, 255));
             barrelHit = true;
         }
     }
 
-    public void OnTriggerStay(Collider other)
+    public virtual void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 8) // 8 = Player
         {
@@ -94,13 +100,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
         {
-            life -= playerBullet.GetComponent<BulletPlayer>().damage;
+            life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
-            material.color = new Color(255, 255, 255);
+            material.SetColor("_BaseColor", new Color(255, 255, 255));
         }
     }
 }

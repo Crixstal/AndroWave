@@ -238,13 +238,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b365167c099450428d29a09876b024e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 966268253949854958, guid: a1480a481fe85e24c9aa4a3cd2dec671, type: 3}
+  getHeart: {fileID: 0}
+  player: {fileID: 0}
   life: 10
   score: 0
   speed: 15
-  berserk: 0
-  damageSound: {fileID: 8848515298699259399}
   damage: 1
+  berserk: 1
+  rotateDelay: 1
+  damageSound: {fileID: 8848515298699259399}
 --- !u!1 &6137615585717557558
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,3 +361,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4945e3c26779e864ebe6aa6230167cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frontIsTriggered: 0

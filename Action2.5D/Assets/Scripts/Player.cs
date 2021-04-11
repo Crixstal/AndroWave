@@ -6,18 +6,21 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float horizontalInputSensitivity = 0.5f;
+
     [SerializeField] internal float generalLife = 0f;
     [SerializeField] internal float runLife = 0f;
-    [SerializeField] internal float jump = 0f;
+
     [SerializeField] private float speed = 0f;
+
+    [SerializeField] internal float jump = 0f;
     [SerializeField] private float drag = 6f;
     [SerializeField] private float gravityUp = 0f;
     [SerializeField] private float gravityDown = 0f;
+
     [SerializeField] private float invincibilityDuration = 0f;
     [SerializeField] private float invincibilityDeltaTime = 0f;
     [SerializeField] private float respawnDelay = 0f;
     [SerializeField] private float respawnHeight = 0f;
-    [SerializeField] private AudioSource damageSound = null;
     [SerializeField] private int losePoints = 0;
 
     [SerializeField] internal float teleportationDelay = 0f;
@@ -25,21 +28,31 @@ public class Player : MonoBehaviour
     [SerializeField] internal float posForeground = 0f;
     [SerializeField] internal float posBackground = 0f;
 
+    [SerializeField] private float delayBetweenDamage = 0f;
+    [SerializeField] private float delayBeforeDamage = 0f;
+
+    [SerializeField] private AudioSource damageSound = null;
+
+    internal Rigidbody rb;
     internal int playerScore;
     internal int currentWeapon = 0;
-
     internal bool isGrounded;
     internal bool win = false;
-    internal Rigidbody rb;
-
-    private Material material = null;
-    private float startTimer;
     internal Ray groundCheck;
     internal RaycastHit hit;
+
+    private Material material = null;
+    private float startTimer = 0f;
     private Color baseColor;
     private Camera cam;
     private bool isInvincible = false;
-    private float constRunLife;
+    private float constRunLife = 0f;
+
+    private float constdelayBeforeDamage = 0f;
+    private float timestamp = 0f;
+    private bool isInVoid;
+    private Vector3 respawnVoidPoint = Vector3.zero;
+    private bool barrelHit = false;
 
     internal bool isJumping;
     internal float jumpStartY;
@@ -47,20 +60,17 @@ public class Player : MonoBehaviour
     private RaycastHit hitDown;
     private float hitDownY;
 
-    [SerializeField] private float delayBetweenDamage = 0f;
-    [SerializeField] private float delayBeforeDamage = 0f;
-    private float constdelayBeforeDamage = 0f;
-    private float timestamp = 0f;
-    private bool isInVoid;
-    private Vector3 respawnVoidPoint = Vector3.zero;
 
     void Start()
-    {
+    {      
         rb = GetComponent<Rigidbody>();
+
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
-        material = GetComponent<Renderer>().material;
-        baseColor = material.color;
+
+        //material = GetComponent<Renderer>().material;
+        //baseColor = material.GetColor("_BaseColor");
+
         cam = Camera.main;
         constRunLife = runLife;
 
@@ -76,8 +86,9 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         rb.drag = drag;
-        if (material.color != baseColor)
-            material.color = baseColor;
+
+        //if (material.GetColor("_BaseColor") != baseColor)
+        //    material.SetColor("_BaseColor", baseColor);
 
         Move();
         Teleport();
@@ -116,11 +127,11 @@ public class Player : MonoBehaviour
 
         for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
         {
-            if (material.color == baseColor)
-                material.color = new Color(255, 255, 255);
+            //if (material.color == baseColor)
+            //    material.SetColor("_BaseColor", new Color(255, 255, 255));
 
-            else
-                material.color = baseColor;
+            //else
+            //    material.SetColor("_BaseColor", baseColor);
 
             yield return new WaitForSeconds(invincibilityDeltaTime);
         }
@@ -152,22 +163,18 @@ public class Player : MonoBehaviour
         if (transform.position.z == posForeground)
             groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + teleportationHeight, posBackground), Vector3.down);
 
-        if (transform.position.z == posBackground)
+        else if (transform.position.z == posBackground)
             groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + teleportationHeight, posForeground), Vector3.down);
 
         if (Input.GetButton("Teleport") && Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
             if (transform.position.z == posForeground && startTimer >= teleportationDelay)
-            {
                 transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posBackground);
-                startTimer = 0f;
-            }
 
-            if (transform.position.z == posBackground && startTimer >= teleportationDelay)
-            {
+            else if (transform.position.z == posBackground && startTimer >= teleportationDelay)
                 transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posForeground);
-                startTimer = 0f;
-            }
+
+            startTimer = 0f;
         }
     }
 
@@ -224,10 +231,30 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Hurt(float damage)
+    {
+        if (isInvincible)
+            return;
+
+        runLife -= damage;
+        damageSound.Play();
+        cam.GetComponent<ScreenShake>().StartShake();
+
+        StartCoroutine(BecomeInvincible());
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), true);
+
+        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
+        {
+            runLife -= other.gameObject.GetComponent<Barrel>().damage;
+            damageSound.Play();
+            material.SetColor("_BaseColor", new Color(255, 255, 255));
+            barrelHit = true;
+        }
 
         if (other.gameObject.layer == 12) // 12 = BulletEnemy
         {

@@ -19,7 +19,7 @@ public class Shotgun : WeaponPlayer
             {
                 for (int i = 0; i < 5; ++i)
                 {
-                    currentBullet = Instantiate(bullet, spawnPoint, Quaternion.Euler(0f, playerRot, shootAngle));
+                    currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
                     weaponSound.Play();
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle + shootAngle, Vector3.forward) * Vector3.right;
                     coneAngle -= constConeAngle / 2;
@@ -32,7 +32,7 @@ public class Shotgun : WeaponPlayer
             {
                 for (int i = 0; i < 5 ; ++i)
                 {
-                    currentBullet = Instantiate(bullet, spawnPoint, Quaternion.Euler(0f, playerRot, shootAngle));
+                    currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
                     weaponSound.Play();
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle - shootAngle, Vector3.forward) * Vector3.left;
                     coneAngle -= constConeAngle / 2;

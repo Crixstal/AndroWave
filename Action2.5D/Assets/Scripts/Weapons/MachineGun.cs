@@ -13,8 +13,8 @@ public class MachineGun : WeaponPlayer
             shotTimer = Time.time + delayPerShot;
 
             currentBullet = Instantiate(bullet, 
-                                        new Vector3(Random.Range(spawnPoint.x - spawnRange, spawnPoint.x + spawnRange), 
-                                                    Random.Range(spawnPoint.y - spawnRange, spawnPoint.y + spawnRange), spawnPoint.z), 
+                                        new Vector3(Random.Range(bulletSpawn.x - spawnRange, bulletSpawn.x + spawnRange), 
+                                                    Random.Range(bulletSpawn.y - spawnRange, bulletSpawn.y + spawnRange), bulletSpawn.z), 
                                         Quaternion.Euler(0f, playerRot, shootAngle));
 
             #region ---------- SHOOT RIGHT ----------

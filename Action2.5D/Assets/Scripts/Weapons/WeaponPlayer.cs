@@ -15,7 +15,7 @@ public class WeaponPlayer : MonoBehaviour
     protected float shotTimer = 0f;
     protected float shootAngle = 0f;
     protected Vector3 inputs = Vector3.zero;
-    protected Vector3 spawnPoint = Vector3.zero;
+    protected Vector3 bulletSpawn = Vector3.zero;
 
     protected Player player = null;
     protected float playerRot = 0f;
@@ -43,7 +43,7 @@ public class WeaponPlayer : MonoBehaviour
 
         inputs = new Vector3(horizontalInput, verticalInput, 0f);
 
-        spawnPoint = transform.GetChild(0).position;
+        bulletSpawn = transform.GetChild(0).position;
 
         RotateWeapon();
         Shoot();

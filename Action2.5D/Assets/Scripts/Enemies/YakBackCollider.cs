@@ -14,7 +14,6 @@ public class YakBackCollider : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 8) // 8 = Player
-            backIsTriggered = false;
+        backIsTriggered = false;
     }
 }

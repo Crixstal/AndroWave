@@ -14,7 +14,6 @@ public class YakFrontCollider : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 8) // 8 = Player
-            frontIsTriggered = false;
+        frontIsTriggered = false;
     }
 }

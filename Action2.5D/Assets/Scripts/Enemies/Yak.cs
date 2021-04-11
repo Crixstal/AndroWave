@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class Yak : MonoBehaviour
 {
+    [SerializeField] private DropHeart getHeart = null;
     [SerializeField] private Player player = null;
     [SerializeField] private float life = 0f;
     [SerializeField] private int score = 0;
     [SerializeField] private float speed = 0f;
+    public float damage = 0f;
     [SerializeField] private bool berserk = false;
     [SerializeField] private float rotateDelay = 0f;
     [SerializeField] private AudioSource damageSound = null;
 
+    private Rigidbody rb;
     private Material material = null;
     private Color baseColor = Color.black;
-
-    public float damage = 0f;
-    private Rigidbody rb;
     private bool barrelHit = false;
-
     private bool frontTriggered = false;
     private bool backTriggered = false;
+
 
     void Start()
     {
@@ -32,16 +32,19 @@ public class Yak : MonoBehaviour
         Physics.IgnoreCollision(GetComponent<CapsuleCollider>(), player.GetComponent<Collider>(), true);
 
         if (berserk)
-            transform.GetChild(1).GetComponent<Collider>().enabled = true;
+            transform.GetChild(1).GetComponent<Collider>().enabled = true; // enable back collider
     }
 
     private void FixedUpdate()
     {
-        //if (material.color != baseColor)
-        //    material.color = baseColor;
+        if (material.GetColor("_BaseColor") != baseColor)
+            material.SetColor("_BaseColor", baseColor);
 
         if (life <= 0)
         {
+            if (getHeart != null)
+                getHeart.ItemDrop();
+
             player.GetComponent<Player>().playerScore += score;
             Destroy(gameObject);
         }
@@ -51,11 +54,13 @@ public class Yak : MonoBehaviour
     {
         yield return new WaitForSeconds(rotateDelay);
 
-        //transform.eulerAngles = new Vector3(0f, 0f, 0f);
-
         transform.Rotate(0f, 180f, 0f);
         rb.velocity = Vector3.zero;
-        rb.AddForce(Vector3.right * speed, ForceMode.VelocityChange);
+
+        if (transform.rotation.eulerAngles.y == Mathf.Clamp(transform.rotation.eulerAngles.y, -1f, 1f))
+            rb.AddForce(Vector3.right * speed, ForceMode.VelocityChange);
+        else
+            rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
     }
 
     void OnTriggerEnter(Collider other)
@@ -63,31 +68,24 @@ public class Yak : MonoBehaviour
         frontTriggered = GetComponentInChildren<YakFrontCollider>().frontIsTriggered;
         backTriggered = GetComponentInChildren<YakBackCollider>().backIsTriggered;
 
-        if (frontTriggered)
-        {
-            StartCoroutine(TurnAround());
-            //rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
-        }
-            
-        if (backTriggered)
-        {
-            StartCoroutine(TurnAround());
-        }
-
-            /*if (transform.rotation.y != Mathf.Clamp(transform.rotation.y, -1f, 1f)) // rotate right
-                transform.Rotate(0f, 180f, 0f);
-            else if (transform.rotation.y == Mathf.Clamp(transform.rotation.y, -1f, 1f)) // move right
-
-            if (transform.rotation.y != Mathf.Clamp(transform.rotation.y, 179f, 181f)) // rotate left
-                transform.Rotate(0f, 180f, 0f);
-            else if (transform.rotation.y == Mathf.Clamp(transform.rotation.y, 179f, 181f)) // move left*/
-
         if (other.CompareTag("Barrel") && !barrelHit)
         {
             life -= other.GetComponent<Barrel>().damage;
             damageSound.Play();
-            material.color = new Color(255, 255, 255);
+            material.SetColor("_BaseColor", new Color(255, 255, 255));
             barrelHit = true;
+        }
+
+        if (backTriggered)
+            StartCoroutine(TurnAround());
+
+        if (frontTriggered)
+        {
+            if (transform.GetChild(0).GetComponent<Collider>().enabled == false)
+                return;
+
+            rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
+            transform.GetChild(0).GetComponent<Collider>().enabled = false; // disable front collider
         }
     }
 
@@ -100,7 +98,7 @@ public class Yak : MonoBehaviour
         {
             life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
-            material.color = new Color(255, 255, 255);
+            material.SetColor("_BaseColor", new Color(255, 255, 255));
         }
     }
 }
