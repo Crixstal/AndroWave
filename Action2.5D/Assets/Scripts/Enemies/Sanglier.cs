@@ -38,6 +38,7 @@ public class Sanglier : MonoBehaviour
     private Vector3 bulletSpawn = Vector3.zero;
 
     readonly private int layerMask = ~(1 << 10); // ignore layer 10 = Platform
+    private Camera cam;
 
 
     public void Start()
@@ -49,14 +50,16 @@ public class Sanglier : MonoBehaviour
         aimLine = GetComponent<LineRenderer>();
         shootLine = transform.GetChild(0).GetComponent<LineRenderer>();
 
-        //material = GetComponent<Renderer>().material;
-        //baseColor = material.GetColor("_BaseColor");
+        material = GetComponent<Renderer>().material;
+        baseColor = material.GetColor("_BaseColor");
+
+        cam = Camera.main;
     }
 
     public void FixedUpdate()
     {
-        //if (material.GetColor("_BaseColor") != baseColor)
-        //    material.SetColor("_BaseColor", baseColor);
+        if (material.GetColor("_BaseColor") != baseColor)
+            material.SetColor("_BaseColor", baseColor);
 
         enemyPos = transform.position;
 
@@ -67,6 +70,8 @@ public class Sanglier : MonoBehaviour
 
         if (life <= 0)
         {
+            cam.GetComponent<ScreenShake>().StartShake();
+
             if (dropGrenade)
                 currentGrenade = Instantiate(grenade, enemyPos, Quaternion.identity);
 

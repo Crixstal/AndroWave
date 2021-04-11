@@ -36,6 +36,8 @@ public class Enemy : MonoBehaviour
     protected bool barrelHit = false;
     protected Vector3 bulletSpawn = Vector3.zero;
 
+    protected Camera cam;
+
 
     public void Start()
     {
@@ -49,6 +51,8 @@ public class Enemy : MonoBehaviour
 
         material = GetComponent<Renderer>().material;
         baseColor = material.GetColor("_BaseColor");
+
+        cam = Camera.main;
     }
 
     public void FixedUpdate()
@@ -64,6 +68,8 @@ public class Enemy : MonoBehaviour
 
         if (life <= 0)
         {
+            cam.GetComponent<ScreenShake>().StartShake();
+
             if (dropGrenade)
                 currentGrenade = Instantiate(grenade, enemyPos, Quaternion.identity);
 

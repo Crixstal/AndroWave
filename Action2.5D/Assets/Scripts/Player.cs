@@ -68,8 +68,8 @@ public class Player : MonoBehaviour
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
 
-        //material = GetComponent<Renderer>().material;
-        //baseColor = material.GetColor("_BaseColor");
+        material = GetComponent<Renderer>().material;
+        baseColor = material.GetColor("_BaseColor");
 
         cam = Camera.main;
         constRunLife = runLife;
@@ -87,8 +87,8 @@ public class Player : MonoBehaviour
     {
         rb.drag = drag;
 
-        //if (material.GetColor("_BaseColor") != baseColor)
-        //    material.SetColor("_BaseColor", baseColor);
+        if (material.GetColor("_BaseColor") != baseColor)
+            material.SetColor("_BaseColor", baseColor);
 
         Move();
         Teleport();
@@ -127,11 +127,11 @@ public class Player : MonoBehaviour
 
         for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
         {
-            //if (material.color == baseColor)
-            //    material.SetColor("_BaseColor", new Color(255, 255, 255));
+            if (material.color == baseColor)
+                material.SetColor("_BaseColor", new Color(255, 255, 255));
 
-            //else
-            //    material.SetColor("_BaseColor", baseColor);
+            else
+                material.SetColor("_BaseColor", baseColor);
 
             yield return new WaitForSeconds(invincibilityDeltaTime);
         }
@@ -252,6 +252,7 @@ public class Player : MonoBehaviour
         {
             runLife -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
+            cam.GetComponent<ScreenShake>().StartShake();
             material.SetColor("_BaseColor", new Color(255, 255, 255));
             barrelHit = true;
         }

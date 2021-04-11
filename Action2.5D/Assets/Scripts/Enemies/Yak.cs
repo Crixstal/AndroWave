@@ -21,10 +21,15 @@ public class Yak : MonoBehaviour
     private bool frontTriggered = false;
     private bool backTriggered = false;
 
+    private Camera cam;
+
+
 
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+
+        cam = Camera.main;
 
         material = GetComponent<Renderer>().material;
         baseColor = material.color;
@@ -42,6 +47,8 @@ public class Yak : MonoBehaviour
 
         if (life <= 0)
         {
+            cam.GetComponent<ScreenShake>().StartShake();
+
             if (getHeart != null)
                 getHeart.ItemDrop();
 
