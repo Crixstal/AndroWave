@@ -37,8 +37,6 @@ public class Player : MonoBehaviour
     internal int playerScore;
     internal int currentWeapon = 0;
     internal bool isGrounded;
-    internal bool isJumping;
-    internal float jumpStartY;
     internal Ray groundCheck;
     internal RaycastHit hit;
     internal bool win = false;

@@ -112,8 +112,6 @@ public class Sanglier : MonoBehaviour
                     shootLine.SetPosition(0, laserRay.origin);
                     shootLine.SetPosition(1, laserHit.point);
 
-                    Debug.DrawRay(laserRay.origin, laserRay.direction * 2);
-
                     if (laserHit.transform == player.transform)
                         player.Hurt(laserDamage);
                 }
