@@ -33,8 +33,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private AudioSource damageSound = null;
 
-    internal Rigidbody rb;
-    internal int playerScore;
+    internal Rigidbody rb = null;
+    internal int playerScore = 0;
     internal int currentWeapon = 0;
     internal bool isGrounded;
     internal Ray groundCheck;
@@ -144,13 +144,13 @@ public class Player : MonoBehaviour
         float horizontalInput = Input.GetAxis("HorizontalInput");
         float playerRot = transform.rotation.eulerAngles.y;
 
-        if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // rotate right
+        if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > 0) // rotate right
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
             rb.AddForce(speed * new Vector3(1, -hitDownY, 0), ForceMode.Acceleration);
 
 
-        if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // rotate left
+        if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < 0) // rotate left
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
             rb.AddForce(speed * new Vector3(-1, -hitDownY, 0), ForceMode.Acceleration);
@@ -183,7 +183,7 @@ public class Player : MonoBehaviour
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
         LayerMask mask = LayerMask.GetMask("BulletPlayer");
 
-        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, ~mask))
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.22f, ~mask))
         {
             isGrounded = true;
             isJumping = false;
