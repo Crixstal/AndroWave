@@ -8,16 +8,6 @@ public class ScreenShake : MonoBehaviour
     private float shakeTime = 0f, power = 0f;
     private float shakeTimeRemaining = 0f, shakePower = 0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
 
     private void LateUpdate()
     {

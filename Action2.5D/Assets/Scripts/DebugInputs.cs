@@ -111,7 +111,6 @@ public class DebugInputs : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.F))
         {
-            //Debug.Log("Shoot");
             player.transform.GetChild(player.currentWeapon).GetComponent<WeaponPlayer>().shootInput = 1f;
 
             if (Input.GetKey(KeyCode.DownArrow))
