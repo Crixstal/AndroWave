@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2993658800265023338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3397474165936606704}
+  m_Layer: 11
+  m_Name: Bullet Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3397474165936606704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2993658800265023338}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.692, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1935368108343415845}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3655123694456133207
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,6 +46,7 @@ GameObject:
   - component: {fileID: 388858997074372980}
   - component: {fileID: 6722348551941218849}
   - component: {fileID: -4453879124436027813}
+  - component: {fileID: 8639402503337892791}
   m_Layer: 11
   m_Name: Aigle
   m_TagString: Enemy
@@ -139,18 +170,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ebe18d8fe3a954e9da347b3a6a668d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 966268253949854958, guid: a1480a481fe85e24c9aa4a3cd2dec671, type: 3}
+  player: {fileID: 0}
+  bullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee, type: 3}
   grenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8, type: 3}
-  height: 10
-  life: 5
-  score: 0
-  speed: 5
-  m_damage: 1
-  m_destructionDelay: 1
-  delayPerShot: 0.5
-  playerBullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd,
-    type: 3}
+  life: 8
+  score: 100
+  bulletSpeed: 0
+  bulletDamage: 0
+  bulletDestructionDelay: 0
+  grenadeDamage: 1
+  grenadeDestructionDelay: 1
+  grenadeBlastDelay: 3
+  delayPerShot: 3
+  delayBeforeShoot: 0
   damageSound: {fileID: -4453879124436027813}
+  height: 10
+  speed: 5
 --- !u!82 &-4453879124436027813
 AudioSource:
   m_ObjectHideFlags: 0
@@ -247,6 +282,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!895512359 &8639402503337892791
+AimConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655123694456133207}
+  m_Enabled: 0
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AimVector: {x: 0, y: 0, z: 1}
+  m_UpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpObject: {fileID: 0}
+  m_UpType: 0
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 0
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 966268253949854947, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+      type: 3}
+    weight: 1
 --- !u!1 &6335557752499492543
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,6 +318,7 @@ GameObject:
   - component: {fileID: 1935368108343415845}
   - component: {fileID: 8905686804067774037}
   - component: {fileID: 1293384827332341890}
+  - component: {fileID: 8848072087645374874}
   m_Layer: 11
   m_Name: Weapon
   m_TagString: Untagged
@@ -275,7 +336,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0.38, y: -0.228, z: -0.59000015}
   m_LocalScale: {x: 0.7659667, y: 0.1209476, z: 0.2187337}
-  m_Children: []
+  m_Children:
+  - {fileID: 3397474165936606704}
   m_Father: {fileID: 856959483436773118}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
@@ -326,3 +388,25 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!895512359 &8848072087645374874
+AimConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6335557752499492543}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: -90}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AimVector: {x: 0, y: 0, z: 1}
+  m_UpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpObject: {fileID: 0}
+  m_UpType: 0
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 0
+  m_IsLocked: 0
+  m_Sources: []

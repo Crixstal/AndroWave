@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector]
-    public bool isPaused = false;
+    internal bool isPaused = false;
 
     void Update()
     {
@@ -17,13 +16,13 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Pause") && !isPaused)
         {
-            Time.timeScale = 0;
+            Time.timeScale = 0f;
             isPaused = true;
         }
 
         else if (Input.GetButtonDown("Pause") && isPaused)
         {
-            Time.timeScale = 1;
+            Time.timeScale = 1f;
             isPaused = false;
         }
     }

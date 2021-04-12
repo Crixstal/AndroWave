@@ -9,20 +9,6 @@ public class PickUpWeapon : MonoBehaviour
     [SerializeField]
     private int weaponID = 0;
 
-/*
-    void ChangeWeapon()
-    {
-        int i = 0;
-        foreach (Transform weapon in transform)
-        {
-            if (i == selectedWeapon)
-                weapon.gameObject.SetActive(true);
-            else
-                weapon.gameObject.SetActive(false);
-            i++;
-        }
-    }
-*/
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Weapon"))
