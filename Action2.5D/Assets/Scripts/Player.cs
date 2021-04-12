@@ -33,8 +33,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private AudioSource damageSound = null;
 
-    internal Rigidbody rb;
-    internal int playerScore;
+    internal Rigidbody rb = null;
+    internal int playerScore = 0;
     internal int currentWeapon = 0;
     internal bool isGrounded;
     internal Ray groundCheck;
@@ -183,7 +183,7 @@ public class Player : MonoBehaviour
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
         LayerMask mask = LayerMask.GetMask("BulletPlayer");
 
-        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, ~mask))
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.3f, ~mask))
         {
             isGrounded = true;
             isJumping = false;
