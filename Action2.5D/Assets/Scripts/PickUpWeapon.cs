@@ -9,30 +9,10 @@ public class PickUpWeapon : MonoBehaviour
     [SerializeField]
     private int weaponID = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-/*
-    void ChangeWeapon()
-    {
-        int i = 0;
-        foreach (Transform weapon in transform)
-        {
-            if (i == selectedWeapon)
-                weapon.gameObject.SetActive(true);
-            else
-                weapon.gameObject.SetActive(false);
-            i++;
-        }
-    }
-*/
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Weapon"))
         {
-            Debug.Log("Pick up Weapon");
-
             if (!weapon.activeSelf)
             {
                 weapon.SetActive(true);

@@ -15,18 +15,29 @@ public class ChangeCamera : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Up") && !Camera.Yaxis)
+        if (other.CompareTag("Unlock Y") && !Camera.Yaxis)
         {
             Camera.Yaxis = true;
             return;
         }
 
-        if (other.CompareTag("Side") && Camera.Yaxis)
+        if (other.CompareTag("Lock Y") && Camera.Yaxis)
         {
             Camera.Yaxis = false;
-            cam.transform.position = new Vector3(cam.transform.position.x, other.transform.position.y + Camera.offset.y + 1, cam.transform.position.z);
+            return;
+        }
+
+        if (other.CompareTag("Unlock X") && !Camera.Xaxis)
+        {
+            Camera.Xaxis = true;
+            return;
+        }
+
+        if (other.CompareTag("Lock X") && Camera.Xaxis)
+        {
+            Camera.Xaxis = false;
+            Camera.Xpos = cam.transform.position.x;
             return;
         }
     }
-
 }
