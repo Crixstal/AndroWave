@@ -360,21 +360,7 @@ AnimationClip:
     path: SM_YAK-1
   m_ScaleCurves: []
   m_FloatCurves: []
-  m_PPtrCurves:
-  - curve:
-    - time: 0
-      value: {fileID: 2100000, guid: e2a94358f66a54143ba466d947ce37c0, type: 2}
-    attribute: m_Materials.Array.data[1]
-    path: SM_YAK-1/SM_Wheels
-    classID: 23
-    script: {fileID: 0}
-  - curve:
-    - time: 0
-      value: {fileID: 2100000, guid: e2a94358f66a54143ba466d947ce37c0, type: 2}
-    attribute: m_Materials.Array.data[0]
-    path: SM_YAK-1/SM_Body
-    classID: 23
-    script: {fileID: 0}
+  m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -404,29 +390,13 @@ AnimationClip:
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 1769912175
-      attribute: 1
-      script: {fileID: 0}
-      typeID: 23
-      customType: 21
-      isPPtrCurve: 1
-    - serializedVersion: 2
-      path: 2016017517
-      attribute: 0
-      script: {fileID: 0}
-      typeID: 23
-      customType: 21
-      isPPtrCurve: 1
-    - serializedVersion: 2
       path: 2099195841
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
-    pptrCurveMapping:
-    - {fileID: 2100000, guid: e2a94358f66a54143ba466d947ce37c0, type: 2}
-    - {fileID: 2100000, guid: e2a94358f66a54143ba466d947ce37c0, type: 2}
+    pptrCurveMapping: []
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
