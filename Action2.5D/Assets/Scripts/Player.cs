@@ -178,6 +178,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetButton("Teleport") && Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
+            cam.GetComponent<CameraFollowPlayer>().OnTeleport = cam.transform.position;
             if (transform.position.z == posForeground && startTimer >= teleportationDelay)
                 transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posBackground);
 
