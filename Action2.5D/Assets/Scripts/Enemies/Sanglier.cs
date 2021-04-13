@@ -147,6 +147,12 @@ public class Sanglier : MonoBehaviour
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        shootLine.enabled = false;
+        aimLine.enabled = false;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
