@@ -20,6 +20,7 @@ TagManager:
   - Unlock Y
   - Lock X
   - Unlock X
+  - Mitrapompe
   layers:
   - Default
   - TransparentFX

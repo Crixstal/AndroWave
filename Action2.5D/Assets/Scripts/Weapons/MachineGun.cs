@@ -16,7 +16,6 @@ public class MachineGun : WeaponPlayer
                                         new Vector3(Random.Range(bulletSpawn.x - spawnRange, bulletSpawn.x + spawnRange), 
                                                     Random.Range(bulletSpawn.y - spawnRange, bulletSpawn.y + spawnRange), bulletSpawn.z), 
                                         Quaternion.Euler(0f, playerRot, shootAngle));
-            cam.GetComponent<ScreenShake>().StartShake();
 
             #region ---------- SHOOT RIGHT ----------
             if (playerRot == Mathf.Clamp(playerRot, -1f, 1f))
