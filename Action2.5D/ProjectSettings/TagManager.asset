@@ -9,12 +9,18 @@ TagManager:
   - MachineGun
   - Shotgun
   - Poison
+  - Trap
+  - Barrel
+  - Lava
+  - Laser
+  - Tide
+  - Void
   - Wall
-  - Ground
   - Lock Y
   - Unlock Y
   - Lock X
   - Unlock X
+  - Mitrapompe
   layers:
   - Default
   - TransparentFX
