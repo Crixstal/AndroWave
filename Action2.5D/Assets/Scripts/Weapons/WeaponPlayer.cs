@@ -4,33 +4,26 @@ using UnityEngine;
 
 public class WeaponPlayer : MonoBehaviour
 {
-    [SerializeField]    protected GameObject bullet = null;
-    [SerializeField]    protected float m_speed = 0f;
-    [SerializeField]    protected float m_damage = 0f;
-    [SerializeField]    protected float m_destructionDelay = 0f;
-    [SerializeField]    protected float horizontalInputSensitivity = 0f;
-    [SerializeField]    protected float verticalInputSensitivity = 0f;
-    [SerializeField]    protected float delayPerShot = 0f;
-    [SerializeField]    protected AudioSource weaponSound = null;
+    [SerializeField] protected GameObject bullet = null;
+    [SerializeField] protected float m_speed = 0f;
+    [SerializeField] protected float m_damage = 0f;
+    [SerializeField] protected float m_destructionDelay = 0f;
+    [SerializeField] protected float delayPerShot = 0f;
+    [SerializeField] protected AudioSource weaponSound = null;
 
     protected GameObject currentBullet;
     protected float shotTimer = 0f;
+    protected float shootAngle = 0f;
+    protected Vector3 inputs = Vector3.zero;
+    protected Vector3 bulletSpawn = Vector3.zero;
 
     protected Player player = null;
     protected float playerRot = 0f;
-    protected Vector3 playerPos = Vector3.zero;
-    protected float posForeground = 0f;
-    protected float posBackground = 0f;
-    protected float shootAngle = 0f;
 
-    protected float shootInput = 0f;
+    internal float shootInput = 0f;
     protected float horizontalInput = 0f;
-    protected float isInXRange = 0f;
-    protected float verticalInput = 0f;
-    protected float isInYRange = 0f;
-    protected bool rotating = false;
-    protected Vector3 weaponPos = Vector3.zero;
-    protected float weaponLength = 0f;
+    internal float verticalInput = 0f;
+
 
     void Start()
     {
@@ -39,24 +32,19 @@ public class WeaponPlayer : MonoBehaviour
         bullet.GetComponent<BulletPlayer>().destructionDelay = m_destructionDelay;
 
         player = gameObject.GetComponentInParent<Player>();
-
-        weaponLength = transform.localScale.x;
     }
 
     public void FixedUpdate()
     {
         playerRot = player.transform.rotation.eulerAngles.y;
-        playerPos = player.transform.position;
-        posForeground = player.GetComponent<Player>().posForeground;
-        posBackground = player.GetComponent<Player>().posBackground;
-
-        weaponPos = transform.position;
 
         shootInput = Input.GetAxisRaw("Shoot");
         horizontalInput = Input.GetAxis("HorizontalInput");
         verticalInput = Input.GetAxis("VerticalInput");
-        isInYRange = Mathf.Clamp(verticalInput, -verticalInputSensitivity, verticalInputSensitivity);
-        isInXRange = Mathf.Clamp(horizontalInput, -horizontalInputSensitivity, horizontalInputSensitivity);
+
+        inputs = new Vector3(horizontalInput, verticalInput, 0f);
+
+        bulletSpawn = transform.GetChild(0).position;
 
         RotateWeapon();
         Shoot();
@@ -64,44 +52,23 @@ public class WeaponPlayer : MonoBehaviour
 
     public void RotateWeapon()
     {
-        // ---------- ROTATE RIGHT ----------
-        if (horizontalInput > horizontalInputSensitivity)
+        if (playerRot == Mathf.Clamp(playerRot, -1f, 1f)) // shoot right
         {
-            transform.eulerAngles = new Vector3(0f, 0f, 0f); // RIGHT
+            shootAngle = Vector3.Angle(Vector3.right, inputs);
 
-            if (verticalInput > verticalInputSensitivity) // UP
-                transform.eulerAngles = new Vector3(0f, 0f, 45f);
-
-            else if (verticalInput < -verticalInputSensitivity) // DOWN
-                transform.eulerAngles = new Vector3(0f, 0f, -45f);
+            if (verticalInput < 0f)
+                shootAngle = -shootAngle;
         }
 
-        // ---------- ROTATE LEFT ----------
-        else if (horizontalInput < -horizontalInputSensitivity)
+        else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f)) // shoot left
         {
-            transform.eulerAngles = new Vector3(0f, 180f, 0f); // LEFT
+            shootAngle = Vector3.Angle(Vector3.left, inputs);
 
-            if (verticalInput > verticalInputSensitivity) // UP
-                transform.eulerAngles = new Vector3(0f, 180f, 45f);
-
-            else if (verticalInput < -verticalInputSensitivity) // DOWN
-                transform.eulerAngles = new Vector3(0f, 180f, -45f);
-        }
-        
-        // ---------- ROTATE UP & DOWN ----------
-        else if (horizontalInput == isInXRange)
-        {
-            if (verticalInput > verticalInputSensitivity) // UP
-                transform.eulerAngles = new Vector3(0f, 0f, 90f);
-
-            else if (verticalInput < -verticalInputSensitivity) // DOWN
-                transform.eulerAngles = new Vector3(0f, 0f, -90f);
+            if (verticalInput < 0f)
+                shootAngle = -shootAngle;
         }
 
-        if (horizontalInput == Mathf.Clamp(horizontalInput, -0.1f, 0.1f) && verticalInput == Mathf.Clamp(verticalInput, -0.1f, 0.1f))
-            transform.eulerAngles = new Vector3(0f, 0f, 0f);
-
-        shootAngle = transform.eulerAngles.z;
+        transform.eulerAngles = new Vector3(0f, playerRot, shootAngle);
     }
 
     public virtual void Shoot() { }

@@ -14,105 +14,28 @@ public class Shotgun : WeaponPlayer
         {
             shotTimer = Time.time + delayPerShot;
 
-            #region // ---------- SHOOT RIGHT & LEFT ----------
-            if (verticalInput == isInYRange)
+            #region ---------- SHOOT RIGHT ----------
+            if (playerRot == Mathf.Clamp(playerRot, -1f, 1f))
             {
-                if (playerRot == Mathf.Clamp(playerRot, -1f, 1f)) // RIGHT
+                for (int i = 0; i < 5; ++i)
                 {
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, coneAngle + shootAngle));
-                        weaponSound.Play();
-                        currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle, Vector3.forward) * Vector3.right;
-                        coneAngle -= constConeAngle / 2;
-                    }
-                }
-
-                else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f)) // LEFT
-                {
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, -coneAngle + shootAngle));
-                        weaponSound.Play();
-                        currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle, Vector3.forward) * Vector3.left;
-                        coneAngle -= constConeAngle / 2;
-                    }
+                    currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
+                    weaponSound.Play();
+                    currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle + shootAngle, Vector3.forward) * Vector3.right;
+                    coneAngle -= constConeAngle / 2;
                 }
             }
             #endregion
 
-            #region // -----------SHOOT UP ----------
-            if (verticalInput > verticalInputSensitivity) // UP
+            #region ---------- SHOOT LEFT ----------
+            else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f))
             {
-                if (horizontalInput == isInXRange) // UP
+                for (int i = 0; i < 5 ; ++i)
                 {
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        currentBullet = Instantiate(bullet, new Vector3(playerPos.x, weaponPos.y + weaponLength, playerPos.z), Quaternion.Euler(0f, 0f, coneAngle + shootAngle));
-                        weaponSound.Play();
-                        currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle, Vector3.forward) * Vector3.up;
-                        coneAngle -= constConeAngle / 2;
-                    }
-                }
-
-                if (horizontalInput > horizontalInputSensitivity) // RIGHT
-                {
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, coneAngle + shootAngle));
-                        weaponSound.Play();
-                        currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle + shootAngle, Vector3.forward) * Vector3.right;
-                        coneAngle -= constConeAngle / 2;
-                    }
-                }
-
-                if (horizontalInput < -horizontalInputSensitivity) // LEFT
-                {
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, -coneAngle + shootAngle));
-                        weaponSound.Play();
-                        currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle - shootAngle, Vector3.forward) * Vector3.left;
-                        coneAngle -= constConeAngle / 2;
-                    }
-                }
-            }
-            #endregion
-
-            #region // ---------- SHOOT DOWN ----------
-            else if (verticalInput < -verticalInputSensitivity) // DOWN
-            {
-                if (horizontalInput == isInXRange) // DOWN
-                {
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        currentBullet = Instantiate(bullet, new Vector3(playerPos.x, weaponPos.y - weaponLength, playerPos.z), Quaternion.Euler(0f, 0f, coneAngle + shootAngle));
-                        weaponSound.Play();
-                        currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle, Vector3.forward) * Vector3.down;
-                        coneAngle -= constConeAngle / 2;
-                    }
-                }
-
-                if (horizontalInput > horizontalInputSensitivity) // RIGHT
-                {
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, coneAngle + shootAngle));
-                        weaponSound.Play();
-                        currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle + shootAngle, Vector3.forward) * Vector3.right;
-                        coneAngle -= constConeAngle / 2;
-                    }
-                }
-
-                if (horizontalInput < -horizontalInputSensitivity) // LEFT
-                {
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, weaponPos.y, playerPos.z), Quaternion.Euler(0f, playerRot, -coneAngle + shootAngle));
-                        weaponSound.Play();
-                        currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle - shootAngle, Vector3.forward) * Vector3.left;
-                        coneAngle -= constConeAngle / 2;
-                    }
+                    currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
+                    weaponSound.Play();
+                    currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle - shootAngle, Vector3.forward) * Vector3.left;
+                    coneAngle -= constConeAngle / 2;
                 }
             }
             #endregion

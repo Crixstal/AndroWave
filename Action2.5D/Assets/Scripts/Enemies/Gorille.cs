@@ -4,7 +4,20 @@ using UnityEngine;
 
 public class Gorille : Enemy
 {
-    private GameObject currentBullet;
+    [SerializeField] private int bulletPerSalve = 0;
+    [SerializeField] private float timeBetweenBullets = 0f;
+
+
+    private IEnumerator Salve()
+    {
+        for (int i = 0; i < bulletPerSalve; ++i)
+        {
+            yield return new WaitForSeconds(timeBetweenBullets);
+
+            currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f));
+            currentBullet.GetComponent<BulletEnemy>().direction = Vector3.Normalize(relativePos);
+        }
+    }
 
     public override void Shoot()
     {
@@ -12,25 +25,7 @@ public class Gorille : Enemy
         {
             shotTimer = Time.time + delayPerShot;
 
-            // ---------- SHOOT UP ----------
-            if (weaponRot == Mathf.Clamp(weaponRot, 89f, 91f))
-                currentBullet = Instantiate(bullet, new Vector3(enemyPos.x, weaponPos.y + weaponLength, enemyPos.z), Quaternion.Euler(0f, enemyRot, weapon.transform.rotation.eulerAngles.z));
-
-            // ---------- SHOOT DOWN ----------
-            else if (weaponRot == Mathf.Clamp(weaponRot, 269f, 271f))
-                currentBullet = Instantiate(bullet, new Vector3(enemyPos.x, weaponPos.y - weaponLength, enemyPos.z), Quaternion.Euler(0f, enemyRot, weapon.transform.rotation.eulerAngles.z));
-
-
-            // ---------- SHOOT RIGHT ----------
-            if (enemyRot == Mathf.Clamp(enemyRot, -1f, 1f))
-                currentBullet = Instantiate(bullet, new Vector3(weaponPos.x + weaponLength, weaponPos.y, enemyPos.z), Quaternion.Euler(0f, enemyRot, weapon.transform.rotation.eulerAngles.z));
-
-            // ---------- SHOOT LEFT ----------
-            else if (enemyRot == Mathf.Clamp(enemyRot, 179f, 181f))
-                currentBullet = Instantiate(bullet, new Vector3(weaponPos.x - weaponLength, weaponPos.y, enemyPos.z), Quaternion.Euler(0f, enemyRot, weapon.transform.rotation.eulerAngles.z));
-
-
-            currentBullet.GetComponent<BulletEnemy>().direction = Vector3.Normalize(relativePos);
+            StartCoroutine(Salve());
         }
     }
 }

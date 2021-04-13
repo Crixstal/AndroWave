@@ -5,13 +5,23 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Front
-  - Side
-  - Back
-  - Up
   - Heart
   - MachineGun
   - Shotgun
+  - Poison
+  - Trap
+  - Barrel
+  - Lava
+  - Laser
+  - Tide
+  - Void
+  - Wall
+  - Lock Y
+  - Unlock Y
+  - Lock X
+  - Unlock X
+  - Mitrapompe
+  - Teleport
   layers:
   - Default
   - TransparentFX

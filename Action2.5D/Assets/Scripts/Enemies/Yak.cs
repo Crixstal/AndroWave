@@ -4,99 +4,108 @@ using UnityEngine;
 
 public class Yak : MonoBehaviour
 {
+    [SerializeField] private DropHeart getHeart = null;
     [SerializeField] private Player player = null;
     [SerializeField] private float life = 0f;
     [SerializeField] private int score = 0;
     [SerializeField] private float speed = 0f;
-    [SerializeField] protected GameObject playerBullet = null;
-    [SerializeField] protected AudioSource damageSound = null;
-
     public float damage = 0f;
+    [SerializeField] private bool berserk = false;
+    [SerializeField] private float rotateDelay = 0f;
+    [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] protected MeshRenderer meshRenderer;
+    [SerializeField] private Color blinkingColor = new Color(255, 255, 255);
 
     private Rigidbody rb;
-    private Vector3 relativePos = Vector3.zero;
-    private float foreground = 0f;
-    private float background = 0f;
-    private Ray groundCheck;
-    private RaycastHit hit;
+    private Material material = null;
+    private Color baseColor = Color.black;
+    private bool barrelHit = false;
+    private bool frontTriggered = false;
+    private bool backTriggered = false;
 
-    private bool firstRunDone = false;
-    private bool secondRunDone = false;
+    private Camera cam;
 
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
 
-        foreground = player.GetComponent<Player>().posForeground;
-        background = player.GetComponent<Player>().posBackground;
+        cam = Camera.main;
+
+        material = meshRenderer.materials[2];
+        baseColor = material.GetColor("_BaseColor");
+
+        Physics.IgnoreCollision(GetComponent<CapsuleCollider>(), player.GetComponent<Collider>(), true);
+
+        if (berserk)
+            transform.GetChild(1).GetComponent<Collider>().enabled = true; // enable back collider
     }
 
     private void FixedUpdate()
     {
-        relativePos = player.transform.position - transform.position;
+        if (material.GetColor("_BaseColor") != baseColor)
+            material.SetColor("_BaseColor", baseColor);
 
         if (life <= 0)
         {
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            if (getHeart != null)
+                getHeart.ItemDrop();
+
             player.GetComponent<Player>().playerScore += score;
             Destroy(gameObject);
         }
     }
 
-    private void SecondRun()
+    private IEnumerator TurnAround()
     {
+        yield return new WaitForSeconds(rotateDelay);
+
         transform.Rotate(0f, 180f, 0f);
+        rb.velocity = Vector3.zero;
 
-        if (transform.position.z == foreground)
-            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, background), Vector3.down);
-
-        if (transform.position.z == background)
-            groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, foreground), Vector3.down);
-
-        if (Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
-        {
-            if (transform.position.z == foreground)
-            {
-                transform.position = new Vector3(player.transform.position.x - 50, hit.point.y + transform.localScale.y, background);
-                rb.velocity = Vector3.zero;
-                rb.AddForce((2 * Vector3.right) * speed, ForceMode.VelocityChange);
-            }
-
-            else if (transform.position.z == background)
-            {
-                transform.position = new Vector3(player.transform.position.x - 30, hit.point.y + transform.localScale.y, foreground);
-                rb.velocity = Vector3.zero;
-                rb.AddForce((2 * Vector3.right) * speed, ForceMode.VelocityChange);
-            }
-        }
-
-        secondRunDone = true;
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 8 && !firstRunDone) // 8 = Player
-        {
-            transform.Rotate(0f, 180f, 0f);
+        if (transform.rotation.eulerAngles.y == Mathf.Clamp(transform.rotation.eulerAngles.y, -1f, 1f))
+            rb.AddForce(Vector3.right * speed, ForceMode.VelocityChange);
+        else
             rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
-            gameObject.layer = 13; // 13 = Yak
-            firstRunDone = true;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        frontTriggered = GetComponentInChildren<YakFrontCollider>().frontIsTriggered;
+        backTriggered = GetComponentInChildren<YakBackCollider>().backIsTriggered;
+
+        if (other.CompareTag("Barrel") && !barrelHit)
+        {
+            life -= other.GetComponent<Barrel>().damage;
+            damageSound.Play();
+            material.SetColor("_BaseColor", blinkingColor);
+            barrelHit = true;
         }
 
-        if (other.gameObject.layer == 9) // 9 = BulletPlayer
+        if (backTriggered)
+            StartCoroutine(TurnAround());
+
+        if (frontTriggered)
         {
-            life -= playerBullet.GetComponent<BulletPlayer>().damage;
-            damageSound.Play();
+            if (transform.GetChild(0).GetComponent<Collider>().enabled == false)
+                return;
+
+            rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
+            transform.GetChild(0).GetComponent<Collider>().enabled = false; // disable front collider
         }
     }
 
-    private void OnBecameInvisible()
+    void OnCollisionEnter(Collision collision)
     {
-        if (relativePos.x > 0)
-            SecondRun();
-
-        gameObject.layer = 11; // 11 = Enemy
-
-        if (secondRunDone && relativePos.x < 0)
+        if (collision.gameObject.CompareTag("Wall"))
             Destroy(gameObject);
+
+        if (collision.gameObject.layer == 9) // 9 = BulletPlayer
+        {
+            life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
+            damageSound.Play();
+            material.SetColor("_BaseColor", blinkingColor);
+        }
     }
 }
