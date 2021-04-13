@@ -1,9 +1,69 @@
 fileFormatVersion: 2
-guid: f15eb105254bc9b44a3e686687737790
+guid: 029fe8e1017e29442a65ec0bb9d78d26
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.007
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.008
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.009
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.010
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.011
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.012
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.015
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.016
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.017
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.018
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light.019
+    second: {fileID: 2100000, guid: 7f34857bb22092d44b8a4ab0787f9fe6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 5ef8c0a12911ab44ea24985c2b92062f, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

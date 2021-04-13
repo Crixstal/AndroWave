@@ -24,8 +24,6 @@ public class WeaponPlayer : MonoBehaviour
     protected float horizontalInput = 0f;
     internal float verticalInput = 0f;
 
-    protected Camera cam;
-
 
     void Start()
     {
@@ -34,8 +32,6 @@ public class WeaponPlayer : MonoBehaviour
         bullet.GetComponent<BulletPlayer>().destructionDelay = m_destructionDelay;
 
         player = gameObject.GetComponentInParent<Player>();
-
-        cam = Camera.main;
     }
 
     public void FixedUpdate()
