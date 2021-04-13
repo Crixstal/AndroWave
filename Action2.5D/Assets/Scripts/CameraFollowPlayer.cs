@@ -30,6 +30,10 @@ public class CameraFollowPlayer : MonoBehaviour
     private float accuracy = 0.01f;
     private Coroutine currentCoroutine = null;
     private Vector3 positionBeforeTeleport;
+    internal bool pursuitInX = false;
+    internal bool pursuitInY = false;
+    internal bool unlockedInX = false;
+    internal bool unlockedInY = false;
 
     private IEnumerator Smooth(float target)
     {
@@ -54,7 +58,8 @@ public class CameraFollowPlayer : MonoBehaviour
     private IEnumerator SmoothTeleport(Vector3 target)
     {
         float velocityF = 0;
-        Vector3 velocityVec3 = Vector3.zero;
+        teleport = false;
+
         for (int i = 0; i < 40; i++)
         {
             if (target.y - transform.position.y > accuracy || transform.position.y - target.y > accuracy)
@@ -65,13 +70,45 @@ public class CameraFollowPlayer : MonoBehaviour
             }
             else
             {
-                teleport = false;
                 isTeleporting = false;
                 yield break;
             }
         }
-        teleport = false;
         isTeleporting = false;
+    }
+
+    private IEnumerator UnlockX(Vector3 target)
+    {
+        float velocityF = 0;
+        unlockedInX = false;
+
+        for (int i = 0; i < 40; i++)
+        {
+            transform.position = new Vector3(Mathf.SmoothDamp(transform.position.x, target.x + 5f, ref velocityF, 0.2f), transform.position.y, transform.position.z);
+            yield return new WaitForEndOfFrame();
+        }
+        pursuitInX = false;
+    }
+
+    private IEnumerator UnlockY(Vector3 target)
+    {
+        float velocityF = 0;
+        unlockedInY = false;
+
+        for (int i = 0; i < 40; i++)
+        {
+            if (target.y - transform.position.y > accuracy || transform.position.y - target.y > accuracy)
+            {
+                transform.position = new Vector3(transform.position.x, Mathf.SmoothDamp(transform.position.y, target.y + 2f, ref velocityF, 0.2f), transform.position.z);
+                yield return new WaitForEndOfFrame();
+            }
+            else
+            {
+                pursuitInY = false;
+                yield break;
+            }
+        }
+        pursuitInY = false;
     }
 
     private void Start()
@@ -89,15 +126,30 @@ public class CameraFollowPlayer : MonoBehaviour
             (player.transform.position.y < player.GetComponent<Player>().jumpStartY)))
         {
             targetPosition = player.transform.position + offset;
-            transform.position = new Vector3(targetPosition.x, transform.position.y, foregroundZ + offset.z);
+
+            if (unlockedInX)
+            {
+                pursuitInX = true;
+                StartCoroutine(UnlockX(targetPosition));
+            }
+
+            if (unlockedInY)
+            {
+                pursuitInY = true;
+                StartCoroutine(UnlockY(targetPosition));
+            }
+
             if (previousJumpingState && !playerJumping)
                 currentCoroutine = StartCoroutine(Smooth(targetPosition.y));
 
-            else if (teleport)
+            if (teleport)
                 StartCoroutine(SmoothTeleport(targetPosition));
 
-            else if (isSmoothing || isTeleporting)
+            else if (isSmoothing || isTeleporting || pursuitInY)
                 transform.position = new Vector3(targetPosition.x, transform.position.y, foregroundZ + offset.z);
+
+            else if (pursuitInX)
+                transform.position = new Vector3(transform.position.x, targetPosition.y, foregroundZ + offset.z);
 
             else if (!isSmoothing)
                 transform.position = new Vector3(targetPosition.x, targetPosition.y, foregroundZ + offset.z);
@@ -107,26 +159,41 @@ public class CameraFollowPlayer : MonoBehaviour
             (player.transform.position.y < player.GetComponent<Player>().jumpStartY)))
         {
             targetPosition = player.transform.position + offset;
+
+            if (unlockedInY)
+            {
+                pursuitInY = true;
+                StartCoroutine(UnlockY(targetPosition));
+            }
+
             if (previousJumpingState && !playerJumping)
                 currentCoroutine = StartCoroutine(Smooth(targetPosition.y));
 
             else if (teleport)
                 StartCoroutine(SmoothTeleport(targetPosition));
 
-            else if (!isSmoothing)
+            else if (!isSmoothing && !pursuitInY)
                 transform.position = new Vector3(Xpos, targetPosition.y, foregroundZ + offset.z);
         }
 
         else if (Xaxis && (!Yaxis || playerJumping))
         {
             targetPosition = player.transform.position + offset;
+
+            if (unlockedInX)
+            {
+                pursuitInX = true;
+                StartCoroutine(UnlockX(targetPosition));
+            }
+
             if (currentCoroutine != null)
                 StopCoroutine(currentCoroutine);
             else if (teleport)
                 StartCoroutine(SmoothTeleport(targetPosition));
 
             isSmoothing = false;
-            transform.position = new Vector3(targetPosition.x, transform.position.y, foregroundZ + offset.z);
+            if (!pursuitInX)
+                transform.position = new Vector3(targetPosition.x, transform.position.y, foregroundZ + offset.z);
         }
 
         else
