@@ -194,15 +194,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool Grounded()
+    private void Jump()
     {
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
         LayerMask mask = LayerMask.GetMask("BulletPlayer");
 
-        if (Physics.Raycast(groundCheckJump, out hitDown, 1.22f, ~mask))
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.5f * transform.lossyScale.y, ~mask))
         {
             isGrounded = true;
-            isJumping = false;
+            Jumping = false;
 
             if (rb.velocity.y < 0)
             {
@@ -211,7 +211,6 @@ public class Player : MonoBehaviour
                 else
                     hitDownY = 0;
             }
-            return true;
         }
 
         else

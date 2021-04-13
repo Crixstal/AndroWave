@@ -64,23 +64,24 @@ public class CameraFollowPlayer : MonoBehaviour
         {
             targetPosition = player.transform.position + offset;
             transform.position = new Vector3(targetPosition.x, transform.position.y, foregroundZ + offset.z);
-            if (previousJumpingState)
+            if (previousJumpingState && !playerJumping)
                 currentCoroutine = StartCoroutine(Smooth(targetPosition.y));
 
             else if (isSmoothing)
                 transform.position = new Vector3(targetPosition.x, transform.position.y, foregroundZ + offset.z);
 
-            else if (!isSmoothing) //&& (targetPosition.y - transform.position.y > accuracy || transform.position.y - targetPosition.y > accuracy))
+            else if (!isSmoothing)
                 transform.position = new Vector3(targetPosition.x, targetPosition.y, foregroundZ + offset.z);
         }
 
-        else if (!playerJumping && Yaxis && !Xaxis)
+        else if (!playerJumping && Yaxis && !Xaxis || (Yaxis && !Xaxis &&
+            (player.transform.position.y < player.GetComponent<Player>().jumpStartY)))
         {
             targetPosition = player.transform.position + offset;
-            if (previousJumpingState)
+            if (previousJumpingState && !playerJumping)
                 currentCoroutine = StartCoroutine(Smooth(targetPosition.y));
 
-            else if (!isSmoothing) //&& (targetPosition.y - transform.position.y > accuracy || transform.position.y - targetPosition.y > accuracy))
+            else if (!isSmoothing)
                 transform.position = new Vector3(Xpos, targetPosition.y, foregroundZ + offset.z);
         }
 
