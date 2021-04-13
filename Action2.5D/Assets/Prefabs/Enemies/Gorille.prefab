@@ -375,6 +375,7 @@ MonoBehaviour:
   delayBeforeShoot: 1
   damageSound: {fileID: 1074770775915009853}
   dropGrenade: 1
+  meshRenderer: {fileID: 691110004091233620}
   bulletPerSalve: 5
   timeBetweenBullets: 0.1
 --- !u!82 &1074770775915009853
@@ -655,6 +656,12 @@ PrefabInstance:
 --- !u!4 &6409176160616782425 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b615956632c861b4dae71d3b3e0f4a0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6880179441118117298}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &691110004091233620 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -2959957471711864602, guid: b615956632c861b4dae71d3b3e0f4a0e,
     type: 3}
   m_PrefabInstance: {fileID: 6880179441118117298}
   m_PrefabAsset: {fileID: 0}

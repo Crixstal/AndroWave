@@ -156,6 +156,7 @@ MonoBehaviour:
   delayBeforeShoot: 3
   dropGrenade: 0
   damageSound: {fileID: 5136312632142628165}
+  meshRenderer: {fileID: 3726521604433834844}
 --- !u!82 &5136312632142628165
 AudioSource:
   m_ObjectHideFlags: 0
@@ -729,6 +730,12 @@ PrefabInstance:
 --- !u!4 &4529970213651764912 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 073ff0ad014d7e84a81d998444a92809,
+    type: 3}
+  m_PrefabInstance: {fileID: 4131796016325013851}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3726521604433834844 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 783720009161884167, guid: 073ff0ad014d7e84a81d998444a92809,
     type: 3}
   m_PrefabInstance: {fileID: 4131796016325013851}
   m_PrefabAsset: {fileID: 0}

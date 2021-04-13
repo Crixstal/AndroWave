@@ -13,6 +13,8 @@ public class Yak : MonoBehaviour
     [SerializeField] private bool berserk = false;
     [SerializeField] private float rotateDelay = 0f;
     [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] protected MeshRenderer meshRenderer;
+    [SerializeField] private Color blinkingColor = new Color(255, 255, 255);
 
     private Rigidbody rb;
     private Material material = null;
@@ -23,16 +25,14 @@ public class Yak : MonoBehaviour
 
     private Camera cam;
 
-
-
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
 
         cam = Camera.main;
 
-        material = GetComponent<Renderer>().material;
-        baseColor = material.color;
+        material = meshRenderer.materials[2];
+        baseColor = material.GetColor("_BaseColor");
 
         Physics.IgnoreCollision(GetComponent<CapsuleCollider>(), player.GetComponent<Collider>(), true);
 
@@ -79,7 +79,7 @@ public class Yak : MonoBehaviour
         {
             life -= other.GetComponent<Barrel>().damage;
             damageSound.Play();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
+            material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
 
@@ -105,7 +105,7 @@ public class Yak : MonoBehaviour
         {
             life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
+            material.SetColor("_BaseColor", blinkingColor);
         }
     }
 }
