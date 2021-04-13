@@ -32,8 +32,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float delayBeforeDamage = 0f;
 
     [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] private Color blinkingColor = new Color(255, 255, 255); 
 
-    public Color blinkingColor = new Color(255, 255, 255);
     internal Rigidbody rb = null;
     internal int playerScore = 0;
     internal int currentWeapon = 0;

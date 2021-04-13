@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float delayBeforeShoot = 0f;
     [SerializeField] protected AudioSource damageSound = null;
     [SerializeField] protected bool dropGrenade = false;
+    [SerializeField] protected MeshRenderer meshRenderer;
+    [SerializeField] private Color blinkingColor = new Color(255, 255, 255);
 
     protected GameObject currentBullet = null;
     protected GameObject currentGrenade = null;
@@ -38,7 +40,6 @@ public class Enemy : MonoBehaviour
 
     protected Camera cam;
 
-
     public void Start()
     {
         bullet.GetComponent<BulletEnemy>().speed = bulletSpeed;
@@ -49,16 +50,15 @@ public class Enemy : MonoBehaviour
         grenade.GetComponent<GrenadeEnemy>().destructionDelay = grenadeDestructionDelay;
         grenade.GetComponent<GrenadeEnemy>().blastDelay = grenadeBlastDelay;
 
-        Transform transitionalTransform = transform.GetChild(1);
-        Transform childTransform = transitionalTransform.Find("SM_Body");
-        if (childTransform == null)
-            Debug.Log("Can't find child");
-
-        GameObject child = childTransform.gameObject;
-        material = child.GetComponent<Renderer>().material;
-        baseColor = material.GetColor("_BaseColor");
+        setRenderer();
 
         cam = Camera.main;
+    }
+
+    protected virtual void setRenderer()
+    {
+        material = meshRenderer.materials[2];
+        baseColor = material.GetColor("_BaseColor");
     }
 
     public void FixedUpdate()
@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
+            material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
     }
@@ -118,7 +118,7 @@ public class Enemy : MonoBehaviour
         {
             life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
+            material.SetColor("_BaseColor", blinkingColor);
         }
     }
 }

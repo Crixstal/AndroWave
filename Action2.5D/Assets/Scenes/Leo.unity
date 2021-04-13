@@ -1993,6 +1993,21 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 442742484}
+    - target: {fileID: 3857727125421694700, guid: 1b6665dc2f47b2b459da8de37606d2f7,
+        type: 3}
+      propertyPath: blinkingColor.r
+      value: 0.9811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857727125421694700, guid: 1b6665dc2f47b2b459da8de37606d2f7,
+        type: 3}
+      propertyPath: blinkingColor.g
+      value: 0.023139905
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857727125421694700, guid: 1b6665dc2f47b2b459da8de37606d2f7,
+        type: 3}
+      propertyPath: blinkingColor.b
+      value: 0.023139905
+      objectReference: {fileID: 0}
     - target: {fileID: 5005347783376472722, guid: 1b6665dc2f47b2b459da8de37606d2f7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2066,7 +2081,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18688
+  m_Name: pb_Mesh18686
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3302,7 +3317,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18878
+  m_Name: pb_Mesh18860
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3465,7 +3480,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18844
+  m_Name: pb_Mesh18842
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3628,7 +3643,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18722
+  m_Name: pb_Mesh18720
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4264,7 +4279,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18806
+  m_Name: pb_Mesh18804
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

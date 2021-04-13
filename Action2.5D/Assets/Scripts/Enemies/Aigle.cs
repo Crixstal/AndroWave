@@ -7,6 +7,11 @@ public class Aigle : Enemy
     [SerializeField] private float height = 0f;
     [SerializeField] private float speed = 0f;
 
+    protected override void setRenderer()
+    {
+        material = meshRenderer.materials[1];
+        baseColor = material.GetColor("_BaseColor");
+    }
 
     public override void Shoot()
     {

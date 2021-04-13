@@ -238,6 +238,7 @@ MonoBehaviour:
   delayBeforeShoot: 0
   damageSound: {fileID: 7257283636220144571}
   dropGrenade: 0
+  meshRenderer: {fileID: 3268365904874901055}
   coneAngle: 22.5
 --- !u!82 &7257283636220144571
 AudioSource:
@@ -526,6 +527,12 @@ PrefabInstance:
 --- !u!4 &2319772954085927891 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a267ba524f82ac945807f0aae53a51fc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2863097816562322488}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3268365904874901055 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 783720009161884167, guid: a267ba524f82ac945807f0aae53a51fc,
     type: 3}
   m_PrefabInstance: {fileID: 2863097816562322488}
   m_PrefabAsset: {fileID: 0}
