@@ -249,7 +249,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8947389070971826747}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children:
@@ -257,7 +257,7 @@ Transform:
   - {fileID: 6409176160616782425}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0, y: 180, z: 0}
 --- !u!33 &4462389837886736198
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -376,7 +376,8 @@ MonoBehaviour:
   damageSound: {fileID: 1074770775915009853}
   dropGrenade: 1
   meshRenderer: {fileID: 691110004091233620}
-  bulletPerSalve: 5
+  blinkingColor: {r: 255, g: 255, b: 255, a: 1}
+  bulletPerSalve: 3
   timeBetweenBullets: 0.1
 --- !u!82 &1074770775915009853
 AudioSource:
@@ -483,7 +484,7 @@ AimConstraint:
   m_GameObject: {fileID: 8947389070971826747}
   m_Enabled: 1
   m_Weight: 1
-  m_RotationAtRest: {x: -0, y: 0, z: 0}
+  m_RotationAtRest: {x: -0, y: 180, z: 0}
   m_RotationOffset: {x: 0, y: 0, z: 0}
   m_AimVector: {x: 1, y: 0, z: 0}
   m_UpVector: {x: 0, y: 1, z: 0}
