@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private AudioSource damageSound = null;
 
+    public Color blinkingColor = new Color(255, 255, 255);
     internal Rigidbody rb = null;
     internal int playerScore = 0;
     internal int currentWeapon = 0;
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour
     private Ray groundCheckJump;
     private RaycastHit hitDown;
     private float hitDownY;
-
+    private float baseTeleportDelay;
 
     void Start()
     {      
@@ -68,7 +69,12 @@ public class Player : MonoBehaviour
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
 
-        material = GetComponent<Renderer>().material;
+        Transform childTransform = transform.Find("SM_KIWI/SM_Body");
+        if (childTransform == null)
+            Debug.Log("Can't find child");
+
+        GameObject child = childTransform.gameObject;
+        material = child.GetComponent<Renderer>().material;
         baseColor = material.GetColor("_BaseColor");
 
         cam = Camera.main;
@@ -83,6 +89,7 @@ public class Player : MonoBehaviour
             }
         }
 
+        baseTeleportDelay = teleportationDelay;
         constdelayBeforeDamage = delayBeforeDamage;
     }
 
@@ -131,7 +138,7 @@ public class Player : MonoBehaviour
         for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
         {
             if (material.GetColor("_BaseColor") == baseColor)
-                material.SetColor("_BaseColor", new Color(255, 255, 255));
+                material.SetColor("_BaseColor", blinkingColor);
 
             else
                 material.SetColor("_BaseColor", baseColor);
@@ -272,7 +279,7 @@ public class Player : MonoBehaviour
             runLife -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
             cam.GetComponent<ScreenShake>().StartShake();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
+            material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
 
@@ -384,6 +391,11 @@ public class Player : MonoBehaviour
                 --runLife;
             }
         }
+
+        if (other.CompareTag("Teleport"))
+        {
+            teleportationDelay = 1000;
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -393,6 +405,9 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("Poison") || other.CompareTag("Tide"))
             delayBeforeDamage = constdelayBeforeDamage;
+
+        if (other.CompareTag("Teleport"))
+            teleportationDelay = baseTeleportDelay;
     }
 
     void OnCollisionEnter(Collision collision)

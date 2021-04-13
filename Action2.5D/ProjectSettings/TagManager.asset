@@ -21,6 +21,7 @@ TagManager:
   - Lock X
   - Unlock X
   - Mitrapompe
+  - Teleport
   layers:
   - Default
   - TransparentFX

@@ -49,7 +49,13 @@ public class Enemy : MonoBehaviour
         grenade.GetComponent<GrenadeEnemy>().destructionDelay = grenadeDestructionDelay;
         grenade.GetComponent<GrenadeEnemy>().blastDelay = grenadeBlastDelay;
 
-        material = GetComponent<Renderer>().material;
+        Transform transitionalTransform = transform.GetChild(1);
+        Transform childTransform = transitionalTransform.Find("SM_Body");
+        if (childTransform == null)
+            Debug.Log("Can't find child");
+
+        GameObject child = childTransform.gameObject;
+        material = child.GetComponent<Renderer>().material;
         baseColor = material.GetColor("_BaseColor");
 
         cam = Camera.main;
