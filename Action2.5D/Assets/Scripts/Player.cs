@@ -68,7 +68,14 @@ public class Player : MonoBehaviour
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
 
-        material = GetComponent<Renderer>().material;
+        Transform tmp = transform.Find("SM_KIWI/SM_Body");
+        if (tmp == null)
+            Debug.Log("Can't find child");
+
+        GameObject child = tmp.gameObject;
+
+
+        material = child.GetComponent<Renderer>().material;
         baseColor = material.GetColor("_BaseColor");
 
         cam = Camera.main;
