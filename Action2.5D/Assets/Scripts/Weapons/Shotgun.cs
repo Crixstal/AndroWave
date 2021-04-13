@@ -20,7 +20,6 @@ public class Shotgun : WeaponPlayer
                 for (int i = 0; i < 5; ++i)
                 {
                     currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
-                    cam.GetComponent<ScreenShake>().StartShake();
                     weaponSound.Play();
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle + shootAngle, Vector3.forward) * Vector3.right;
                     coneAngle -= constConeAngle / 2;
@@ -34,7 +33,6 @@ public class Shotgun : WeaponPlayer
                 for (int i = 0; i < 5 ; ++i)
                 {
                     currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
-                    cam.GetComponent<ScreenShake>().StartShake();
                     weaponSound.Play();
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle - shootAngle, Vector3.forward) * Vector3.left;
                     coneAngle -= constConeAngle / 2;
