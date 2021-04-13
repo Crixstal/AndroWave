@@ -52,7 +52,6 @@ public class Player : MonoBehaviour
     private float timestamp = 0f;
     private bool isInVoid;
     private Vector3 respawnVoidPoint = Vector3.zero;
-    private bool barrelHit = false;
 
     internal bool isJumping;
     internal float jumpStartY;
@@ -264,15 +263,6 @@ public class Player : MonoBehaviour
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), true);
 
-        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
-        {
-            runLife -= other.gameObject.GetComponent<Barrel>().damage;
-            damageSound.Play();
-            cam.GetComponent<ScreenShake>().StartShake();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
-            barrelHit = true;
-        }
-
         if (other.gameObject.layer == 12) // 12 = BulletEnemy
         {
             if (isInvincible)
@@ -369,6 +359,7 @@ public class Player : MonoBehaviour
                 {
                     timestamp = Time.time + delayBetweenDamage;
                     --runLife;
+                    cam.GetComponent<ScreenShake>().StartShake();
                 }
             }
         }
@@ -379,6 +370,7 @@ public class Player : MonoBehaviour
             {
                 timestamp = Time.time + delayBetweenDamage;
                 --runLife;
+                cam.GetComponent<ScreenShake>().StartShake();
             }
         }
     }

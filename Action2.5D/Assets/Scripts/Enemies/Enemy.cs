@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
+        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();

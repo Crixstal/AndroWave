@@ -375,7 +375,7 @@ MonoBehaviour:
   delayBeforeShoot: 1
   damageSound: {fileID: 1074770775915009853}
   dropGrenade: 1
-  bulletPerSalve: 5
+  bulletPerSalve: 3
   timeBetweenBullets: 0.1
 --- !u!82 &1074770775915009853
 AudioSource:
