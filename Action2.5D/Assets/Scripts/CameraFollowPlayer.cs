@@ -25,8 +25,11 @@ public class CameraFollowPlayer : MonoBehaviour
     internal bool playerJumping;
     private bool previousJumpingState = false;
     private bool isSmoothing = false;
+    private bool teleport = false;
+    private bool isTeleporting = false;
     private float accuracy = 0.01f;
-    Coroutine currentCoroutine = null;
+    private Coroutine currentCoroutine = null;
+    private Vector3 positionBeforeTeleport;
 
     private IEnumerator Smooth(float target)
     {
@@ -48,6 +51,29 @@ public class CameraFollowPlayer : MonoBehaviour
         isSmoothing = false;
     }
 
+    private IEnumerator SmoothTeleport(Vector3 target)
+    {
+        float velocityF = 0;
+        Vector3 velocityVec3 = Vector3.zero;
+        for (int i = 0; i < 40; i++)
+        {
+            if (target.y - transform.position.y > accuracy || transform.position.y - target.y > accuracy)
+            {
+                transform.position = new Vector3(transform.position.x, Mathf.SmoothDamp(positionBeforeTeleport.y, target.y, ref velocityF, 0.3f), transform.position.z);
+                positionBeforeTeleport.y = transform.position.y;
+                yield return new WaitForEndOfFrame();
+            }
+            else
+            {
+                teleport = false;
+                isTeleporting = false;
+                yield break;
+            }
+        }
+        teleport = false;
+        isTeleporting = false;
+    }
+
     private void Start()
     {
         foregroundZ = player.GetComponent<Player>().posForeground;
@@ -67,7 +93,10 @@ public class CameraFollowPlayer : MonoBehaviour
             if (previousJumpingState && !playerJumping)
                 currentCoroutine = StartCoroutine(Smooth(targetPosition.y));
 
-            else if (isSmoothing)
+            else if (teleport)
+                StartCoroutine(SmoothTeleport(targetPosition));
+
+            else if (isSmoothing || isTeleporting)
                 transform.position = new Vector3(targetPosition.x, transform.position.y, foregroundZ + offset.z);
 
             else if (!isSmoothing)
@@ -81,16 +110,22 @@ public class CameraFollowPlayer : MonoBehaviour
             if (previousJumpingState && !playerJumping)
                 currentCoroutine = StartCoroutine(Smooth(targetPosition.y));
 
+            else if (teleport)
+                StartCoroutine(SmoothTeleport(targetPosition));
+
             else if (!isSmoothing)
                 transform.position = new Vector3(Xpos, targetPosition.y, foregroundZ + offset.z);
         }
 
         else if (Xaxis && (!Yaxis || playerJumping))
         {
+            targetPosition = player.transform.position + offset;
             if (currentCoroutine != null)
                 StopCoroutine(currentCoroutine);
+            else if (teleport)
+                StartCoroutine(SmoothTeleport(targetPosition));
+
             isSmoothing = false;
-            targetPosition = player.transform.position + offset;
             transform.position = new Vector3(targetPosition.x, transform.position.y, foregroundZ + offset.z);
         }
 
@@ -98,6 +133,7 @@ public class CameraFollowPlayer : MonoBehaviour
         {
             if (currentCoroutine != null)
                 StopCoroutine(currentCoroutine);
+
             isSmoothing = false;
             transform.position = new Vector3(Xpos, transform.position.y, foregroundZ + offset.z);
         }
@@ -114,5 +150,21 @@ public class CameraFollowPlayer : MonoBehaviour
         targetPosition = transform.position + new Vector3(xCameraShift, 0, 0);
 
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+    }
+
+    public Vector3 OnTeleport
+    {
+        get
+        {
+            return positionBeforeTeleport;
+        }
+        set
+        {
+            if (positionBeforeTeleport != value)
+            {
+                positionBeforeTeleport = value;
+                teleport = true;
+            }
+        }
     }
 }
