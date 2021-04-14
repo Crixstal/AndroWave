@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     internal RaycastHit hit;
     internal bool win = false;
 
+    private Animator animator;
     private Material material = null;
     private float startTimer = 0f;
     private Color baseColor;
@@ -63,6 +64,7 @@ public class Player : MonoBehaviour
     void Start()
     {      
         rb = GetComponent<Rigidbody>();
+        animator = gameObject.GetComponent<Animator>();
 
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
@@ -84,6 +86,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        animator.SetBool("isIdle", true);
         rb.drag = drag;
 
         if (material.GetColor("_BaseColor") != baseColor)
@@ -221,6 +224,8 @@ public class Player : MonoBehaviour
             jumpStartY = transform.position.y;
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
             Jumping = true;
+
+            animator.SetTrigger("jump");
         }
     }
 
