@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] protected DropHeart getHeart = null;
+    [SerializeField] private GameObject item = null;
     [SerializeField] protected Player player = null;
     [SerializeField] protected GameObject bullet = null;
     [SerializeField] protected GameObject grenade = null;
@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
 
     protected GameObject currentBullet = null;
     protected GameObject currentGrenade = null;
+
+    protected Animator animator;
 
     protected Material material;
     protected Color baseColor;
@@ -52,6 +54,8 @@ public class Enemy : MonoBehaviour
 
         setRenderer();
 
+        animator = GetComponent<Animator>();
+
         cam = Camera.main;
     }
 
@@ -63,8 +67,8 @@ public class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (material.GetColor("_BaseColor") != baseColor)
-            material.SetColor("_BaseColor", baseColor);
+        //if (material.GetColor("_BaseColor") != baseColor)
+          //  material.SetColor("_BaseColor", baseColor);
 
         enemyPos = transform.position;
         playerPos = player.transform.position;
@@ -74,13 +78,13 @@ public class Enemy : MonoBehaviour
 
         if (life <= 0)
         {
-            cam.GetComponent<ScreenShake>().StartShake();
+            //cam.GetComponent<ScreenShake>().StartShake();
 
             if (dropGrenade)
                 currentGrenade = Instantiate(grenade, enemyPos, Quaternion.identity);
 
-            if (getHeart != null)
-                getHeart.ItemDrop();
+            if (item != null)
+                Instantiate(item, enemyPos, Quaternion.identity);
 
             player.GetComponent<Player>().playerScore += score;
 
@@ -92,11 +96,11 @@ public class Enemy : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
+        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
-            material.SetColor("_BaseColor", blinkingColor);
+            //material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
     }
@@ -118,7 +122,7 @@ public class Enemy : MonoBehaviour
         {
             life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
-            material.SetColor("_BaseColor", blinkingColor);
+            //material.SetColor("_BaseColor", blinkingColor);
         }
     }
 }
