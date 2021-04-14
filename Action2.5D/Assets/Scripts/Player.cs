@@ -32,9 +32,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float delayBeforeDamage = 0f;
 
     [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] private Color blinkingColor = new Color(255, 255, 255); 
 
-    internal Rigidbody rb;
-    internal int playerScore;
+    internal Rigidbody rb = null;
+    internal int playerScore = 0;
     internal int currentWeapon = 0;
     internal bool isGrounded;
     internal Ray groundCheck;
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour
     private Ray groundCheckJump;
     private RaycastHit hitDown;
     private float hitDownY;
-
+    private float baseTeleportDelay;
 
     void Start()
     {      
@@ -68,7 +69,12 @@ public class Player : MonoBehaviour
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
 
-        material = GetComponent<Renderer>().material;
+        Transform childTransform = transform.Find("SM_KIWI/SM_Body");
+        if (childTransform == null)
+            Debug.Log("Can't find child");
+
+        GameObject child = childTransform.gameObject;
+        material = child.GetComponent<Renderer>().material;
         baseColor = material.GetColor("_BaseColor");
 
         cam = Camera.main;
@@ -77,9 +83,13 @@ public class Player : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.activeSelf == true)
+            {
                 currentWeapon = i;
+                break;
+            }
         }
 
+        baseTeleportDelay = teleportationDelay;
         constdelayBeforeDamage = delayBeforeDamage;
     }
 
@@ -128,7 +138,7 @@ public class Player : MonoBehaviour
         for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
         {
             if (material.GetColor("_BaseColor") == baseColor)
-                material.SetColor("_BaseColor", new Color(255, 255, 255));
+                material.SetColor("_BaseColor", blinkingColor);
 
             else
                 material.SetColor("_BaseColor", baseColor);
@@ -144,13 +154,13 @@ public class Player : MonoBehaviour
         float horizontalInput = Input.GetAxis("HorizontalInput");
         float playerRot = transform.rotation.eulerAngles.y;
 
-        if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // rotate right
+        if (playerRot != Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > 0) // rotate right
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
             rb.AddForce(speed * new Vector3(1, -hitDownY, 0), ForceMode.Acceleration);
 
 
-        if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // rotate left
+        if (playerRot != Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < 0) // rotate left
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
             rb.AddForce(speed * new Vector3(-1, -hitDownY, 0), ForceMode.Acceleration);
@@ -168,6 +178,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetButton("Teleport") && Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
+            cam.GetComponent<CameraFollowPlayer>().OnTeleport = cam.transform.position;
             if (transform.position.z == posForeground && startTimer >= teleportationDelay)
                 transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posBackground);
 
@@ -178,15 +189,31 @@ public class Player : MonoBehaviour
         }
     }
 
+    public bool Jumping
+    {
+        get
+        {
+            return isJumping;
+        }
+        set
+        {
+            if (isJumping != value)
+            {
+                isJumping = value;
+                cam.GetComponent<CameraFollowPlayer>().playerJumping = value;
+            }
+        }
+    }
+
     private void Jump()
     {
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
         LayerMask mask = LayerMask.GetMask("BulletPlayer");
 
-        if (Physics.Raycast(groundCheckJump, out hitDown, 1.1f, ~mask))
+        if (Physics.Raycast(groundCheckJump, out hitDown, 1.5f * transform.lossyScale.y, ~mask))
         {
             isGrounded = true;
-            isJumping = false;
+            Jumping = false;
 
             if (rb.velocity.y < 0)
             {
@@ -202,10 +229,10 @@ public class Player : MonoBehaviour
 
         if (Input.GetButton("Jump") && isGrounded)
         {
-            isJumping = true;
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             jumpStartY = transform.position.y;
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
+            Jumping = true;
         }
     }
 
@@ -253,7 +280,7 @@ public class Player : MonoBehaviour
             runLife -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
             cam.GetComponent<ScreenShake>().StartShake();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
+            material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
 
@@ -365,6 +392,11 @@ public class Player : MonoBehaviour
                 --runLife;
             }
         }
+
+        if (other.CompareTag("Teleport"))
+        {
+            teleportationDelay = 1000;
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -374,6 +406,9 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("Poison") || other.CompareTag("Tide"))
             delayBeforeDamage = constdelayBeforeDamage;
+
+        if (other.CompareTag("Teleport"))
+            teleportationDelay = baseTeleportDelay;
     }
 
     void OnCollisionEnter(Collision collision)
