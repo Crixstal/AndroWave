@@ -12,6 +12,8 @@ public class Gorille : Enemy
     {
         for (int i = 0; i < bulletPerSalve; ++i)
         {
+            canonParticle.Stop();
+
             yield return new WaitForSeconds(timeBetweenBullets);
 
             currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f));
@@ -23,6 +25,8 @@ public class Gorille : Enemy
     {
         if (Time.time > shotTimer)
         {
+            canonParticle.Stop();
+
             shotTimer = Time.time + delayPerShot;
 
             StartCoroutine(Salve());

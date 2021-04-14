@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float delayBeforeDamage = 0f;
 
     [SerializeField] private AudioSource damageSound = null;
-    [SerializeField] private Color blinkingColor = new Color(255, 255, 255); 
+    [SerializeField] private Color blinkingColor = Color.white; 
 
     internal Rigidbody rb = null;
     internal int playerScore = 0;
@@ -71,13 +71,13 @@ public class Player : MonoBehaviour
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
 
-        Transform childTransform = transform.Find("SM_KIWI/SM_Body");
-        if (childTransform == null)
-            Debug.Log("Can't find child");
-
-        GameObject child = childTransform.gameObject;
-        material = child.GetComponent<Renderer>().material;
-        baseColor = material.GetColor("_BaseColor");
+        //Transform childTransform = transform.Find("SM_KIWI/SM_Body");
+        //if (childTransform == null)
+        //    Debug.Log("Can't find child");
+        //
+        //GameObject child = childTransform.gameObject;
+        //material = child.GetComponent<Renderer>().material;
+        //baseColor = material.GetColor("_BaseColor");
 
         cam = Camera.main;
         constRunLife = runLife;
@@ -99,8 +99,8 @@ public class Player : MonoBehaviour
     {
         rb.drag = drag;
 
-        if (material.GetColor("_BaseColor") != baseColor)
-            material.SetColor("_BaseColor", baseColor);
+        //if (material.GetColor("_BaseColor") != baseColor)
+        //    material.SetColor("_BaseColor", baseColor);
 
         Move();
         Teleport();
@@ -363,7 +363,7 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("Heart"))
         {
-            runLife++;
+            runLife += 2;
             Destroy(other.gameObject);
         }
 
