@@ -16,7 +16,7 @@ public class PickUpWeapon : MonoBehaviour
             if (!weapon.activeSelf)
             {
                 weapon.SetActive(true);
-                gameObject.transform.GetChild(gameObject.GetComponent<Player>().currentWeapon);
+                gameObject.transform.GetChild(0).GetChild(gameObject.GetComponent<Player>().currentWeapon);
                 gameObject.GetComponent<Player>().currentWeapon = weaponID;
             }
             

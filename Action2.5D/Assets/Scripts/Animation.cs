@@ -13,9 +13,9 @@ public class Animation : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 8) // 8 = Player
+        if (other.gameObject.layer == 8 && gameObject.name == "Ascenseur") // 8 = Player
         {
-            lift.SetTrigger("Ascenceur_Up");
+            lift.SetTrigger("Ascenseur_Up");
             GetComponent<BoxCollider>().enabled = false;
         }
     }
