@@ -257,7 +257,8 @@ public class Player : MonoBehaviour
         if (!weapon.activeSelf)
         {
             weapon.SetActive(true);
-            gameObject.transform.GetChild(currentWeapon).gameObject.SetActive(false);
+            Transform child = gameObject.transform.GetChild(0);
+            child.GetChild(currentWeapon).gameObject.SetActive(false);
             gameObject.GetComponent<Player>().currentWeapon = weaponID;
         }
     }
@@ -343,7 +344,8 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("MachineGun"))
         {
-            GameObject weapon = transform.GetChild(0).gameObject;
+            Transform child = transform.GetChild(0);
+            GameObject weapon = child.GetChild(0).gameObject;
 
             ChangeWeapon(weapon, 0);
 
@@ -352,9 +354,20 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("Shotgun"))
         {
-            GameObject weapon = transform.GetChild(1).gameObject;
+            Transform child = transform.GetChild(0);
+            GameObject weapon = child.GetChild(1).gameObject;
 
             ChangeWeapon(weapon, 1);
+
+            Destroy(other.transform.parent.gameObject);
+        }
+
+        if (other.CompareTag("Mitrapompe"))
+        {
+            Transform child = transform.GetChild(0);
+            GameObject weapon = child.GetChild(2).gameObject;
+
+            ChangeWeapon(weapon, 2);
 
             Destroy(other.transform.parent.gameObject);
         }
