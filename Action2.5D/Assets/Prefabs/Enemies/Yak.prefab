@@ -311,8 +311,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 4, z: 4}
-  m_Center: {x: -10, y: 0, z: 0}
+  m_Size: {x: 1.4524326, y: 4, z: 4}
+  m_Center: {x: 17.089539, y: 0, z: 0}
 --- !u!114 &4898705409797048221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,8 +368,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 4, z: 4}
-  m_Center: {x: 10, y: 0, z: 0}
+  m_Size: {x: 0.56557846, y: 4, z: 4}
+  m_Center: {x: -14.398014, y: 0, z: 0}
 --- !u!114 &487539441576229728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,22 +408,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c3fe7aaa550d3a449a5a95d6b8d86ab8,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c3fe7aaa550d3a449a5a95d6b8d86ab8,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c3fe7aaa550d3a449a5a95d6b8d86ab8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c3fe7aaa550d3a449a5a95d6b8d86ab8,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c3fe7aaa550d3a449a5a95d6b8d86ab8,
         type: 3}
@@ -438,7 +438,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c3fe7aaa550d3a449a5a95d6b8d86ab8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c3fe7aaa550d3a449a5a95d6b8d86ab8,
         type: 3}
