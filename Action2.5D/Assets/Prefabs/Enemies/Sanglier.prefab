@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5136312632142628165}
   - component: {fileID: -1594272160308558583}
   - component: {fileID: 4114045928099720828}
+  - component: {fileID: -274582090170294282}
   m_Layer: 11
   m_Name: Sanglier
   m_TagString: Enemy
@@ -156,6 +157,7 @@ MonoBehaviour:
   delayBeforeShoot: 3
   dropGrenade: 0
   damageSound: {fileID: 5136312632142628165}
+  meshRenderer: {fileID: 3726521604433834844}
 --- !u!82 &5136312632142628165
 AudioSource:
   m_ObjectHideFlags: 0
@@ -373,6 +375,25 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!95 &-274582090170294282
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3715601081570562842}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dd91b3d4a8866cb4cb286a2f46f677fb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4716483251347339394
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,6 +750,12 @@ PrefabInstance:
 --- !u!4 &4529970213651764912 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 073ff0ad014d7e84a81d998444a92809,
+    type: 3}
+  m_PrefabInstance: {fileID: 4131796016325013851}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3726521604433834844 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 783720009161884167, guid: 073ff0ad014d7e84a81d998444a92809,
     type: 3}
   m_PrefabInstance: {fileID: 4131796016325013851}
   m_PrefabAsset: {fileID: 0}

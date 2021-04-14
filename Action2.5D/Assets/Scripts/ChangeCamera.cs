@@ -18,6 +18,7 @@ public class ChangeCamera : MonoBehaviour
         if (other.CompareTag("Unlock Y") && !Camera.Yaxis)
         {
             Camera.Yaxis = true;
+            Camera.unlockedInY = true;
             return;
         }
 
@@ -30,6 +31,7 @@ public class ChangeCamera : MonoBehaviour
         if (other.CompareTag("Unlock X") && !Camera.Xaxis)
         {
             Camera.Xaxis = true;
+            Camera.unlockedInX = true;
             return;
         }
 

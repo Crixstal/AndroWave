@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float delayBeforeDamage = 0f;
 
     [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] private Color blinkingColor = new Color(255, 255, 255); 
 
     internal Rigidbody rb = null;
     internal int playerScore = 0;
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
     internal RaycastHit hit;
     internal bool win = false;
 
+    private Animator animator;
     private Material material = null;
     private float startTimer = 0f;
     private Color baseColor;
@@ -52,23 +54,28 @@ public class Player : MonoBehaviour
     private float timestamp = 0f;
     private bool isInVoid;
     private Vector3 respawnVoidPoint = Vector3.zero;
-    private bool barrelHit = false;
 
     internal bool isJumping;
     internal float jumpStartY;
     private Ray groundCheckJump;
     private RaycastHit hitDown;
     private float hitDownY;
-
+    private float baseTeleportDelay;
 
     void Start()
     {      
         rb = GetComponent<Rigidbody>();
+        animator = gameObject.GetComponent<Animator>();
 
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
 
-        material = GetComponent<Renderer>().material;
+        Transform childTransform = transform.Find("SM_KIWI/SM_Body");
+        if (childTransform == null)
+            Debug.Log("Can't find child");
+
+        GameObject child = childTransform.gameObject;
+        material = child.GetComponent<Renderer>().material;
         baseColor = material.GetColor("_BaseColor");
 
         cam = Camera.main;
@@ -77,14 +84,19 @@ public class Player : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.activeSelf == true)
+            {
                 currentWeapon = i;
+                break;
+            }
         }
 
+        baseTeleportDelay = teleportationDelay;
         constdelayBeforeDamage = delayBeforeDamage;
     }
 
     void FixedUpdate()
     {
+        animator.SetBool("isIdle", true);
         rb.drag = drag;
 
         if (material.GetColor("_BaseColor") != baseColor)
@@ -128,7 +140,7 @@ public class Player : MonoBehaviour
         for (float i = 0; i < invincibilityDuration; i += invincibilityDeltaTime)
         {
             if (material.GetColor("_BaseColor") == baseColor)
-                material.SetColor("_BaseColor", new Color(255, 255, 255));
+                material.SetColor("_BaseColor", blinkingColor);
 
             else
                 material.SetColor("_BaseColor", baseColor);
@@ -168,6 +180,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetButton("Teleport") && Physics.Raycast(groundCheck, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
+            cam.GetComponent<CameraFollowPlayer>().OnTeleport = cam.transform.position;
             if (transform.position.z == posForeground && startTimer >= teleportationDelay)
                 transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posBackground);
 
@@ -222,6 +235,8 @@ public class Player : MonoBehaviour
             jumpStartY = transform.position.y;
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
             Jumping = true;
+
+            animator.SetTrigger("jump");
         }
     }
 
@@ -263,15 +278,6 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.layer == 10) // 10 = Platform
             Physics.IgnoreCollision(GetComponent<Collider>(), other.GetComponent<Collider>(), true);
-
-        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
-        {
-            runLife -= other.gameObject.GetComponent<Barrel>().damage;
-            damageSound.Play();
-            cam.GetComponent<ScreenShake>().StartShake();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
-            barrelHit = true;
-        }
 
         if (other.gameObject.layer == 12) // 12 = BulletEnemy
         {
@@ -369,6 +375,7 @@ public class Player : MonoBehaviour
                 {
                     timestamp = Time.time + delayBetweenDamage;
                     --runLife;
+                    cam.GetComponent<ScreenShake>().StartShake();
                 }
             }
         }
@@ -379,7 +386,13 @@ public class Player : MonoBehaviour
             {
                 timestamp = Time.time + delayBetweenDamage;
                 --runLife;
+                cam.GetComponent<ScreenShake>().StartShake();
             }
+        }
+
+        if (other.CompareTag("Teleport"))
+        {
+            teleportationDelay = 1000;
         }
     }
 
@@ -390,6 +403,9 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("Poison") || other.CompareTag("Tide"))
             delayBeforeDamage = constdelayBeforeDamage;
+
+        if (other.CompareTag("Teleport"))
+            teleportationDelay = baseTeleportDelay;
     }
 
     void OnCollisionEnter(Collision collision)

@@ -18,6 +18,8 @@ public class Sanglier : MonoBehaviour
     [SerializeField] private float delayBeforeShoot = 0f;
     [SerializeField] private bool dropGrenade = false;
     [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] protected MeshRenderer meshRenderer;
+    [SerializeField] private Color blinkingColor = new Color(255, 255, 255);
 
     private GameObject currentGrenade = null;
 
@@ -50,7 +52,7 @@ public class Sanglier : MonoBehaviour
         aimLine = GetComponent<LineRenderer>();
         shootLine = transform.GetChild(0).GetComponent<LineRenderer>();
 
-        material = GetComponent<Renderer>().material;
+        material = meshRenderer.materials[0];
         baseColor = material.GetColor("_BaseColor");
 
         cam = Camera.main;
@@ -127,11 +129,11 @@ public class Sanglier : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
+        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
+            material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
     }
@@ -159,7 +161,7 @@ public class Sanglier : MonoBehaviour
         {
             life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
-            material.SetColor("_BaseColor", new Color(255, 255, 255));
+            material.SetColor("_BaseColor", blinkingColor);
         }
     }
 }
