@@ -376,6 +376,7 @@ MonoBehaviour:
   damageSound: {fileID: 1074770775915009853}
   dropGrenade: 1
   meshRenderer: {fileID: 691110004091233620}
+  blinkingColor: {r: 255, g: 255, b: 255, a: 1}
   bulletPerSalve: 5
   timeBetweenBullets: 0.1
 --- !u!82 &1074770775915009853
