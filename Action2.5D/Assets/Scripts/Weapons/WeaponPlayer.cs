@@ -11,6 +11,7 @@ public class WeaponPlayer : MonoBehaviour
     [SerializeField] protected float delayPerShot = 0f;
     [SerializeField] protected AudioSource weaponSound = null;
 
+    protected Animator animator;
     protected GameObject currentBullet;
     protected float shotTimer = 0f;
     protected float shootAngle = 0f;
@@ -32,6 +33,7 @@ public class WeaponPlayer : MonoBehaviour
         bullet.GetComponent<BulletPlayer>().destructionDelay = m_destructionDelay;
 
         player = gameObject.GetComponentInParent<Player>();
+        animator = transform.parent.gameObject.GetComponentInParent<Animator>();
     }
 
     public void FixedUpdate()

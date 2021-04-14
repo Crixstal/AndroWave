@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
     protected GameObject currentBullet = null;
     protected GameObject currentGrenade = null;
 
+    protected Animator animator;
+
     protected Material material;
     protected Color baseColor;
 
@@ -51,6 +53,8 @@ public class Enemy : MonoBehaviour
         grenade.GetComponent<GrenadeEnemy>().blastDelay = grenadeBlastDelay;
 
         setRenderer();
+
+        animator = GetComponent<Animator>();
 
         cam = Camera.main;
     }
