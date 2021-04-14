@@ -75,7 +75,7 @@ public class Yak : MonoBehaviour
         frontTriggered = GetComponentInChildren<YakFrontCollider>().frontIsTriggered;
         backTriggered = GetComponentInChildren<YakBackCollider>().backIsTriggered;
 
-        if (other.CompareTag("Barrel") && !barrelHit)
+        if (other.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
         {
             life -= other.GetComponent<Barrel>().damage;
             damageSound.Play();
