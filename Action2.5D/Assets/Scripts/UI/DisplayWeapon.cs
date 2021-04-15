@@ -16,10 +16,10 @@ public class DisplayWeapon : MonoBehaviour
 
     void Update()
     {
-        for (int i = 0; i < player.transform.childCount; i++)
+        for (int i = 0; i < player.transform.GetChild(0).childCount; i++)
         {
-            if (player.transform.GetChild(i).gameObject.activeSelf == true)
-                firstActiveChild = player.transform.GetChild(i).gameObject;
+            if (player.transform.GetChild(0).GetChild(i).gameObject.activeSelf == true)
+                firstActiveChild = player.transform.GetChild(0).GetChild(i).gameObject;
         }
 
         text.text = firstActiveChild.name.ToString();
