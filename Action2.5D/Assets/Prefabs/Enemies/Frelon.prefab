@@ -239,6 +239,7 @@ MonoBehaviour:
   damageSound: {fileID: 7257283636220144571}
   dropGrenade: 0
   meshRenderer: {fileID: 3268365904874901055}
+  blinkingColor: {r: 1, g: 0, b: 0, a: 1}
   coneAngle: 22.5
 --- !u!82 &7257283636220144571
 AudioSource:

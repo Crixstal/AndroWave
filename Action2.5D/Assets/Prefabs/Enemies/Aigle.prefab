@@ -183,12 +183,13 @@ MonoBehaviour:
   bulletDestructionDelay: 0
   grenadeDamage: 1
   grenadeDestructionDelay: 1
-  grenadeBlastDelay: 3
+  grenadeBlastDelay: 2
   delayPerShot: 3
   delayBeforeShoot: 0
   damageSound: {fileID: -4453879124436027813}
   dropGrenade: 0
   meshRenderer: {fileID: 5423230153329500620}
+  blinkingColor: {r: 1, g: 0, b: 0, a: 1}
   height: 7
   speed: 5
 --- !u!82 &-4453879124436027813

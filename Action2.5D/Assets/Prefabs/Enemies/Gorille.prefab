@@ -250,8 +250,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8947389070971826747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalPosition: {x: 0.8036, y: 0.26062, z: 0.05144}
+  m_LocalScale: {x: 1.1, y: 2.2, z: 1.1}
   m_Children:
   - {fileID: 6073621264708857929}
   - {fileID: 6409176160616782425}
@@ -284,7 +284,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 5ef8c0a12911ab44ea24985c2b92062f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -375,6 +375,8 @@ MonoBehaviour:
   delayBeforeShoot: 1.5
   damageSound: {fileID: 1074770775915009853}
   dropGrenade: 1
+  meshRenderer: {fileID: 691110004091233620}
+  blinkingColor: {r: 1, g: 0, b: 0, a: 1}
   bulletPerSalve: 3
   timeBetweenBullets: 0.1
 --- !u!82 &1074770775915009853
@@ -660,6 +662,12 @@ PrefabInstance:
 --- !u!4 &6409176160616782425 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b615956632c861b4dae71d3b3e0f4a0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6880179441118117298}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &691110004091233620 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -2959957471711864602, guid: b615956632c861b4dae71d3b3e0f4a0e,
     type: 3}
   m_PrefabInstance: {fileID: 6880179441118117298}
   m_PrefabAsset: {fileID: 0}
