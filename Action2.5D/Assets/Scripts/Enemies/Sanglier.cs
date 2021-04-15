@@ -120,6 +120,8 @@ public class Sanglier : MonoBehaviour
 
                 if (Physics.Raycast(laserRay, out laserHit, Mathf.Infinity, layerMask, QueryTriggerInteraction.Ignore))
                 {
+                    animator.SetBool("laserShoot", true);
+
                     shootLine.SetPosition(0, laserRay.origin);
                     shootLine.SetPosition(1, laserHit.point);
 
@@ -129,6 +131,8 @@ public class Sanglier : MonoBehaviour
 
                 yield return new WaitForSeconds(laserDelay);
             }
+
+            animator.SetBool("laserShoot", false);
 
             shotTimer = Time.time + delayPerShot;
         }
