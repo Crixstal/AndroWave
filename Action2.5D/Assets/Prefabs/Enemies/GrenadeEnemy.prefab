@@ -98,7 +98,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 8
   m_CollisionDetection: 0
 --- !u!136 &5951130164155622569
 CapsuleCollider:
@@ -111,7 +111,7 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 2.3
-  m_Height: 12.38
+  m_Height: 8
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &5042288633023399459
@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  blastDelay: 5
-  destructionDelay: 1
+  blastDelay: 3
+  destructionDelay: 3
 --- !u!1001 &6572560714807909691
 PrefabInstance:
   m_ObjectHideFlags: 0
