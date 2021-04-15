@@ -521,12 +521,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Animation
       value: 
-      objectReference: {fileID: 7400000, guid: 49bb22d849a85844dadaffbc9c18f884, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2223639932434330405, guid: 83fe4de4bde05044f83690b225a975b1,
         type: 3}
       propertyPath: m_Animations.Array.data[0]
       value: 
-      objectReference: {fileID: 7400000, guid: 49bb22d849a85844dadaffbc9c18f884, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7678451844408248220, guid: 83fe4de4bde05044f83690b225a975b1,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

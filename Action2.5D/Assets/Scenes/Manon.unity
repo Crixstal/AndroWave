@@ -715,7 +715,17 @@ PrefabInstance:
     - target: {fileID: 5659953550985586041, guid: 64c30e0e3f42e514f84304b3f94612c8,
         type: 3}
       propertyPath: m_Size.y
-      value: 20
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5659953550985586041, guid: 64c30e0e3f42e514f84304b3f94612c8,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5659953550985586041, guid: 64c30e0e3f42e514f84304b3f94612c8,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 21.13
       objectReference: {fileID: 0}
     - target: {fileID: 6306032681895403481, guid: 64c30e0e3f42e514f84304b3f94612c8,
         type: 3}
@@ -769,7 +779,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0
+  m_Intensity: 10000
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -852,7 +862,7 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 0
+  m_Intensity: 10000
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -962,7 +972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &744547253
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -994,7 +1004,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 32d7b3022b464c54d812e7cb9e39de82, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1031,7 +1041,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744547252}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34, y: 6, z: 11.216}
+  m_LocalPosition: {x: 34, y: 6.05, z: 11.216}
   m_LocalScale: {x: 15.967562, y: 0.05, z: 3.2546122}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1052,6 +1062,8 @@ MonoBehaviour:
   damage: 1
   blastDelay: 4
   destructionDelay: 2
+  triggerMaterial: {fileID: 2100000, guid: 5f109c933fc22ae4f842e0b17acf0c23, type: 2}
+  fireMaterial: {fileID: 2100000, guid: 24672095b17ee724c94cac99e9826921, type: 2}
 --- !u!65 &744547258
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2562,12 +2574,12 @@ PrefabInstance:
     - target: {fileID: 6073621264708857929, guid: 1b6665dc2f47b2b459da8de37606d2f7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0029501747
+      value: 0.0016866851
       objectReference: {fileID: 0}
     - target: {fileID: 6073621264708857929, guid: 1b6665dc2f47b2b459da8de37606d2f7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99999565
+      value: 0.99999857
       objectReference: {fileID: 0}
     - target: {fileID: 8947389070971826747, guid: 1b6665dc2f47b2b459da8de37606d2f7,
         type: 3}
@@ -3009,6 +3021,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 2139791286}
+    - target: {fileID: 6722348551941218849, guid: f6047112581753345b4b974fb7852f61,
+        type: 3}
+      propertyPath: grenadeDamage
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6047112581753345b4b974fb7852f61, type: 3}
 --- !u!23 &1546247310 stripped
@@ -3777,7 +3794,7 @@ PrefabInstance:
     - target: {fileID: 2363199642019981925, guid: 015a4c907c72465449bf5347a345363a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.37
+      value: 15.47
       objectReference: {fileID: 0}
     - target: {fileID: 2363199642019981925, guid: 015a4c907c72465449bf5347a345363a,
         type: 3}

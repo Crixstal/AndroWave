@@ -155,11 +155,13 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(waitBeforeTP);
 
-        if (transform.position.z == posForeground)
+        if (transform.position.z == Mathf.Clamp(transform.position.z, posForeground - 1, posForeground + 1))
             transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posBackground);
 
-        else if (transform.position.z == posBackground)
+        else if (transform.position.z == Mathf.Clamp(transform.position.z, posBackground - 1, posBackground + 1))
             transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posForeground);
+
+        animator.SetBool("teleport", false);
     }
 
     private void Move()
@@ -171,6 +173,7 @@ public class Player : MonoBehaviour
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
         {
+            animator.SetBool("teleport", false);
             animator.SetBool("idle", false);
             animator.SetBool("moving", true);
             rb.AddForce(speed * new Vector3(1, -hitDownY, 0), ForceMode.Acceleration);
@@ -181,6 +184,7 @@ public class Player : MonoBehaviour
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
         {
+            animator.SetBool("teleport", false);
             animator.SetBool("idle", false);
             animator.SetBool("moving", true);
             rb.AddForce(speed * new Vector3(-1, -hitDownY, 0), ForceMode.Acceleration);
@@ -207,7 +211,7 @@ public class Player : MonoBehaviour
         {
             cam.GetComponent<CameraFollowPlayer>().OnTeleport = cam.transform.position;
             isInvincible = true;
-            animator.SetTrigger("teleport");
+            animator.SetBool("teleport", true);
 
             if (startTimer >= teleportationDelay)
                 StartCoroutine(WaitBeforeTeleportation());
@@ -427,9 +431,7 @@ public class Player : MonoBehaviour
         }
 
         if (other.CompareTag("Teleport"))
-        {
             teleportationDelay = 1000;
-        }
     }
 
     void OnTriggerExit(Collider other)

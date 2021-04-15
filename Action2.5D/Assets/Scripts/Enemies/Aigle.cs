@@ -17,11 +17,11 @@ public class Aigle : Enemy
     {
         if (Time.time > shotTimer)
         {
+            animator.SetBool("Grenade", true);
             shotTimer = Time.time + delayPerShot;
 
-            animator.SetTrigger("Shoot");
             currentGrenade = Instantiate(grenade, bulletSpawn, Quaternion.identity);
-        }
+        }    
     }
 
     public override void OnTriggerStay(Collider other)
@@ -32,6 +32,8 @@ public class Aigle : Enemy
             
             if (enemyPos.z == playerPos.z)
                 Shoot();
+            else
+                animator.SetBool("Grenade", false);
         }
     }
 }
