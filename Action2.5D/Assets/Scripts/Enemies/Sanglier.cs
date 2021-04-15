@@ -19,9 +19,12 @@ public class Sanglier : MonoBehaviour
     [SerializeField] private bool dropGrenade = false;
     [SerializeField] private AudioSource damageSound = null;
     [SerializeField] protected MeshRenderer meshRenderer;
-    [SerializeField] private Color blinkingColor = new Color(255, 255, 255);
+    [SerializeField] private Color blinkingColor = Color.white;
 
     private GameObject currentGrenade = null;
+
+    private Animator animator;
+    private ParticleSystem deathParticle = null;
 
     private Material material;
     private Color baseColor;
@@ -52,6 +55,9 @@ public class Sanglier : MonoBehaviour
         aimLine = GetComponent<LineRenderer>();
         shootLine = transform.GetChild(0).GetComponent<LineRenderer>();
 
+        animator = GetComponent<Animator>();
+        deathParticle = GameObject.Find("Particles/SmokeyExplosion").GetComponent<ParticleSystem>();
+
         material = meshRenderer.materials[0];
         baseColor = material.GetColor("_BaseColor");
 
@@ -73,6 +79,9 @@ public class Sanglier : MonoBehaviour
         if (life <= 0)
         {
             cam.GetComponent<ScreenShake>().StartShake();
+
+            deathParticle.transform.position = transform.position;
+            deathParticle.Play();
 
             if (dropGrenade)
                 currentGrenade = Instantiate(grenade, enemyPos, Quaternion.identity);

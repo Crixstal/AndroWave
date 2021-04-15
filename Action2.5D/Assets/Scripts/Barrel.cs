@@ -8,6 +8,13 @@ public class Barrel : MonoBehaviour
     [SerializeField] internal float damage = 0f;
     [SerializeField] internal float destructionDelay = 0f;
 
+    private ParticleSystem deathParticle = null;
+
+
+    void Start()
+    {
+        deathParticle = GameObject.Find("Particles/SmokeyExplosion").GetComponent<ParticleSystem>();
+    }
 
     void FixedUpdate()
     {
@@ -18,6 +25,9 @@ public class Barrel : MonoBehaviour
     private IEnumerator Explosion()
     {
         gameObject.GetComponent<BoxCollider>().enabled = true;
+
+        deathParticle.transform.position = transform.position;
+        deathParticle.Play();
 
         yield return new WaitForSeconds(destructionDelay);
 

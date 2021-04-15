@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/bk.unity
     guid: e39ed20ff51e4f64fa15cc31c94a4f55
   - enabled: 1
-    path: Assets/Scenes/Alex.unity
+    path: Assets/Scenes/Alex Level Beta.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
   - enabled: 1
     path: Assets/Scenes/Axel.unity

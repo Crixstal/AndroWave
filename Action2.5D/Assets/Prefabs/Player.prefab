@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4522d1880ce7c4ea1026946e45a278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalInputSensitivity: 0.2
+  horizontalInputSensitivity: 0.5
   generalLife: 3
   runLife: 5
   speed: 77.5
@@ -237,6 +237,7 @@ MonoBehaviour:
   respawnDelay: 3
   respawnHeight: 5
   losePoints: 0
+  waitBeforeTP: 0.45
   teleportationDelay: 0.7
   teleportationHeight: 30
   posForeground: 50
@@ -244,6 +245,7 @@ MonoBehaviour:
   delayBetweenDamage: 0
   delayBeforeDamage: 2
   damageSound: {fileID: 2696704486409536833}
+  blinkingColor: {r: 255, g: 255, b: 255, a: 1}
 --- !u!82 &2696704486409536833
 AudioSource:
   m_ObjectHideFlags: 0

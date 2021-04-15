@@ -14,9 +14,11 @@ public class Yak : MonoBehaviour
     [SerializeField] private float rotateDelay = 0f;
     [SerializeField] private AudioSource damageSound = null;
     [SerializeField] protected MeshRenderer meshRenderer;
-    [SerializeField] private Color blinkingColor = new Color(255, 255, 255);
+    [SerializeField] private Color blinkingColor = Color.white;
 
     private Rigidbody rb;
+    private Animator animator = null;
+    private ParticleSystem deathParticle = null;
     private Material material = null;
     private Color baseColor = Color.black;
     private bool barrelHit = false;
@@ -30,6 +32,9 @@ public class Yak : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
 
         cam = Camera.main;
+
+        animator = GetComponent<Animator>();
+        deathParticle = GameObject.Find("Particles/SmokeyExplosion").GetComponent<ParticleSystem>();
 
         material = meshRenderer.materials[2];
         baseColor = material.GetColor("_BaseColor");
@@ -49,6 +54,9 @@ public class Yak : MonoBehaviour
         {
             cam.GetComponent<ScreenShake>().StartShake();
 
+            deathParticle.transform.position = transform.position;
+            deathParticle.Play();
+
             if (getHeart != null)
                 getHeart.ItemDrop();
 
@@ -59,6 +67,8 @@ public class Yak : MonoBehaviour
 
     private IEnumerator TurnAround()
     {
+        animator.SetTrigger("turnAround");
+
         yield return new WaitForSeconds(rotateDelay);
 
         transform.Rotate(0f, 180f, 0f);

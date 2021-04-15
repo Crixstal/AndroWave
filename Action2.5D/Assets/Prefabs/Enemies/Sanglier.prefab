@@ -34,8 +34,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3715601081570562842}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.012474, y: -0.369, z: 0.50887}
-  m_LocalScale: {x: 1.02, y: 1.37, z: 1.01}
+  m_LocalPosition: {x: -0.027, y: -0.369, z: 0}
+  m_LocalScale: {x: 0.94598603, y: 1.2617656, z: 1}
   m_Children:
   - {fileID: 2013711391178101096}
   - {fileID: 4529970213651764912}
@@ -158,7 +158,7 @@ MonoBehaviour:
   dropGrenade: 0
   damageSound: {fileID: 5136312632142628165}
   meshRenderer: {fileID: 3726521604433834844}
-  blinkingColor: {r: 1, g: 0, b: 0, a: 1}
+  blinkingColor: {r: 255, g: 255, b: 255, a: 1}
 --- !u!82 &5136312632142628165
 AudioSource:
   m_ObjectHideFlags: 0
@@ -297,7 +297,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bc6d1ad5e4bc2f943a64afd40562c134, type: 2}
+  - {fileID: 2100000, guid: 2eae108b2f85f6942835caa31b069c6f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -329,7 +329,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.34615326
+        value: 0.3571434
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -549,7 +549,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d3a85f14a8dadf047afed0f3e34d2593, type: 2}
+  - {fileID: 2100000, guid: 9aba752d8ecb20b4b90abf828eb38294, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -575,13 +575,13 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 2
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.0030670166
-        value: 0.5384617
+        time: 0
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0

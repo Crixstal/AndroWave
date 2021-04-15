@@ -6,10 +6,22 @@ public class Wall : MonoBehaviour
 {
     [SerializeField] private float life = 0f;
 
-    public void FixedUpdate()
+    private ParticleSystem deathParticle = null;
+
+
+    void Start()
+    {
+        deathParticle = GameObject.Find("Particles/ScifiTris 3 (collapse)").GetComponent<ParticleSystem>();
+    }
+
+    void FixedUpdate()
     {
         if (life <= 0)
+        {
+            deathParticle.transform.position = transform.position;
+            deathParticle.Play();
             Destroy(gameObject);
+        }
     }
 
     void OnTriggerEnter(Collider other)
