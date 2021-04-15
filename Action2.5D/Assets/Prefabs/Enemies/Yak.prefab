@@ -250,6 +250,7 @@ MonoBehaviour:
   rotateDelay: 1
   damageSound: {fileID: 8848515298699259399}
   meshRenderer: {fileID: 662022583032443581}
+  blinkingColor: {r: 255, g: 255, b: 255, a: 1}
 --- !u!95 &4301968184909862010
 Animator:
   serializedVersion: 3
@@ -465,7 +466,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: edc4a0de2e4ecdc41b7ce3fc7499b94a, type: 2}
     - target: {fileID: 396112168455723989, guid: c3fe7aaa550d3a449a5a95d6b8d86ab8,
         type: 3}
       propertyPath: m_Materials.Array.data[2]
@@ -481,7 +482,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: edc4a0de2e4ecdc41b7ce3fc7499b94a, type: 2}
     - target: {fileID: 783720009161884167, guid: c3fe7aaa550d3a449a5a95d6b8d86ab8,
         type: 3}
       propertyPath: m_Materials.Array.data[2]
