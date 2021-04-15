@@ -89,6 +89,7 @@ public class Enemy : MonoBehaviour
                 Instantiate(item, enemyPos, Quaternion.identity);
 
             player.GetComponent<Player>().playerScore += score;
+            canonParticle.Stop();
 
             Destroy(gameObject);
         }

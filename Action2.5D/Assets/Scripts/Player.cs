@@ -71,13 +71,13 @@ public class Player : MonoBehaviour
         groundCheck = new Ray(new Vector3(transform.position.x, transform.position.y + 30, posBackground), Vector3.down);
         groundCheckJump = new Ray(transform.position, Vector3.down);
 
-        //Transform childTransform = transform.Find("SM_KIWI/SM_Body");
-        //if (childTransform == null)
-        //    Debug.Log("Can't find child");
-        //
-        //GameObject child = childTransform.gameObject;
-        //material = child.GetComponent<Renderer>().material;
-        //baseColor = material.GetColor("_BaseColor");
+        Transform childTransform = transform.Find("SM_KIWI/SM_Body");
+        if (childTransform == null)
+            Debug.Log("Can't find child");
+        
+        GameObject child = childTransform.gameObject;
+        material = child.GetComponent<Renderer>().material;
+        baseColor = material.GetColor("_BaseColor");
 
         cam = Camera.main;
         constRunLife = runLife;
@@ -99,8 +99,8 @@ public class Player : MonoBehaviour
     {
         rb.drag = drag;
 
-        //if (material.GetColor("_BaseColor") != baseColor)
-        //    material.SetColor("_BaseColor", baseColor);
+        if (material.GetColor("_BaseColor") != baseColor)
+            material.SetColor("_BaseColor", baseColor);
 
         Move();
         Teleport();
@@ -238,7 +238,8 @@ public class Player : MonoBehaviour
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
         LayerMask mask = LayerMask.GetMask("BulletPlayer");
 
-        if (Physics.Raycast(groundCheckJump, out hitDown, 1.5f * transform.lossyScale.y, ~mask))
+        //if (Physics.Raycast(groundCheckJump, out hitDown, 1.5f * transform.lossyScale.y, ~mask))
+        if (Physics.Raycast(groundCheckJump, out hitDown, 2.2f, ~mask))
         {
             isGrounded = true;
             Jumping = false;
