@@ -11,7 +11,9 @@ public class WeaponPlayer : MonoBehaviour
     [SerializeField] protected float delayPerShot = 0f;
     [SerializeField] protected AudioSource weaponSound = null;
 
-    protected GameObject currentBullet;
+    protected Animator animator = null;
+    protected ParticleSystem shootParticle = null;
+    protected GameObject currentBullet = null;
     protected float shotTimer = 0f;
     protected float shootAngle = 0f;
     protected Vector3 inputs = Vector3.zero;
@@ -32,6 +34,8 @@ public class WeaponPlayer : MonoBehaviour
         bullet.GetComponent<BulletPlayer>().destructionDelay = m_destructionDelay;
 
         player = gameObject.GetComponentInParent<Player>();
+        animator = transform.parent.gameObject.GetComponentInParent<Animator>();
+        shootParticle = GameObject.Find("Particles/MuzzleFlash").GetComponent<ParticleSystem>();
     }
 
     public void FixedUpdate()

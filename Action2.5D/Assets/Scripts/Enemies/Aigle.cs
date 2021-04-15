@@ -19,6 +19,7 @@ public class Aigle : Enemy
         {
             shotTimer = Time.time + delayPerShot;
 
+            animator.SetTrigger("Shoot");
             currentGrenade = Instantiate(grenade, bulletSpawn, Quaternion.identity);
         }
     }

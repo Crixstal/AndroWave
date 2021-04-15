@@ -19,6 +19,11 @@ public class Shotgun : WeaponPlayer
             {
                 for (int i = 0; i < 5; ++i)
                 {
+                    animator.SetTrigger("shotgunShoot");
+                    animator.SetTrigger("mitrapompeShoot");
+                    shootParticle.transform.position = bulletSpawn;
+                    shootParticle.Play();
+
                     currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
                     weaponSound.Play();
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle + shootAngle, Vector3.forward) * Vector3.right;
@@ -32,6 +37,11 @@ public class Shotgun : WeaponPlayer
             {
                 for (int i = 0; i < 5 ; ++i)
                 {
+                    animator.SetTrigger("shotgunShoot");
+                    animator.SetTrigger("mitrapompeShoot");
+                    shootParticle.transform.position = bulletSpawn;
+                    shootParticle.Play();
+
                     currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
                     weaponSound.Play();
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle - shootAngle, Vector3.forward) * Vector3.left;

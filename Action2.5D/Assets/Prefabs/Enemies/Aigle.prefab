@@ -46,7 +46,6 @@ GameObject:
   - component: {fileID: 388858997074372980}
   - component: {fileID: 6722348551941218849}
   - component: {fileID: -4453879124436027813}
-  - component: {fileID: 8639402503337892791}
   - component: {fileID: 7322088214676967382}
   m_Layer: 11
   m_Name: Aigle
@@ -172,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ebe18d8fe3a954e9da347b3a6a668d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getHeart: {fileID: 0}
   player: {fileID: 0}
   bullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee, type: 3}
   grenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8, type: 3}
@@ -186,9 +184,11 @@ MonoBehaviour:
   grenadeBlastDelay: 3
   delayPerShot: 3
   delayBeforeShoot: 0
-  damageSound: {fileID: -4453879124436027813}
   dropGrenade: 0
+  item: {fileID: 0}
   meshRenderer: {fileID: 5423230153329500620}
+  blinkingColor: {r: 255, g: 255, b: 255, a: 1}
+  damageSound: {fileID: -4453879124436027813}
   height: 7
   speed: 5
 --- !u!82 &-4453879124436027813
@@ -287,31 +287,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!895512359 &8639402503337892791
-AimConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3655123694456133207}
-  m_Enabled: 0
-  m_Weight: 1
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
-  m_AimVector: {x: 0, y: 0, z: 1}
-  m_UpVector: {x: 0, y: 1, z: 0}
-  m_WorldUpVector: {x: 0, y: 1, z: 0}
-  m_WorldUpObject: {fileID: 0}
-  m_UpType: 0
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_IsContraintActive: 0
-  m_IsLocked: 0
-  m_Sources:
-  - sourceTransform: {fileID: 966268253949854947, guid: a1480a481fe85e24c9aa4a3cd2dec671,
-      type: 3}
-    weight: 1
 --- !u!95 &7322088214676967382
 Animator:
   serializedVersion: 3

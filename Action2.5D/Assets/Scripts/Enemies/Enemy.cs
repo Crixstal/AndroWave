@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] protected DropHeart getHeart = null;
     [SerializeField] protected Player player = null;
     [SerializeField] protected GameObject bullet = null;
     [SerializeField] protected GameObject grenade = null;
@@ -18,13 +17,18 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float grenadeBlastDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
     [SerializeField] protected float delayBeforeShoot = 0f;
-    [SerializeField] protected AudioSource damageSound = null;
     [SerializeField] protected bool dropGrenade = false;
+    [SerializeField] protected GameObject item = null;
     [SerializeField] protected MeshRenderer meshRenderer;
-    [SerializeField] private Color blinkingColor = new Color(255, 255, 255);
+    [SerializeField] protected Color blinkingColor = Color.white;
+    [SerializeField] protected AudioSource damageSound = null;
 
     protected GameObject currentBullet = null;
     protected GameObject currentGrenade = null;
+
+    protected Animator animator;
+    protected ParticleSystem canonParticle = null;
+    protected ParticleSystem deathParticle = null;
 
     protected Material material;
     protected Color baseColor;
@@ -52,13 +56,11 @@ public class Enemy : MonoBehaviour
 
         setRenderer();
 
-        cam = Camera.main;
-    }
+        animator = GetComponent<Animator>();
+        canonParticle = GameObject.Find("Particles/Instability (loop)").GetComponent<ParticleSystem>();
+        deathParticle = GameObject.Find("Particles/SmokeyExplosion").GetComponent<ParticleSystem>();
 
-    protected virtual void setRenderer()
-    {
-        material = meshRenderer.materials[2];
-        baseColor = material.GetColor("_BaseColor");
+        cam = Camera.main;
     }
 
     public void FixedUpdate()
@@ -71,16 +73,20 @@ public class Enemy : MonoBehaviour
         relativePos = playerPos - enemyPos;
 
         bulletSpawn = transform.GetChild(0).GetChild(0).position;
+        canonParticle.transform.position = bulletSpawn;
 
         if (life <= 0)
         {
             cam.GetComponent<ScreenShake>().StartShake();
 
+            deathParticle.transform.position = enemyPos;
+            deathParticle.Play();
+
             if (dropGrenade)
                 currentGrenade = Instantiate(grenade, enemyPos, Quaternion.identity);
 
-            if (getHeart != null)
-                getHeart.ItemDrop();
+            if (item != null)
+                Instantiate(item, enemyPos, Quaternion.identity);
 
             player.GetComponent<Player>().playerScore += score;
 
@@ -88,11 +94,17 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    protected virtual void setRenderer()
+    {
+        material = meshRenderer.materials[2];
+        baseColor = material.GetColor("_BaseColor");
+    }
+
     public virtual void Shoot() {}
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Barrel") && !barrelHit)
+        if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
@@ -106,6 +118,7 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.layer == 8) // 8 = Player
         {
             delayBeforeShoot -= Time.deltaTime;
+            canonParticle.Play();
 
             if (delayBeforeShoot <= 0f)
                 Shoot();

@@ -12,6 +12,9 @@ public class MachineGun : WeaponPlayer
         {
             shotTimer = Time.time + delayPerShot;
 
+            animator.SetTrigger("machineGunShoot");
+            shootParticle.transform.position = bulletSpawn;
+            shootParticle.Play();
             currentBullet = Instantiate(bullet, 
                                         new Vector3(Random.Range(bulletSpawn.x - spawnRange, bulletSpawn.x + spawnRange), 
                                                     Random.Range(bulletSpawn.y - spawnRange, bulletSpawn.y + spawnRange), bulletSpawn.z), 
