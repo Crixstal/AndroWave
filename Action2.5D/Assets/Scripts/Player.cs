@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float delayBeforeDamage = 0f;
 
     [SerializeField] private AudioSource damageSound = null;
-    [SerializeField] private Color blinkingColor = new Color(255, 255, 255); 
+    [SerializeField] private Color blinkingColor = Color.white; 
 
     internal Rigidbody rb = null;
     internal int playerScore = 0;
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
         Transform childTransform = transform.Find("SM_KIWI/SM_Body");
         if (childTransform == null)
             Debug.Log("Can't find child");
-
+        
         GameObject child = childTransform.gameObject;
         material = child.GetComponent<Renderer>().material;
         baseColor = material.GetColor("_BaseColor");
@@ -155,11 +155,13 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(waitBeforeTP);
 
-        if (transform.position.z == posForeground)
+        if (transform.position.z == Mathf.Clamp(transform.position.z, posForeground - 1, posForeground + 1))
             transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posBackground);
 
-        else if (transform.position.z == posBackground)
+        else if (transform.position.z == Mathf.Clamp(transform.position.z, posBackground - 1, posBackground + 1))
             transform.position = new Vector3(hit.point.x, hit.point.y + transform.localScale.y, posForeground);
+
+        animator.SetBool("teleport", false);
     }
 
     private void Move()
@@ -171,6 +173,7 @@ public class Player : MonoBehaviour
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, -1f, 1f) && horizontalInput > horizontalInputSensitivity) // move right
         {
+            animator.SetBool("teleport", false);
             animator.SetBool("idle", false);
             animator.SetBool("moving", true);
             rb.AddForce(speed * new Vector3(1, -hitDownY, 0), ForceMode.Acceleration);
@@ -181,6 +184,7 @@ public class Player : MonoBehaviour
             transform.Rotate(0f, 180f, 0f);
         else if (playerRot == Mathf.Clamp(playerRot, 179f, 181f) && horizontalInput < -horizontalInputSensitivity) // move left
         {
+            animator.SetBool("teleport", false);
             animator.SetBool("idle", false);
             animator.SetBool("moving", true);
             rb.AddForce(speed * new Vector3(-1, -hitDownY, 0), ForceMode.Acceleration);
@@ -207,7 +211,7 @@ public class Player : MonoBehaviour
         {
             cam.GetComponent<CameraFollowPlayer>().OnTeleport = cam.transform.position;
             isInvincible = true;
-            animator.SetTrigger("teleport");
+            animator.SetBool("teleport", true);
 
             if (startTimer >= teleportationDelay)
                 StartCoroutine(WaitBeforeTeleportation());
@@ -238,7 +242,8 @@ public class Player : MonoBehaviour
         groundCheckJump = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.down);
         LayerMask mask = LayerMask.GetMask("BulletPlayer");
 
-        if (Physics.Raycast(groundCheckJump, out hitDown, 1.5f * transform.lossyScale.y, ~mask))
+        //if (Physics.Raycast(groundCheckJump, out hitDown, 1.5f * transform.lossyScale.y, ~mask))
+        if (Physics.Raycast(groundCheckJump, out hitDown, 2.2f, ~mask))
         {
             isGrounded = true;
             Jumping = false;
@@ -363,7 +368,7 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("Heart"))
         {
-            runLife++;
+            runLife += 2;
             Destroy(other.gameObject);
         }
 
@@ -426,9 +431,7 @@ public class Player : MonoBehaviour
         }
 
         if (other.CompareTag("Teleport"))
-        {
             teleportationDelay = 1000;
-        }
     }
 
     void OnTriggerExit(Collider other)

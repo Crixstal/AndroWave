@@ -359,7 +359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8182250b554009d4c933ccdd9e0d93cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getHeart: {fileID: 0}
   player: {fileID: 0}
   bullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee, type: 3}
   grenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8, type: 3}
@@ -373,10 +372,13 @@ MonoBehaviour:
   grenadeBlastDelay: 3
   delayPerShot: 3
   delayBeforeShoot: 1
-  damageSound: {fileID: 1074770775915009853}
   dropGrenade: 1
+  canonParticle: {fileID: 0}
+  deathParticle: {fileID: 0}
+  item: {fileID: 0}
   meshRenderer: {fileID: 691110004091233620}
   blinkingColor: {r: 255, g: 255, b: 255, a: 1}
+  damageSound: {fileID: 1074770775915009853}
   bulletPerSalve: 3
   timeBetweenBullets: 0.1
 --- !u!82 &1074770775915009853

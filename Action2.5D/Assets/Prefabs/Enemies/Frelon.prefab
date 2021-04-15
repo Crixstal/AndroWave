@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 6855285456494579326}
   - component: {fileID: -5216436332727214057}
   - component: {fileID: 7257283636220144571}
-  - component: {fileID: 858252896821308034}
   - component: {fileID: 4845590808005615234}
   m_Layer: 11
   m_Name: Frelon
@@ -222,7 +221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c69f3e9fd79964da2d60489786de8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getHeart: {fileID: 0}
   player: {fileID: 0}
   bullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee, type: 3}
   grenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8, type: 3}
@@ -236,9 +234,11 @@ MonoBehaviour:
   grenadeBlastDelay: 0
   delayPerShot: 0.5
   delayBeforeShoot: 0
-  damageSound: {fileID: 7257283636220144571}
   dropGrenade: 0
+  item: {fileID: 0}
   meshRenderer: {fileID: 3268365904874901055}
+  blinkingColor: {r: 255, g: 255, b: 255, a: 1}
+  damageSound: {fileID: 7257283636220144571}
   coneAngle: 22.5
 --- !u!82 &7257283636220144571
 AudioSource:
@@ -336,31 +336,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!895512359 &858252896821308034
-AimConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7565703629399404893}
-  m_Enabled: 0
-  m_Weight: 1
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
-  m_AimVector: {x: 0, y: 0, z: 1}
-  m_UpVector: {x: 0, y: 1, z: 0}
-  m_WorldUpVector: {x: 0, y: 1, z: 0}
-  m_WorldUpObject: {fileID: 0}
-  m_UpType: 0
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_IsContraintActive: 0
-  m_IsLocked: 0
-  m_Sources:
-  - sourceTransform: {fileID: 966268253949854947, guid: a1480a481fe85e24c9aa4a3cd2dec671,
-      type: 3}
-    weight: 1
 --- !u!95 &4845590808005615234
 Animator:
   serializedVersion: 3

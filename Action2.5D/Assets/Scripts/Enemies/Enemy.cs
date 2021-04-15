@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private GameObject item = null;
     [SerializeField] protected Player player = null;
     [SerializeField] protected GameObject bullet = null;
     [SerializeField] protected GameObject grenade = null;
@@ -18,15 +17,18 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float grenadeBlastDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
     [SerializeField] protected float delayBeforeShoot = 0f;
-    [SerializeField] protected AudioSource damageSound = null;
     [SerializeField] protected bool dropGrenade = false;
+    [SerializeField] protected GameObject item = null;
     [SerializeField] protected MeshRenderer meshRenderer;
-    [SerializeField] private Color blinkingColor = new Color(255, 255, 255);
+    [SerializeField] protected Color blinkingColor = Color.white;
+    [SerializeField] protected AudioSource damageSound = null;
 
     protected GameObject currentBullet = null;
     protected GameObject currentGrenade = null;
 
     protected Animator animator;
+    protected ParticleSystem canonParticle = null;
+    protected ParticleSystem deathParticle = null;
 
     protected Material material;
     protected Color baseColor;
@@ -55,30 +57,30 @@ public class Enemy : MonoBehaviour
         setRenderer();
 
         animator = GetComponent<Animator>();
+        canonParticle = GameObject.Find("Particles/Instability (loop)").GetComponent<ParticleSystem>();
+        deathParticle = GameObject.Find("Particles/SmokeyExplosion").GetComponent<ParticleSystem>();
 
         cam = Camera.main;
     }
 
-    protected virtual void setRenderer()
-    {
-        material = meshRenderer.materials[2];
-        baseColor = material.GetColor("_BaseColor");
-    }
-
     public void FixedUpdate()
     {
-        //if (material.GetColor("_BaseColor") != baseColor)
-          //  material.SetColor("_BaseColor", baseColor);
+        if (material.GetColor("_BaseColor") != baseColor)
+            material.SetColor("_BaseColor", baseColor);
 
         enemyPos = transform.position;
         playerPos = player.transform.position;
         relativePos = playerPos - enemyPos;
 
         bulletSpawn = transform.GetChild(0).GetChild(0).position;
+        canonParticle.transform.position = bulletSpawn;
 
         if (life <= 0)
         {
-            //cam.GetComponent<ScreenShake>().StartShake();
+            cam.GetComponent<ScreenShake>().StartShake();
+
+            deathParticle.transform.position = enemyPos;
+            deathParticle.Play();
 
             if (dropGrenade)
                 currentGrenade = Instantiate(grenade, enemyPos, Quaternion.identity);
@@ -87,9 +89,16 @@ public class Enemy : MonoBehaviour
                 Instantiate(item, enemyPos, Quaternion.identity);
 
             player.GetComponent<Player>().playerScore += score;
+            canonParticle.Stop();
 
             Destroy(gameObject);
         }
+    }
+
+    protected virtual void setRenderer()
+    {
+        material = meshRenderer.materials[2];
+        baseColor = material.GetColor("_BaseColor");
     }
 
     public virtual void Shoot() {}
@@ -100,7 +109,7 @@ public class Enemy : MonoBehaviour
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
             damageSound.Play();
-            //material.SetColor("_BaseColor", blinkingColor);
+            material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
     }
@@ -110,6 +119,7 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.layer == 8) // 8 = Player
         {
             delayBeforeShoot -= Time.deltaTime;
+            canonParticle.Play();
 
             if (delayBeforeShoot <= 0f)
                 Shoot();
@@ -122,7 +132,7 @@ public class Enemy : MonoBehaviour
         {
             life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
             damageSound.Play();
-            //material.SetColor("_BaseColor", blinkingColor);
+            material.SetColor("_BaseColor", blinkingColor);
         }
     }
 }
