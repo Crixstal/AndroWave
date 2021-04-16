@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Alex Level Beta.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Yvan.unity
     guid: dae1d0a6aabca5b4a93b3495d423ce85
   - enabled: 1
@@ -20,9 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/Scenes/L\xE9lio.unity"
     guid: 675b42d821a0ed84fb14ddba9d97df04
-  - enabled: 0
-    path: Assets/Scenes/bk.unity
-    guid: e39ed20ff51e4f64fa15cc31c94a4f55
+  - enabled: 1
+    path: Assets/Scenes/BK2.unity
+    guid: c0f6cff9c60701c4c881d09f89a0c328
   - enabled: 1
     path: Assets/Scenes/Test_Zone.unity
     guid: ad83e9bb6069e1d4886a11d818e02390

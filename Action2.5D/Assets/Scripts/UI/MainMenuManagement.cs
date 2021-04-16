@@ -15,6 +15,9 @@ public class MainMenuManagement : MonoBehaviour
     [SerializeField] private GameObject language = null;
     [SerializeField] private GameObject languageFirstButton = null;
 
+    [SerializeField] private GameObject controls = null;
+    [SerializeField] private GameObject controlsFirstButton = null;
+
     [SerializeField] private GameObject boar = null;
     [SerializeField] private GameObject player = null;
 
@@ -25,6 +28,7 @@ public class MainMenuManagement : MonoBehaviour
         main.SetActive(true);
         level.SetActive(false);
         language.SetActive(false);
+        controls.SetActive(false);
 
         boar.SetActive(true);
         player.SetActive(false);
@@ -43,6 +47,7 @@ public class MainMenuManagement : MonoBehaviour
         main.SetActive(false);
         level.SetActive(true);
         language.SetActive(false);
+        controls.SetActive(false);
 
         boar.SetActive(false);
         player.SetActive(true);
@@ -55,6 +60,7 @@ public class MainMenuManagement : MonoBehaviour
         main.SetActive(false);
         level.SetActive(false);
         language.SetActive(true);
+        controls.SetActive(false);
 
         boar.SetActive(true);
         player.SetActive(false);
@@ -62,11 +68,25 @@ public class MainMenuManagement : MonoBehaviour
         eventSystem.SetSelectedGameObject(languageFirstButton);
     }
 
+    public void Controls()
+    {
+        main.SetActive(false);
+        level.SetActive(false);
+        language.SetActive(false);
+        controls.SetActive(true);
+
+        boar.SetActive(false);
+        player.SetActive(false);
+
+        eventSystem.SetSelectedGameObject(controlsFirstButton);
+    }
+
     public void Return()
     {
         main.SetActive(true);
         level.SetActive(false);
         language.SetActive(false);
+        controls.SetActive(false);
 
         boar.SetActive(true);
         player.SetActive(false);

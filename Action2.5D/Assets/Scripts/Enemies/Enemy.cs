@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected int score = 0;
     [SerializeField] protected float bulletSpeed = 0f;
     [SerializeField] protected float bulletDamage = 0f;
-    [SerializeField] protected float bulletDestructionDelay = 0f;
     [SerializeField] protected float grenadeDamage = 0f;
     [SerializeField] protected float grenadeDestructionDelay = 0f;
     [SerializeField] protected float grenadeBlastDelay = 0f;
@@ -52,7 +51,6 @@ public class Enemy : MonoBehaviour
     {
         bullet.GetComponent<BulletEnemy>().speed = bulletSpeed;
         bullet.GetComponent<BulletEnemy>().damage = bulletDamage;
-        bullet.GetComponent<BulletEnemy>().destructionDelay = bulletDestructionDelay;
 
         grenade.GetComponent<GrenadeEnemy>().damage = grenadeDamage;
         grenade.GetComponent<GrenadeEnemy>().destructionDelay = grenadeDestructionDelay;
@@ -86,9 +84,6 @@ public class Enemy : MonoBehaviour
         {
             cam.GetComponent<ScreenShake>().StartShake();
 
-            deathParticle.transform.position = enemyPos;
-            deathParticle.Play();
-
             if (dropGrenade)
                 currentGrenade = Instantiate(grenade, enemyPos, Quaternion.identity);
 
@@ -96,6 +91,12 @@ public class Enemy : MonoBehaviour
                 Instantiate(item, enemyPos, Quaternion.identity);
 
             player.GetComponent<Player>().playerScore += score;
+
+            if (!deathParticle.isPlaying)
+            {
+                deathParticle.transform.position = enemyPos;
+                deathParticle.Play();
+            }
 
             if (!audioSource.isPlaying)
                 audioSource.PlayOneShot(deathSound);

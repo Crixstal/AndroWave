@@ -5,7 +5,6 @@ using UnityEngine;
 public class BulletEnemy : MonoBehaviour
 {
     [HideInInspector] public float speed = 0f;
-    [HideInInspector] public float destructionDelay = 0f;
     [HideInInspector] public float damage = 0f;
     [HideInInspector] public Vector3 direction = Vector3.zero;
 
@@ -14,9 +13,7 @@ public class BulletEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.Translate(direction * Time.deltaTime * speed, Space.World);
-
-        Destroy(gameObject, destructionDelay);
+        transform.Translate(direction * Time.deltaTime * 10f, Space.World);
 
         calculSpeed = (transform.position - lastPosition).magnitude * 100f;
         lastPosition = transform.position;

@@ -22,6 +22,11 @@ TagManager:
   - Unlock X
   - Mitrapompe
   - Teleport
+  - MissileLauncher
+  - Railgun
+  - Side
+  - Up
+  - TriggerLava
   layers:
   - Default
   - TransparentFX

@@ -89,8 +89,6 @@ public class Sanglier : MonoBehaviour
         {
             cam.GetComponent<ScreenShake>().StartShake();
 
-            deathParticle.transform.position = transform.position;
-            deathParticle.Play();
 
             if (dropGrenade)
                 currentGrenade = Instantiate(grenade, enemyPos, Quaternion.identity);
@@ -99,6 +97,12 @@ public class Sanglier : MonoBehaviour
                 getHeart.ItemDrop();
 
             player.GetComponent<Player>().playerScore += score;
+
+            if (!deathParticle.isPlaying)
+            {
+                deathParticle.transform.position = transform.position;
+                deathParticle.Play();
+            }
 
             if (!audioSource.isPlaying)
                 audioSource.PlayOneShot(deathSound);

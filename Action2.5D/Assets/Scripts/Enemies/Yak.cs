@@ -62,13 +62,18 @@ public class Yak : MonoBehaviour
         {
             cam.GetComponent<ScreenShake>().StartShake();
 
-            deathParticle.transform.position = transform.position;
-            deathParticle.Play();
+            rb.velocity = Vector3.zero;
 
             if (getHeart != null)
                 getHeart.ItemDrop();
 
             player.GetComponent<Player>().playerScore += score;
+
+            if (!deathParticle.isPlaying)
+            {
+                deathParticle.transform.position = transform.position;
+                deathParticle.Play();
+            }
 
             if (!audioSource.isPlaying)
                 audioSource.PlayOneShot(deathSound);

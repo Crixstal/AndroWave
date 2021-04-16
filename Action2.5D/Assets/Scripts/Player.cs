@@ -34,7 +34,6 @@ public class Player : MonoBehaviour
 
     [SerializeField] private AudioClip deathSound = null;
     [SerializeField] private AudioClip hurtSound = null;
-    [SerializeField] private AudioClip jumpSound = null;
     [SerializeField] private AudioClip tpSound = null;
     [SerializeField] private AudioSource audioSource = null;
 
@@ -281,9 +280,6 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
             Jumping = true;
 
-            audioSource.clip = jumpSound;
-            audioSource.Play();
-
             animator.SetTrigger("jump");
         }
     }
@@ -335,7 +331,8 @@ public class Player : MonoBehaviour
             if (isInvincible)
                 return;
 
-            runLife -= other.GetComponent<BulletEnemy>().damage;
+            //runLife -= other.GetComponent<BulletEnemy>().damage;
+            --runLife;
 
             audioSource.clip = hurtSound;
             audioSource.Play();
@@ -412,7 +409,7 @@ public class Player : MonoBehaviour
 
             ChangeWeapon(weapon, 0);
 
-            Destroy(other.transform.parent.gameObject, 0.5f);
+            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
         }
 
         if (other.CompareTag("Shotgun"))
@@ -422,7 +419,7 @@ public class Player : MonoBehaviour
 
             ChangeWeapon(weapon, 1);
 
-            Destroy(other.transform.parent.gameObject, 0.5f);
+            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
         }
 
         if (other.CompareTag("Mitrapompe"))
@@ -432,7 +429,7 @@ public class Player : MonoBehaviour
 
             ChangeWeapon(weapon, 2);
 
-            Destroy(other.transform.parent.gameObject, 0.5f);
+            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
         }
 
         if (other.CompareTag("Finish"))
@@ -456,8 +453,26 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (other.CompareTag("Lava") || other.CompareTag("Laser"))
+        if (other.CompareTag("Laser"))
         {
+            if (Time.time > timestamp)
+            {
+                timestamp = Time.time + delayBetweenDamage;
+                --runLife;
+                cam.GetComponent<ScreenShake>().StartShake();
+            }
+        }
+
+        if (other.CompareTag("TriggerLava"))
+        {
+            other.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Lava");
+            Destroy(other.gameObject, 5f);
+        }
+
+        if (other.CompareTag("Lava"))
+        {
+            other.GetComponent<AudioSource>().Play();
+
             if (Time.time > timestamp)
             {
                 timestamp = Time.time + delayBetweenDamage;

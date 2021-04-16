@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2363199642019981925}
   - component: {fileID: 2363199642019981926}
   m_Layer: 0
-  m_Name: AnimPlayer
+  m_Name: Player + anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,6 +96,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 46.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 543450653207288348, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 543450653207288348, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 543450653207288348, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 543450653207288348, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 543450653207288348, guid: a1480a481fe85e24c9aa4a3cd2dec671,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 543450653579557250, guid: a1480a481fe85e24c9aa4a3cd2dec671,
         type: 3}

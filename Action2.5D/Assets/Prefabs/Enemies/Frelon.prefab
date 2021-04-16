@@ -228,7 +228,6 @@ MonoBehaviour:
   score: 100
   bulletSpeed: 10
   bulletDamage: 1
-  bulletDestructionDelay: 5
   grenadeDamage: 0
   grenadeDestructionDelay: 0
   grenadeBlastDelay: 0
@@ -243,7 +242,7 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 2c8091d4e10177841b3857ec9c304942, type: 3}
   audioSource: {fileID: 7257283636220144571}
   meshRenderer: {fileID: 3268365904874901055}
-  blinkingColor: {r: 255, g: 255, b: 255, a: 1}
+  blinkingColor: {r: 1, g: 0, b: 0, a: 1}
   coneAngle: 22.5
 --- !u!82 &7257283636220144571
 AudioSource:
