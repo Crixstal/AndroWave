@@ -16,12 +16,6 @@ public class ApplyButton : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void ChangeScene(int scene)
-    {
-        SceneManager.LoadScene(scene);
-        Time.timeScale = 1f;
-    }
-
     public void Quit()
     {
         Application.Quit();

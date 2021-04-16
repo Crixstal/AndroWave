@@ -149,14 +149,18 @@ MonoBehaviour:
   life: 8
   score: 100
   laserDamage: 1
-  laserDelay: 1
+  laserDelay: 0.5
   grenadeDamage: 1
   grenadeDestructionDelay: 1
   grenadeBlastDelay: 1
   delayPerShot: 2
-  delayBeforeShoot: 3
+  delayBeforeShoot: 1
   dropGrenade: 0
-  damageSound: {fileID: 5136312632142628165}
+  hitSound: {fileID: 8300000, guid: 9029a63e29c5b32468b28b15ec9deaf1, type: 3}
+  aimSound: {fileID: 8300000, guid: f7a46560aef2a5a4ab3e370a01f46d28, type: 3}
+  shootSound: {fileID: 8300000, guid: eb4b11efe296f8c438a5d839bbda52e8, type: 3}
+  deathSound: {fileID: 8300000, guid: 3e290da637d678b4f918f81acd1d7725, type: 3}
+  audioSource: {fileID: 5136312632142628165}
   meshRenderer: {fileID: 3726521604433834844}
   blinkingColor: {r: 255, g: 255, b: 255, a: 1}
 --- !u!82 &5136312632142628165
@@ -549,7 +553,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9aba752d8ecb20b4b90abf828eb38294, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

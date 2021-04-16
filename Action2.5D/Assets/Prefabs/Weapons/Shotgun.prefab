@@ -41,8 +41,8 @@ GameObject:
   - component: {fileID: 4847440592538810537}
   - component: {fileID: 6591649630704024435}
   - component: {fileID: 1201791872078182404}
-  - component: {fileID: 4336677426011802424}
   - component: {fileID: 1667983740247919378}
+  - component: {fileID: -1719593926454134578}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Shotgun
@@ -113,7 +113,29 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!82 &4336677426011802424
+--- !u!114 &1667983740247919378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630857448984316691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4f41e5555d9bb43852c3e1ad8f13d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
+  m_speed: 30
+  m_damage: 4
+  m_destructionDelay: 0.25
+  delayPerShot: 0.5
+  weaponSound1: {fileID: 8300000, guid: fc5c738816ca5774da908b8a62eae047, type: 3}
+  weaponSound2: {fileID: 8300000, guid: 5f296c7f966638848ad9d190f4858c07, type: 3}
+  weaponSound3: {fileID: 8300000, guid: 6f7633371af91054ca98ea1c232eb81f, type: 3}
+  weaponSoundToPlay: {fileID: -1719593926454134578}
+  coneAngle: 11.25
+--- !u!82 &-1719593926454134578
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,9 +145,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 218d0e6fd7f19b140a9ffbae1747aee3, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -209,25 +231,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1667983740247919378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 630857448984316691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f4f41e5555d9bb43852c3e1ad8f13d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
-  m_speed: 30
-  m_damage: 4
-  m_destructionDelay: 0.25
-  delayPerShot: 0.5
-  weaponSound: {fileID: 4336677426011802424}
-  coneAngle: 11.25
 --- !u!1001 &6315123209653158265
 PrefabInstance:
   m_ObjectHideFlags: 0

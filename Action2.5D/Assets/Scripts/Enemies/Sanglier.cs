@@ -17,7 +17,11 @@ public class Sanglier : MonoBehaviour
     [SerializeField] private float delayPerShot = 0f;
     [SerializeField] private float delayBeforeShoot = 0f;
     [SerializeField] private bool dropGrenade = false;
-    [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] private AudioClip hitSound = null;
+    [SerializeField] private AudioClip aimSound = null;
+    [SerializeField] private AudioClip shootSound = null;
+    [SerializeField] private AudioClip deathSound = null;
+    [SerializeField] private AudioSource audioSource = null;
     [SerializeField] protected MeshRenderer meshRenderer;
     [SerializeField] private Color blinkingColor = Color.white;
 
@@ -76,6 +80,11 @@ public class Sanglier : MonoBehaviour
 
         laserRay = new Ray(bulletSpawn, relativePos.normalized);
 
+        if (audioSource.clip == hitSound)
+            audioSource.volume = 0.1f;
+        else
+            audioSource.volume = 1f;
+
         if (life <= 0)
         {
             cam.GetComponent<ScreenShake>().StartShake();
@@ -91,7 +100,10 @@ public class Sanglier : MonoBehaviour
 
             player.GetComponent<Player>().playerScore += score;
 
-            Destroy(gameObject);
+            if (!audioSource.isPlaying)
+                audioSource.PlayOneShot(deathSound);
+
+            Destroy(gameObject, deathSound.length);
         }
     }
 
@@ -102,6 +114,10 @@ public class Sanglier : MonoBehaviour
 
         if (Physics.Raycast(laserRay, out laserHit, Mathf.Infinity, layerMask, QueryTriggerInteraction.Ignore))
         {
+            audioSource.clip = aimSound;
+            if (!audioSource.isPlaying)
+                audioSource.Play();
+
             aimLine.SetPosition(0, laserRay.origin);
             aimLine.SetPosition(1, laserHit.point);
         }
@@ -121,6 +137,9 @@ public class Sanglier : MonoBehaviour
                 if (Physics.Raycast(laserRay, out laserHit, Mathf.Infinity, layerMask, QueryTriggerInteraction.Ignore))
                 {
                     animator.SetBool("laserShoot", true);
+
+                    if (!audioSource.isPlaying)
+                        audioSource.PlayOneShot(shootSound);
 
                     shootLine.SetPosition(0, laserRay.origin);
                     shootLine.SetPosition(1, laserHit.point);
@@ -145,10 +164,16 @@ public class Sanglier : MonoBehaviour
         if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hitSound;
+            audioSource.Play();
+
             material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
+
+        if (other.CompareTag("Lava"))
+            life = 0f;
     }
 
     void OnTriggerStay(Collider other)
@@ -173,7 +198,8 @@ public class Sanglier : MonoBehaviour
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
         {
             life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
-            damageSound.Play();
+            audioSource.clip = hitSound;
+            audioSource.Play();
             material.SetColor("_BaseColor", blinkingColor);
         }
     }

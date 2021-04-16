@@ -12,6 +12,22 @@ public class Shotgun : WeaponPlayer
 
         if (shootInput == 1f && Time.time > shotTimer)
         {
+            switch (Random.Range(1, 3))
+            {
+                case 1:
+                    weaponSoundToPlay.clip = weaponSound1;
+                    break;
+                case 2:
+                    weaponSoundToPlay.clip = weaponSound2;
+                    break;
+                case 3:
+                    weaponSoundToPlay.clip = weaponSound3;
+                    break;
+                default:
+                    weaponSoundToPlay.clip = weaponSound1;
+                    break;
+            }
+
             shotTimer = Time.time + delayPerShot;
 
             #region ---------- SHOOT RIGHT ----------
@@ -24,8 +40,10 @@ public class Shotgun : WeaponPlayer
                     shootParticle.transform.position = bulletSpawn;
                     shootParticle.Play();
 
+                    GetComponent<AudioSource>().Play();
+
                     currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
-                    weaponSound.Play();
+                    weaponSoundToPlay.Play();
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle + shootAngle, Vector3.forward) * Vector3.right;
                     coneAngle -= constConeAngle / 2;
                 }
@@ -43,7 +61,7 @@ public class Shotgun : WeaponPlayer
                     shootParticle.Play();
 
                     currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, playerRot, shootAngle));
-                    weaponSound.Play();
+                    weaponSoundToPlay.Play();
                     currentBullet.GetComponent<BulletPlayer>().direction = Quaternion.AngleAxis(coneAngle - shootAngle, Vector3.forward) * Vector3.left;
                     coneAngle -= constConeAngle / 2;
                 }

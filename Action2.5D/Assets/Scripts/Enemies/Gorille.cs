@@ -12,9 +12,10 @@ public class Gorille : Enemy
     {
         for (int i = 0; i < bulletPerSalve; ++i)
         {
-            canonParticle.Stop();
-
             yield return new WaitForSeconds(timeBetweenBullets);
+
+            audioSource.clip = apeShootSound;
+            audioSource.Play();
 
             currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f));
             currentBullet.GetComponent<BulletEnemy>().direction = Vector3.Normalize(relativePos);
@@ -25,8 +26,6 @@ public class Gorille : Enemy
     {
         if (Time.time > shotTimer)
         {
-            canonParticle.Stop();
-
             shotTimer = Time.time + delayPerShot;
 
             StartCoroutine(Salve());

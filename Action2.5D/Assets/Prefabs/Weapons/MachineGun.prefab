@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 6308052746796823502}
   - component: {fileID: 6308052746796823497}
   - component: {fileID: 7728068469763507323}
-  - component: {fileID: 9037757194968043381}
+  - component: {fileID: 2244341256147696488}
   m_Layer: 0
   m_Name: MachineGun
   m_TagString: MachineGun
@@ -130,9 +130,12 @@ MonoBehaviour:
   m_damage: 0.75
   m_destructionDelay: 0.8
   delayPerShot: 0.075
-  weaponSound: {fileID: 9037757194968043381}
+  weaponSound1: {fileID: 8300000, guid: 05fae18a11b39bc4d8821aa6e52f5b09, type: 3}
+  weaponSound2: {fileID: 0}
+  weaponSound3: {fileID: 0}
+  weaponSoundToPlay: {fileID: 2244341256147696488}
   spawnRange: 0.5
---- !u!82 &9037757194968043381
+--- !u!82 &2244341256147696488
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,9 +145,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 52fd3d7290e7fcc4abdbbce02579a905, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0

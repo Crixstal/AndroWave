@@ -9,7 +9,10 @@ public class WeaponPlayer : MonoBehaviour
     [SerializeField] protected float m_damage = 0f;
     [SerializeField] protected float m_destructionDelay = 0f;
     [SerializeField] protected float delayPerShot = 0f;
-    [SerializeField] protected AudioSource weaponSound = null;
+    [SerializeField] protected AudioClip weaponSound1 = null;
+    [SerializeField] protected AudioClip weaponSound2 = null;
+    [SerializeField] protected AudioClip weaponSound3 = null;
+    [SerializeField] protected AudioSource weaponSoundToPlay = null;
 
     protected Animator animator = null;
     protected ParticleSystem shootParticle = null;

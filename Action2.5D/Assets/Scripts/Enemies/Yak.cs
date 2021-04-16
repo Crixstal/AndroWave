@@ -12,7 +12,10 @@ public class Yak : MonoBehaviour
     public float damage = 0f;
     [SerializeField] private bool berserk = false;
     [SerializeField] private float rotateDelay = 0f;
-    [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] private AudioClip hitSound = null;
+    [SerializeField] private AudioClip runSound = null;
+    [SerializeField] private AudioClip deathSound = null;
+    [SerializeField] private AudioSource audioSource = null;
     [SerializeField] protected MeshRenderer meshRenderer;
     [SerializeField] private Color blinkingColor = Color.white;
 
@@ -50,6 +53,11 @@ public class Yak : MonoBehaviour
         if (material.GetColor("_BaseColor") != baseColor)
             material.SetColor("_BaseColor", baseColor);
 
+        if (audioSource.clip == hitSound)
+            audioSource.volume = 0.1f;
+        else
+            audioSource.volume = 1f;
+
         if (life <= 0)
         {
             cam.GetComponent<ScreenShake>().StartShake();
@@ -61,7 +69,11 @@ public class Yak : MonoBehaviour
                 getHeart.ItemDrop();
 
             player.GetComponent<Player>().playerScore += score;
-            Destroy(gameObject);
+
+            if (!audioSource.isPlaying)
+                audioSource.PlayOneShot(deathSound);
+
+            Destroy(gameObject, deathSound.length);
         }
     }
 
@@ -75,9 +87,17 @@ public class Yak : MonoBehaviour
         rb.velocity = Vector3.zero;
 
         if (transform.rotation.eulerAngles.y == Mathf.Clamp(transform.rotation.eulerAngles.y, -1f, 1f))
+        {
             rb.AddForce(Vector3.right * speed, ForceMode.VelocityChange);
+            audioSource.clip = runSound;
+            audioSource.Play();
+        }
         else
+        {
             rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
+            audioSource.clip = runSound;
+            audioSource.Play();
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -88,10 +108,16 @@ public class Yak : MonoBehaviour
         if (other.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
         {
             life -= other.GetComponent<Barrel>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hitSound;
+            audioSource.Play();
+
             material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
+
+        if (other.CompareTag("Lava"))
+            life = 0f;
 
         if (backTriggered)
             StartCoroutine(TurnAround());
@@ -103,6 +129,9 @@ public class Yak : MonoBehaviour
 
             rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
             transform.GetChild(0).GetComponent<Collider>().enabled = false; // disable front collider
+
+            audioSource.clip = runSound;
+            audioSource.Play();
         }
     }
 
@@ -114,7 +143,11 @@ public class Yak : MonoBehaviour
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
         {
             life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hitSound;
+            audioSource.volume = 0.5f;
+            audioSource.Play();
+
             material.SetColor("_BaseColor", blinkingColor);
         }
     }

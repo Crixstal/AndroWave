@@ -29,6 +29,9 @@ public class Barrel : MonoBehaviour
         deathParticle.transform.position = transform.position;
         deathParticle.Play();
 
+        if (!GetComponent<AudioSource>().isPlaying)
+            GetComponent<AudioSource>().Play();
+
         yield return new WaitForSeconds(destructionDelay);
 
         Destroy(gameObject);

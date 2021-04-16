@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4888781361623466637}
   - component: {fileID: 700070838079920120}
   - component: {fileID: 5409822507295106969}
-  - component: {fileID: 3882037080150120708}
+  - component: {fileID: -4038333949041617391}
   m_Layer: 0
   m_Name: Mitrapompe
   m_TagString: Mitrapompe
@@ -130,9 +130,12 @@ MonoBehaviour:
   m_damage: 4
   m_destructionDelay: 0.25
   delayPerShot: 0.5
-  weaponSound: {fileID: 3882037080150120708}
+  weaponSound1: {fileID: 8300000, guid: dcb9b1abb1f38f944b0e3c39aa7a4114, type: 3}
+  weaponSound2: {fileID: 8300000, guid: dcb9b1abb1f38f944b0e3c39aa7a4114, type: 3}
+  weaponSound3: {fileID: 8300000, guid: dcb9b1abb1f38f944b0e3c39aa7a4114, type: 3}
+  weaponSoundToPlay: {fileID: -4038333949041617391}
   coneAngle: 11.25
---- !u!82 &3882037080150120708
+--- !u!82 &-4038333949041617391
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,9 +145,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 218d0e6fd7f19b140a9ffbae1747aee3, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0

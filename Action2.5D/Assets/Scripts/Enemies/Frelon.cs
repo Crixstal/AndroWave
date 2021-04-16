@@ -17,6 +17,9 @@ public class Frelon : Enemy
 
             for (int i = 0; i < 3; ++i)
             {
+                audioSource.clip = waspShootSound;
+                audioSource.Play();
+
                 currentBullet = Instantiate(bullet, bulletSpawn, Quaternion.Euler(0f, 0f, coneAngle - 90f));
                 currentBullet.GetComponent<BulletEnemy>().direction = Quaternion.AngleAxis(coneAngle, Vector3.forward) * Vector3.down;
                 coneAngle -= constConeAngle;

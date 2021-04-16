@@ -20,6 +20,10 @@ public class CanvasManagement : MonoBehaviour
 
     [SerializeField] private EventSystem eventSystem = null;
     
+    [SerializeField] private AudioClip clickSound = null;
+    [SerializeField] private AudioClip validationSound = null;
+    [SerializeField] private AudioSource audioSource = null;
+
     private bool gameIsPaused;
 
     void Awake()
@@ -45,6 +49,7 @@ public class CanvasManagement : MonoBehaviour
         {
             eventSystem.SetSelectedGameObject(pauseFirstButton);
             pause.SetActive(true);
+            transform.GetChild(0).GetComponent<AudioSource>().Play();
         }
         else if (!gameIsPaused)
             pause.SetActive(false);
@@ -55,6 +60,30 @@ public class CanvasManagement : MonoBehaviour
             HUD.SetActive(false);
             win.SetActive(true);
             Time.timeScale = 0f;
+        }
+
+        Sounds();
+    }
+
+    private void Sounds()
+    {
+        if (win.activeSelf || pause.activeSelf || gameOver.activeSelf)
+        {
+            if (Input.GetButton("Jump"))
+            {
+                audioSource.clip = validationSound;
+
+                if (!audioSource.isPlaying)
+                    audioSource.Play();
+            }
+
+            if (Input.GetAxis("HorizontalInput") != 0f || Input.GetAxis("VerticalInput") != 0f)
+            {
+                audioSource.clip = clickSound;
+
+                if (!audioSource.isPlaying)
+                    audioSource.Play();
+            }
         }
     }
 }

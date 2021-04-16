@@ -244,7 +244,11 @@ MonoBehaviour:
   posBackground: 60
   delayBetweenDamage: 0
   delayBeforeDamage: 2
-  damageSound: {fileID: 2696704486409536833}
+  deathSound: {fileID: 8300000, guid: 05aa8e3ae49a3e84696721c90d6f5d36, type: 3}
+  hurtSound: {fileID: 8300000, guid: 59da36d935899684f8d73cf53bd471bb, type: 3}
+  jumpSound: {fileID: 8300000, guid: 916daad7c5fb0104390efb12d22a7bb9, type: 3}
+  tpSound: {fileID: 8300000, guid: 86ea4460d7d36c04d8ed45fb01e747ff, type: 3}
+  audioSource: {fileID: 2696704486409536833}
   blinkingColor: {r: 255, g: 255, b: 255, a: 1}
 --- !u!82 &2696704486409536833
 AudioSource:
@@ -487,7 +491,10 @@ MonoBehaviour:
   m_damage: 4
   m_destructionDelay: 0.25
   delayPerShot: 0.5
-  weaponSound: {fileID: 4336677426011802424}
+  weaponSound1: {fileID: 0}
+  weaponSound2: {fileID: 0}
+  weaponSound3: {fileID: 0}
+  weaponSoundToPlay: {fileID: 0}
   coneAngle: 11.25
 --- !u!1 &8027452536497341891
 GameObject:

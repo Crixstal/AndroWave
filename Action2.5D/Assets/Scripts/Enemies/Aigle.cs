@@ -20,6 +20,9 @@ public class Aigle : Enemy
             animator.SetBool("Grenade", true);
             shotTimer = Time.time + delayPerShot;
 
+            audioSource.clip = eagleShootSound;
+            audioSource.Play();
+
             currentGrenade = Instantiate(grenade, bulletSpawn, Quaternion.identity);
         }    
     }

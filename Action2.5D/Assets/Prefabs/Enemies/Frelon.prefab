@@ -236,9 +236,14 @@ MonoBehaviour:
   delayBeforeShoot: 0
   dropGrenade: 0
   item: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: 9029a63e29c5b32468b28b15ec9deaf1, type: 3}
+  eagleShootSound: {fileID: 8300000, guid: e84301b047913ed4fa23ac09ec5e9fbf, type: 3}
+  apeShootSound: {fileID: 8300000, guid: 2b77d4d8de1601347887208ff55615dc, type: 3}
+  waspShootSound: {fileID: 8300000, guid: 09db0ebd00f810c45832597c5abc9af1, type: 3}
+  deathSound: {fileID: 8300000, guid: 3e290da637d678b4f918f81acd1d7725, type: 3}
+  audioSource: {fileID: 7257283636220144571}
   meshRenderer: {fileID: 3268365904874901055}
   blinkingColor: {r: 255, g: 255, b: 255, a: 1}
-  damageSound: {fileID: 7257283636220144571}
   coneAngle: 22.5
 --- !u!82 &7257283636220144571
 AudioSource:

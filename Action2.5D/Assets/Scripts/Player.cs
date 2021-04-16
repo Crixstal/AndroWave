@@ -32,7 +32,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float delayBetweenDamage = 0f;
     [SerializeField] private float delayBeforeDamage = 0f;
 
-    [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] private AudioClip deathSound = null;
+    [SerializeField] private AudioClip hurtSound = null;
+    [SerializeField] private AudioClip jumpSound = null;
+    [SerializeField] private AudioClip tpSound = null;
+    [SerializeField] private AudioSource audioSource = null;
+
     [SerializeField] private Color blinkingColor = Color.white; 
 
     internal Rigidbody rb = null;
@@ -125,6 +130,9 @@ public class Player : MonoBehaviour
         runLife = constRunLife;
         playerScore -= losePoints;
 
+        audioSource.clip = deathSound;
+        audioSource.Play();
+
         if (generalLife <= 0)
             yield break;
 
@@ -211,10 +219,16 @@ public class Player : MonoBehaviour
         {
             cam.GetComponent<CameraFollowPlayer>().OnTeleport = cam.transform.position;
             isInvincible = true;
-            animator.SetBool("teleport", true);
 
             if (startTimer >= teleportationDelay)
+            {
+                animator.SetBool("teleport", true);
+
+                audioSource.clip = tpSound;
+                audioSource.Play();
+
                 StartCoroutine(WaitBeforeTeleportation());
+            }
 
             startTimer = 0f;
             isInvincible = false;
@@ -267,6 +281,9 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
             Jumping = true;
 
+            audioSource.clip = jumpSound;
+            audioSource.Play();
+
             animator.SetTrigger("jump");
         }
     }
@@ -299,7 +316,10 @@ public class Player : MonoBehaviour
             return;
 
         runLife -= damage;
-        damageSound.Play();
+
+        audioSource.clip = hurtSound;
+        audioSource.Play();
+
         cam.GetComponent<ScreenShake>().StartShake();
 
         StartCoroutine(BecomeInvincible());
@@ -316,7 +336,10 @@ public class Player : MonoBehaviour
                 return;
 
             runLife -= other.GetComponent<BulletEnemy>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hurtSound;
+            audioSource.Play();
+
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -328,7 +351,10 @@ public class Player : MonoBehaviour
                 return;
 
             runLife -= other.GetComponent<Yak>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hurtSound;
+            audioSource.Play();
+
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -340,7 +366,10 @@ public class Player : MonoBehaviour
                 return;
 
             runLife -= other.GetComponent<GrenadeEnemy>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hurtSound;
+            audioSource.Play();
+
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -352,7 +381,10 @@ public class Player : MonoBehaviour
                 return;
 
             runLife -= other.GetComponent<Trap>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hurtSound;
+            audioSource.Play();
+
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());
@@ -368,35 +400,39 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("Heart"))
         {
+            other.GetComponent<AudioSource>().Play();
             runLife += 2;
-            Destroy(other.gameObject);
+            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
         }
 
         if (other.CompareTag("MachineGun"))
         {
+            other.GetComponent<AudioSource>().Play();
             GameObject weapon = transform.GetChild(0).GetChild(0).gameObject;
 
             ChangeWeapon(weapon, 0);
 
-            Destroy(other.transform.parent.gameObject);
+            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
         }
 
         if (other.CompareTag("Shotgun"))
         {
+            other.GetComponent<AudioSource>().Play();
             GameObject weapon = transform.GetChild(0).GetChild(1).gameObject;
 
             ChangeWeapon(weapon, 1);
 
-            Destroy(other.transform.parent.gameObject);
+            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
         }
 
         if (other.CompareTag("Mitrapompe"))
         {
+            other.GetComponent<AudioSource>().Play();
             GameObject weapon = transform.GetChild(0).GetChild(2).gameObject;
 
             ChangeWeapon(weapon, 2);
 
-            Destroy(other.transform.parent.gameObject);
+            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
         }
 
         if (other.CompareTag("Finish"))
@@ -454,7 +490,10 @@ public class Player : MonoBehaviour
                 return;
 
             runLife -= collision.gameObject.GetComponent<GrenadeEnemy>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hurtSound;
+            audioSource.Play();
+
             cam.GetComponent<ScreenShake>().StartShake();
 
             StartCoroutine(BecomeInvincible());

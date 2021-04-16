@@ -19,15 +19,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float delayBeforeShoot = 0f;
     [SerializeField] protected bool dropGrenade = false;
     [SerializeField] protected GameObject item = null;
+    [SerializeField] protected AudioClip hitSound = null;
+    [SerializeField] protected AudioClip eagleShootSound = null;
+    [SerializeField] protected AudioClip apeShootSound = null;
+    [SerializeField] protected AudioClip waspShootSound = null;
+    [SerializeField] protected AudioClip deathSound = null;
+    [SerializeField] protected AudioSource audioSource = null;
     [SerializeField] protected MeshRenderer meshRenderer;
     [SerializeField] protected Color blinkingColor = Color.white;
-    [SerializeField] protected AudioSource damageSound = null;
 
     protected GameObject currentBullet = null;
     protected GameObject currentGrenade = null;
 
     protected Animator animator;
-    protected ParticleSystem canonParticle = null;
     protected ParticleSystem deathParticle = null;
 
     protected Material material;
@@ -57,7 +61,6 @@ public class Enemy : MonoBehaviour
         setRenderer();
 
         animator = GetComponent<Animator>();
-        canonParticle = GameObject.Find("Particles/Instability (loop)").GetComponent<ParticleSystem>();
         deathParticle = GameObject.Find("Particles/SmokeyExplosion").GetComponent<ParticleSystem>();
 
         cam = Camera.main;
@@ -73,7 +76,11 @@ public class Enemy : MonoBehaviour
         relativePos = playerPos - enemyPos;
 
         bulletSpawn = transform.GetChild(0).GetChild(0).position;
-        canonParticle.transform.position = bulletSpawn;
+
+        if (audioSource.clip == hitSound)
+            audioSource.volume = 0.1f;
+        else
+            audioSource.volume = 1f;
 
         if (life <= 0)
         {
@@ -89,9 +96,11 @@ public class Enemy : MonoBehaviour
                 Instantiate(item, enemyPos, Quaternion.identity);
 
             player.GetComponent<Player>().playerScore += score;
-            canonParticle.Stop();
 
-            Destroy(gameObject);
+            if (!audioSource.isPlaying)
+                audioSource.PlayOneShot(deathSound);
+
+            Destroy(gameObject, deathSound.length);
         }
     }
 
@@ -108,10 +117,16 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.CompareTag("Barrel") && other.GetType() == typeof(BoxCollider) && !barrelHit)
         {
             life -= other.gameObject.GetComponent<Barrel>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hitSound;
+            audioSource.Play();
+
             material.SetColor("_BaseColor", blinkingColor);
             barrelHit = true;
         }
+
+        if (other.CompareTag("Lava"))
+            life = 0f;
     }
 
     public virtual void OnTriggerStay(Collider other)
@@ -119,7 +134,6 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.layer == 8) // 8 = Player
         {
             delayBeforeShoot -= Time.deltaTime;
-            canonParticle.Play();
 
             if (delayBeforeShoot <= 0f)
                 Shoot();
@@ -131,7 +145,10 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.layer == 9) // 9 = BulletPlayer
         {
             life -= collision.gameObject.GetComponent<BulletPlayer>().damage;
-            damageSound.Play();
+
+            audioSource.clip = hitSound;
+            audioSource.Play();
+
             material.SetColor("_BaseColor", blinkingColor);
         }
     }
