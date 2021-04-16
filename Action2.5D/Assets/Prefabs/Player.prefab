@@ -244,10 +244,10 @@ MonoBehaviour:
   posBackground: 60
   delayBetweenDamage: 0
   delayBeforeDamage: 2
-  deathSound: {fileID: 8300000, guid: 05aa8e3ae49a3e84696721c90d6f5d36, type: 3}
-  hurtSound: {fileID: 8300000, guid: 59da36d935899684f8d73cf53bd471bb, type: 3}
-  jumpSound: {fileID: 8300000, guid: 916daad7c5fb0104390efb12d22a7bb9, type: 3}
-  tpSound: {fileID: 8300000, guid: 86ea4460d7d36c04d8ed45fb01e747ff, type: 3}
+  deathSound: {fileID: 8300000, guid: 1dbb17607225f9a48b996f1bb4146717, type: 3}
+  hurtSound: {fileID: 8300000, guid: 67169ac77a57d9c408b224fdc206905c, type: 3}
+  jumpSound: {fileID: 8300000, guid: 4fa2beec9516e6d4384b16dc9c39da04, type: 3}
+  tpSound: {fileID: 8300000, guid: 7f6a9fcf9b27b3c4ea9513171ce9e926, type: 3}
   audioSource: {fileID: 2696704486409536833}
   blinkingColor: {r: 255, g: 255, b: 255, a: 1}
 --- !u!82 &2696704486409536833

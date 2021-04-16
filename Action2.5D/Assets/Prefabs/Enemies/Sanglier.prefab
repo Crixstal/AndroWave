@@ -146,20 +146,20 @@ MonoBehaviour:
   getHeart: {fileID: 0}
   player: {fileID: 0}
   grenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8, type: 3}
-  life: 8
+  life: 5
   score: 100
   laserDamage: 1
-  laserDelay: 0.5
+  laserDelay: 1
   grenadeDamage: 1
   grenadeDestructionDelay: 1
   grenadeBlastDelay: 1
   delayPerShot: 2
-  delayBeforeShoot: 1
+  delayBeforeShoot: 3
   dropGrenade: 0
-  hitSound: {fileID: 8300000, guid: 9029a63e29c5b32468b28b15ec9deaf1, type: 3}
-  aimSound: {fileID: 8300000, guid: f7a46560aef2a5a4ab3e370a01f46d28, type: 3}
-  shootSound: {fileID: 8300000, guid: eb4b11efe296f8c438a5d839bbda52e8, type: 3}
-  deathSound: {fileID: 8300000, guid: 3e290da637d678b4f918f81acd1d7725, type: 3}
+  hitSound: {fileID: 8300000, guid: 083991a608236e04fbf9e757c8f552d8, type: 3}
+  aimSound: {fileID: 8300000, guid: ef50363ea45ff1644a6d6e8bfbe8a99c, type: 3}
+  shootSound: {fileID: 8300000, guid: 45cff2d381758be4083c553af85d8d68, type: 3}
+  deathSound: {fileID: 8300000, guid: 2c8091d4e10177841b3857ec9c304942, type: 3}
   audioSource: {fileID: 5136312632142628165}
   meshRenderer: {fileID: 3726521604433834844}
   blinkingColor: {r: 255, g: 255, b: 255, a: 1}

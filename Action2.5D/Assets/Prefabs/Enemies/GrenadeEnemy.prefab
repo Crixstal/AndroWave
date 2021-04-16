@@ -110,7 +110,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 4903455019806157799}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 2.3
   m_Height: 8
   m_Direction: 0
@@ -143,7 +143,6 @@ MonoBehaviour:
   damage: 1
   blastDelay: 3
   destructionDelay: 3
-  explosionSound: {fileID: 8300000, guid: 9520836685a60974d995c142ab67dd42, type: 3}
   audioSource: {fileID: 2848398520050243053}
 --- !u!82 &2848398520050243053
 AudioSource:
@@ -155,7 +154,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2f9e40773e2f74c438edecc7bb722be2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

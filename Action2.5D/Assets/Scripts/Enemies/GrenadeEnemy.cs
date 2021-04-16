@@ -8,7 +8,6 @@ public class GrenadeEnemy : MonoBehaviour
     [HideInInspector] public float blastDelay = 0f;
     [HideInInspector] public float destructionDelay = 0f;
 
-    [SerializeField] private AudioClip explosionSound = null;
     [SerializeField] private AudioSource audioSource = null;
 
     private ParticleSystem deathParticle = null;
@@ -27,7 +26,6 @@ public class GrenadeEnemy : MonoBehaviour
         deathParticle.transform.position = transform.position;
         deathParticle.Play();
 
-        audioSource.clip = explosionSound;
         audioSource.Play();
 
         yield return new WaitForSeconds(destructionDelay);
@@ -42,10 +40,9 @@ public class GrenadeEnemy : MonoBehaviour
             deathParticle.transform.position = transform.position;
             deathParticle.Play();
 
-            audioSource.clip = explosionSound;
             audioSource.Play();
 
-            Destroy(gameObject, explosionSound.length);
+            Destroy(gameObject, audioSource.clip.length);
         }
         else
             StartCoroutine(Explosion());

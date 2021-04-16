@@ -2000,8 +2000,8 @@ MonoBehaviour:
   winFirstButton: {fileID: 1684563747958415394}
   player: {fileID: 0}
   eventSystem: {fileID: 0}
-  clickSound: {fileID: 8300000, guid: e91908dce9674e549a4b3e2671ab491c, type: 3}
-  validationSound: {fileID: 8300000, guid: a21ffc60416d758439cc5257497f8843, type: 3}
+  clickSound: {fileID: 8300000, guid: 7cdb8338d4e9c164499b6c0b31301f7a, type: 3}
+  validationSound: {fileID: 8300000, guid: ecb13bc6ada61924db8a44b52954d562, type: 3}
   audioSource: {fileID: 1222865763231073480}
 --- !u!114 &2763011129364344382
 MonoBehaviour:

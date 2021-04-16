@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 317187958953296378}
   m_Layer: 0
-  m_Name: Heal
+  m_Name: Heal + anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,6 +70,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 317187958953296378}
     m_Modifications:
+    - target: {fileID: 5470993758004181418, guid: 6772c7eb6c1a45b43af3393594d729c2,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f7f705fed2185fb4aa27bca6a707fab9, type: 3}
     - target: {fileID: 5534783767919131152, guid: 6772c7eb6c1a45b43af3393594d729c2,
         type: 3}
       propertyPath: m_Name

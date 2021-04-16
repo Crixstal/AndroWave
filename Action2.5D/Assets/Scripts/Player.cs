@@ -412,7 +412,7 @@ public class Player : MonoBehaviour
 
             ChangeWeapon(weapon, 0);
 
-            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
+            Destroy(other.transform.parent.gameObject, 0.5f);
         }
 
         if (other.CompareTag("Shotgun"))
@@ -422,7 +422,7 @@ public class Player : MonoBehaviour
 
             ChangeWeapon(weapon, 1);
 
-            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
+            Destroy(other.transform.parent.gameObject, 0.5f);
         }
 
         if (other.CompareTag("Mitrapompe"))
@@ -432,7 +432,7 @@ public class Player : MonoBehaviour
 
             ChangeWeapon(weapon, 2);
 
-            Destroy(other.transform.parent.gameObject, other.GetComponent<AudioSource>().clip.length);
+            Destroy(other.transform.parent.gameObject, 0.5f);
         }
 
         if (other.CompareTag("Finish"))

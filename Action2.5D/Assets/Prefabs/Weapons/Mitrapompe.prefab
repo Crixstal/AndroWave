@@ -127,10 +127,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
   m_speed: 30
-  m_damage: 4
-  m_destructionDelay: 0.25
-  delayPerShot: 0.5
-  weaponSound1: {fileID: 8300000, guid: dcb9b1abb1f38f944b0e3c39aa7a4114, type: 3}
+  m_damage: 0.35
+  m_destructionDelay: 0.5
+  delayPerShot: 0.15
+  weaponSound1: {fileID: 8300000, guid: 0ea9b159454de464bb7edc711c59305f, type: 3}
   weaponSound2: {fileID: 8300000, guid: dcb9b1abb1f38f944b0e3c39aa7a4114, type: 3}
   weaponSound3: {fileID: 8300000, guid: dcb9b1abb1f38f944b0e3c39aa7a4114, type: 3}
   weaponSoundToPlay: {fileID: -4038333949041617391}

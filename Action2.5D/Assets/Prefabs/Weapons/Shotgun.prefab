@@ -126,15 +126,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 1470632544593311726, guid: 6ad80efeb9935684286939fa32ead2fd, type: 3}
-  m_speed: 30
-  m_damage: 4
-  m_destructionDelay: 0.25
+  m_speed: 40
+  m_damage: 2
+  m_destructionDelay: 0.35
   delayPerShot: 0.5
-  weaponSound1: {fileID: 8300000, guid: fc5c738816ca5774da908b8a62eae047, type: 3}
-  weaponSound2: {fileID: 8300000, guid: 5f296c7f966638848ad9d190f4858c07, type: 3}
-  weaponSound3: {fileID: 8300000, guid: 6f7633371af91054ca98ea1c232eb81f, type: 3}
+  weaponSound1: {fileID: 8300000, guid: bc4d63f34494388469826052fb19c4fc, type: 3}
+  weaponSound2: {fileID: 8300000, guid: cc7b1a2ec9e523d41be9f510e201a3a5, type: 3}
+  weaponSound3: {fileID: 8300000, guid: bb203e8f8d8ae50448ca0adac83c3986, type: 3}
   weaponSoundToPlay: {fileID: -1719593926454134578}
-  coneAngle: 11.25
+  coneAngle: 6
 --- !u!82 &-1719593926454134578
 AudioSource:
   m_ObjectHideFlags: 0

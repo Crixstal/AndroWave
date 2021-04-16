@@ -224,7 +224,7 @@ MonoBehaviour:
   player: {fileID: 0}
   bullet: {fileID: 1161490554157841905, guid: 23ed469141cee604384e667406cf4aee, type: 3}
   grenade: {fileID: 4903455019806157799, guid: 2bf3e09750764bf4f9f332935cd4a6a8, type: 3}
-  life: 8
+  life: 4
   score: 100
   bulletSpeed: 10
   bulletDamage: 1
@@ -232,15 +232,15 @@ MonoBehaviour:
   grenadeDamage: 0
   grenadeDestructionDelay: 0
   grenadeBlastDelay: 0
-  delayPerShot: 0.5
+  delayPerShot: 0.25
   delayBeforeShoot: 0
   dropGrenade: 0
   item: {fileID: 0}
-  hitSound: {fileID: 8300000, guid: 9029a63e29c5b32468b28b15ec9deaf1, type: 3}
-  eagleShootSound: {fileID: 8300000, guid: e84301b047913ed4fa23ac09ec5e9fbf, type: 3}
-  apeShootSound: {fileID: 8300000, guid: 2b77d4d8de1601347887208ff55615dc, type: 3}
-  waspShootSound: {fileID: 8300000, guid: 09db0ebd00f810c45832597c5abc9af1, type: 3}
-  deathSound: {fileID: 8300000, guid: 3e290da637d678b4f918f81acd1d7725, type: 3}
+  hitSound: {fileID: 8300000, guid: 083991a608236e04fbf9e757c8f552d8, type: 3}
+  eagleShootSound: {fileID: 8300000, guid: 1af778e1e20c64646b2dd94f7e379458, type: 3}
+  apeShootSound: {fileID: 8300000, guid: 9536b7a1c8ce2744ab12da0c6ac65e81, type: 3}
+  waspShootSound: {fileID: 8300000, guid: 17f548df30916d34b8086846dab91f59, type: 3}
+  deathSound: {fileID: 8300000, guid: 2c8091d4e10177841b3857ec9c304942, type: 3}
   audioSource: {fileID: 7257283636220144571}
   meshRenderer: {fileID: 3268365904874901055}
   blinkingColor: {r: 255, g: 255, b: 255, a: 1}
