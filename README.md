@@ -1,10 +1,10 @@
 # **Action 2.5D - Team KIWI**
 
 ## **Summary**
-- [Description](##Description)
-- [Informations](##Informations)
-- [Commands](##Commands)
-- [Known bugs](##Known%20bugs)
+- [Description](#Description)
+- [Informations](#Informations)
+- [Commands](#Commands)
+- [Known bugs](#Known%20bugs)
 
 <br>
 
@@ -62,3 +62,7 @@ Space bar             | Jump
 - Enemies doesn't die instantly (if you pass in their explosion you collide with them)
 - The boar (enemy shooting a laser) doesn't reinitiate the shooting timer when the player leaves his trigger zone
 - Enemies slide down slopes
+
+<br>
+
+[Head of page](#Summary)
