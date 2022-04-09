@@ -4,7 +4,7 @@
 - [Description](#Description)
 - [Informations](#Informations)
 - [Commands](#Commands)
-- [Known bugs](#Known%20bugs)
+- [Known bugs](#Known bugs)
 
 <br>
 
