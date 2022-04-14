@@ -1,17 +1,9 @@
 # **Action 2.5D - Team KIWI**
 
 ## **Summary**
-- [Description](#Description)
 - [Informations](#Informations)
 - [Commands](#Commands)
 - [Known bugs](#Known-bugs)
-
-<br>
-
-## **Description**
-
-The project objective's is to create a game using Unity. </p>
-The project is interclass : 2 game programmers, 5 game designers.
 
 <br>
 
