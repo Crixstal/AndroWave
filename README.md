@@ -1,24 +1,13 @@
-# **Action 2.5D - Team KIWI**
+![shool_year](https://img.shields.io/badge/shool_year-first-blue)
+![duration](https://img.shields.io/badge/duration-1_month-blue)  
+![Unity](https://img.shields.io/badge/unity-%23000000.svg?style=for-the-badge&logo=unity&logoColor=white&style=plastic)
 
-## **Summary**
-- [Informations](#Informations)
-- [Commands](#Commands)
-- [Known bugs](#Known-bugs)
+https://user-images.githubusercontent.com/91843760/221437245-11c68209-018e-45ab-bbce-110223a959f8.mp4
 
-<br>
+## **Controls**
 
-## **Informations**
+### Xbox controller
 
-The project uses Unity 2019.4.0f1 </p>
-
-The build can be found in the zip file "Build" under the GOLD release
-
-<br>
-
-## **Commands**
-
-Xbox controller
----
 Command         | Action
 -------         | ------
 Left Stick      | Move / Aim
@@ -27,10 +16,8 @@ Right Trigger   | Shoot
 A               | Jump
 B               | Teleport (change plan)
 
-<br>
+### Keyboard (QWERTY)
 
-Keyboard (QWERTY)
----
 Command               | Action
 -------               | ------
 R                     | Reload scene
@@ -43,8 +30,6 @@ W                     | Teleport (change plan)
 F                     | Shoot
 Space bar             | Jump
  
-<br>
-
 ## **Known bugs**
 
 - You can't change langage
@@ -54,7 +39,3 @@ Space bar             | Jump
 - Enemies doesn't die instantly (if you pass in their explosion you collide with them)
 - The boar (enemy shooting a laser) doesn't reinitiate the shooting timer when the player leaves his trigger zone
 - Enemies slide down slopes
-
-<br>
-
-[Head of page](#Summary)
