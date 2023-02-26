@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Laser
-  m_Shader: {fileID: -6465566751694194690, guid: b31a40fde03a2124da973a1160176f8b,
+  m_Shader: {fileID: -6465566751694194690, guid: 02dd9d276336d74468554b7d9ca19e88,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
