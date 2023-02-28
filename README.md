@@ -4,6 +4,11 @@
 
 https://user-images.githubusercontent.com/91843760/221437245-11c68209-018e-45ab-bbce-110223a959f8.mp4
 
+## **Informations**
+
+This project was the first with a large multidisciplinary team.
+The goal was to better understand the job of a game designer and how to work as a team with other professionals on a game with many constraints.
+
 ## **Controls**
 
 ### Xbox controller
